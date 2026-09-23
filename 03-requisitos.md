@@ -26,6 +26,7 @@
 | RNF-06 | El sistema debe almacenar de forma inmutable el registro de quórum e instrumentos confirmados al momento del cierre de la votación. | Calcular quórum de confirmación (Regla del 70% e instrumentos clave) |
 ## Requisitos de proyecto
 | ID | Requisito |
+|:---|:---|:---|
 | RP-01 | El proyecto deberá contar con un equipo de desarrollo encargado de la implementación, pruebas y mantenimiento de la solución. |
 | RP-02 | El proyecto deberá disponer de mecanismos de respaldo para proteger la información almacenada y permitir su recuperación ante fallos. |
 | RP-03 | El proyecto deberá considerar recursos para el mantenimiento, actualización y corrección de errores del sistema después de su implementación. |
