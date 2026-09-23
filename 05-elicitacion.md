@@ -1,6 +1,6 @@
 # Elicitación de requisitos
  
-## Técnica 1: [entrevista / grupo focal / revisión documental]
+## Técnica 1: [entrevista]
 - Participante(s): [Cliente]
 - Fecha y modalidad: [23-09 modalidad Online]
 - Evidencia: [(https://share.gemini.google/4kWQj7leOsHr)]
