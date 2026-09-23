@@ -5,7 +5,7 @@
 - [Ignacio Cortes]
 - [Benjamin Ignacio Figueroa Matamala]
 - [Cristofer Joel Riveros Gapuz]
-- [
+- [Juan Duran]
 
 
 
