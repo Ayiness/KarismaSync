@@ -4,7 +4,7 @@
 
 ### Requisitos Funcionales
 | ID | Requisito | Actividad TO-BE asociada |
-|----|-----------|--------------------------------|----------------------------|
+|:---|:---|:---|
 | RF-01 | El sistema debe permitir al líder crear y convocar un ensayo ingresando fecha, hora de inicio/término y lugar. | Publicar propuesta de ensayo en la aplicación |
 | RF-02 | El sistema debe emitir una notificación push automática a todos los integrantes de la banda al publicarse una nueva convocatoria. | Notificar convocatoria a los integrantes |
 | RF-03 | El sistema debe permitir a cada integrante marcar su voto de asistencia ("Asisto" o "No asisto") desde la tarjeta del evento o vista de calendario. | Registrar voto de asistencia en tarjeta/calendario |
