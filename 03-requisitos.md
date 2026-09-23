@@ -33,7 +33,6 @@
 | RP-04 | El proyecto deberá considerar los costos asociados al alojamiento, almacenamiento, servicios de notificaciones y mantenimiento de la solución. |
 | RP-05 | El proyecto deberá considerar un responsable de supervisar el cumplimiento de las actividades de mantenimiento y soporte. |
 | RP-06 | El proyecto deberá contemplar capacitación para las personas encargadas de administrar y mantener la plataforma. |
-...
 
 ## Requisito derivado
 **Requisito origen:** RF-04 (El sistema KarismaSync debe calcular automáticamente si los votos positivos alcanzan o superan el umbral del 70% del total de integrantes activos).
