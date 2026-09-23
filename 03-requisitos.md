@@ -16,14 +16,14 @@
 | RF-09 | El sistema debe desplegar a todos los miembros de la banda el historial de ensayos anteriores con sus acuerdos y canciones registradas. | Registrar minuta, canciones ensayadas y observaciones |
 
 ### Requisitos No Funcionales
-| ID | Requisito | Tipo (funcional/no funcional) | Actividad TO-BE asociada |
-|----|-----------|--------------------------------|----------------------------|
+| ID | Requisito | Actividad TO-BE asociada |
+|:---|:---|:---|
+| RNF-01 | El sistema debe actualizar el porcentaje de quórum y reflejar los votos emitidos en menos de 1 segundo en la interfaz. | Registrar voto de asistencia en tarjeta/calendario |
 | RNF-02 | El sistema debe controlar el acceso por roles, restringiendo la convocatoria de ensayos, reagendamiento y carga de minutas exclusivamente al rol "Líder". | Publicar propuesta de ensayo en la aplicación |
 | RNF-03 | La interfaz de votación de KarismaSync debe permitir a un músico registrar su asistencia en menos de 15 segundos y con un máximo de 2 toques en pantalla. | Registrar voto de asistencia en tarjeta/calendario |
 | RNF-04 | El servicio de mensajería de notificaciones push debe garantizar una tasa de entrega exitosa de al menos un 99.5% hacia los dispositivos de los integrantes. | Enviar notificación automática de recordatorio |
 | RNF-05 | Los recordatorios programados para el día del ensayo deben despacharse con un margen de desfase no mayor a ±1 minuto respecto al horario establecido. | Enviar notificación automática de recordatorio |
 | RNF-06 | El sistema debe almacenar de forma inmutable el porcentaje de quórum final obtenido al momento del cierre de la votación. | Calcular quórum de confirmación (Regla del 70%) |
-
 ## Requisitos de proyecto
 ...
 
