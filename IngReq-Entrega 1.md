@@ -5,7 +5,7 @@
 - [Ignacio Javier Cortes Catrin]
 - [Benjamin Ignacio Figueroa Matamala]
 - [Cristofer Joel Riveros Gapuz]
-- [Juan Ignacio Duran Arancena]
+- [Juan Ignacio Durán Aracena]
 
 
 
