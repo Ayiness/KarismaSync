@@ -25,14 +25,7 @@
 | RNF-05 | Los recordatorios programados para el día del ensayo deben despacharse con un margen de desfase no mayor a ±1 minuto respecto al horario establecido. | Enviar notificación automática de recordatorio |
 | RNF-06 | El sistema debe almacenar de forma inmutable el registro de quórum e instrumentos confirmados al momento del cierre de la votación. | Calcular quórum de confirmación (Regla del 70% e instrumentos clave) |
 ## Requisitos de proyecto
-| ID | Requisito |
-|:---|:---|:---|
-| RP-01 | El proyecto deberá contar con un equipo de desarrollo encargado de la implementación, pruebas y mantenimiento de la solución. |
-| RP-02 | El proyecto deberá disponer de mecanismos de respaldo para proteger la información almacenada y permitir su recuperación ante fallos. |
-| RP-03 | El proyecto deberá considerar recursos para el mantenimiento, actualización y corrección de errores del sistema después de su implementación. |
-| RP-04 | El proyecto deberá considerar los costos asociados al alojamiento, almacenamiento, servicios de notificaciones y mantenimiento de la solución. |
-| RP-05 | El proyecto deberá considerar un responsable de supervisar el cumplimiento de las actividades de mantenimiento y soporte. |
-| RP-06 | El proyecto deberá contemplar capacitación para las personas encargadas de administrar y mantener la plataforma. |
+
 ...
 
 ## Requisito derivado
