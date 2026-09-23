@@ -2,10 +2,10 @@
 
 ## Equipo
 - [Ariadna Ayine Espejo Torres]
-- [Ignacio Cortes]
+- [Ignacio Javier Cortes Catrin]
 - [Benjamin Ignacio Figueroa Matamala]
 - [Cristofer Joel Riveros Gapuz]
-- [
+- [Juan Ignacio Duran Arancena]
 
 
 
