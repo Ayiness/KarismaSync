@@ -4,7 +4,7 @@
 - [Ariadna Ayine Espejo Torres]
 - [Ignacio Cortes]
 - [Benjamin Ignacio Figueroa Matamala]
-- [Cristofer Riveros]
+- [Cristofer Joel Riveros Gapuz]
 - [
 
 
