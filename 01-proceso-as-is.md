@@ -19,7 +19,7 @@ Archivo fuente: [`./diagramas/as-is.bpmn`](./diagramas/as-is.bpmn)
 
 - **Manual Task:** Tareas ejecutadas por personas sin soporte digital directo (ej. revisar agendas personales físicas o ensayar presencialmente).
 - **User Task:** Tareas de usuario ejecutadas con interacción en WhatsApp (ej. redactar mensaje de convocatoria, leer chat grupal, enviar mensaje de confirmación).
-- **Service Task:** No existen tareas de servicio en el AS-IS debido a la ausencia total de automatización del flujo.
+- **Service Task:** Fijar el ensayo en los calendarios si se logró el quórum, o enviar una alerta al líder diciendo que faltó gente para que reagende.
 
 ## Problemas identificados
 - **Dilución y pérdida de información:** Los mensajes con propuestas de fechas y lugares se pierden entre conversaciones informales, stickers y audios dentro del grupo de WhatsApp.
