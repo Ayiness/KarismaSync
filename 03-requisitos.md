@@ -29,5 +29,5 @@
 
 ## Requisito derivado
 **Requisito origen:** RF-04 (El sistema KarismaSync debe calcular automáticamente si los votos positivos alcanzan o superan el umbral del 70% del total de integrantes activos).
+
 **Justificación:** Para que el software pueda determinar matemáticamente si el ensayo se confirma o si se debe notificar al líder para reagendar antes del día del evento, es indispensable contar con una regla temporal de cierre; de lo contrario, si un integrante no vota, la sesión quedaría bloqueada en estado indefinido.
- Para que el software pueda determinar matemáticamente si el ensayo se confirma o si se debe notificar al líder para reagendar antes del día del evento, es indispensable contar con una regla temporal de cierre; de lo contrario, si un integrante no vota, la sesión quedaría bloqueada en estado indefinido.
