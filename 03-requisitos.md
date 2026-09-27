@@ -2,39 +2,47 @@
 
 ## Requisitos de producto
 
-### Requisitos Funcionales
-| ID | Requisito | Actividad TO-BE asociada |
-|:---|:---|:---|
-| RF-01 | El sistema debe permitir al líder crear y convocar un ensayo ingresando fecha, hora de inicio/término y lugar. | Publicar propuesta de ensayo en la aplicación |
-| RF-02 | El sistema debe emitir una notificación push automática a todos los integrantes de la banda al publicarse una nueva convocatoria. | Notificar convocatoria a los integrantes |
-| RF-03 | El sistema debe permitir a cada integrante marcar su voto de asistencia ("Asisto" o "No asisto") y, en caso de asistir, seleccionar el rol instrumental con el que participará (ej. Guitarra, Bajo, Batería, Teclado o Voz). | Registrar voto de asistencia en tarjeta/calendario |
-| RF-04 | El sistema debe calcular el quórum de confirmación evaluando que se alcance el 70% general y priorizando la presencia mínima de instrumentos base sobre la sección vocal. | Calcular quórum de confirmación (Regla del 70% e instrumentos clave) |
-| RF-05 | El sistema debe confirmar el ensayo y fijarlo en el calendario de la banda de manera automática una vez validado el quórum del 70% y la cobertura instrumental requerida. | Notificar resultado de quórum y agendar/reagendar |
-| RF-06 | El sistema debe notificar al líder en caso de no alcanzar el quórum general o faltar roles instrumentales prioritarios, habilitando la opción directa de reagendar. | Notificar resultado de quórum y agendar/reagendar |
-| RF-07 | El sistema debe enviar una notificación automática de recordatorio el día del ensayo a los integrantes confirmados. | Enviar notificación automática de recordatorio |
-| RF-08 | El sistema debe permitir al líder ingresar y guardar la minuta técnica post-ensayo con las canciones practicadas y las observaciones de arreglos/interpretación por instrumento. | Registrar minuta, canciones ensayadas y observaciones |
-| RF-09 | El sistema debe desplegar a todos los miembros de la banda el historial de ensayos anteriores con sus acuerdos y canciones registradas. | Registrar minuta, canciones ensayadas y observaciones |
+### Requisitos funcionales
 
-### Requisitos No Funcionales
-| ID | Requisito | Actividad TO-BE asociada |
-|:---|:---|:---|
-| RNF-01 | El sistema debe actualizar el porcentaje de quórum y la distribución de instrumentos confirmados en menos de 1 segundo en la interfaz. | Registrar voto de asistencia en tarjeta/calendario |
-| RNF-02 | El sistema debe controlar el acceso por roles, restringiendo la convocatoria de ensayos, reagendamiento y carga de minutas exclusivamente al rol "Líder". | Publicar propuesta de ensayo en la aplicación |
-| RNF-03 | La interfaz de votación de KarismaSync debe permitir a un músico registrar su asistencia y elegir su instrumento en menos de 15 segundos y con un máximo de 3 toques en pantalla. | Registrar voto de asistencia en tarjeta/calendario |
-| RNF-04 | El servicio de mensajería de notificaciones push debe garantizar una tasa de entrega exitosa de al menos un 99.5% hacia los dispositivos de los integrantes. | Enviar notificación automática de recordatorio |
-| RNF-05 | Los recordatorios programados para el día del ensayo deben despacharse con un margen de desfase no mayor a ±1 minuto respecto al horario establecido. | Enviar notificación automática de recordatorio |
-| RNF-06 | El sistema debe almacenar de forma inmutable el registro de quórum e instrumentos confirmados al momento del cierre de la votación. | Calcular quórum de confirmación (Regla del 70% e instrumentos clave) |
+| ID | Requisito | Tipo | Actividad TO-BE asociada |
+|---|---|---|---|
+| RF-01 | El sistema debe permitir al Líder de Alabanza crear un evento de ensayo indicando la fecha y los roles o instrumentos requeridos. | Funcional | Crear evento indicando fecha y roles requeridos |
+| RF-02 | El sistema debe registrar el evento creado y notificar automáticamente a los integrantes de la banda sobre la nueva convocatoria. | Funcional | Registrar evento y notificar a la banda |
+| RF-03 | El sistema debe permitir que un integrante acceda al evento correspondiente desde la notificación recibida. | Funcional | Abrir notificación para acceder al evento |
+| RF-04 | El sistema debe verificar si el evento continúa vigente y no ha sido cancelado antes de permitir que un integrante registre su asistencia. | Funcional | Abrir notificación para acceder al evento / ¿El evento sigue vigente y no ha sido cancelado? |
+| RF-05 | El sistema debe permitir a cada integrante confirmar su asistencia e indicar uno o múltiples instrumentos o roles con los que participará en el ensayo. | Funcional | Confirmar asistencia y seleccionar uno o múltiples instrumentos |
+| RF-06 | El sistema debe registrar al músico y los instrumentos seleccionados dentro del evento correspondiente. | Funcional | Registrar músico e instrumentos en el evento |
+| RF-07 | El sistema debe evaluar automáticamente si se completó el quórum y si se encuentran cubiertos los roles requeridos para el ensayo. | Funcional | ¿Se completó el quórum y los roles requeridos? |
+| RF-08 | Si se cumplen las condiciones de quórum y roles requeridos, el sistema debe confirmar oficialmente el ensayo, bloquear la agenda correspondiente y notificar a los integrantes. | Funcional | Bloquear agenda y notificar ensayo oficial |
+| RF-09 | Si no se completa el quórum o faltan roles requeridos, el sistema debe alertar al Líder de Alabanza e indicar que existen condiciones pendientes. | Funcional | Recibir alerta de sistema y decidir acción (esperar o re-agendar) |
+| RF-10 | El sistema debe permitir al Líder de Alabanza decidir entre mantener el evento en espera de nuevas confirmaciones o reagendarlo cuando no se cumplan las condiciones requeridas. | Funcional | Recibir alerta de sistema y decidir acción (esperar o re-agendar) |
+| RF-11 | Si el integrante intenta acceder a un evento que terminó o fue cancelado, el sistema debe informar que el evento ya no se encuentra disponible para registrar asistencia. | Funcional | ¿El evento sigue vigente y no ha sido cancelado? |
+
+### Requisitos no funcionales
+
+| ID | Requisito | Tipo | Actividad TO-BE asociada |
+|---|---|---|---|
+| RNF-01 | El sistema debe controlar el acceso según el rol del usuario, restringiendo la creación y reagendamiento de eventos al rol autorizado de Líder de Alabanza. | No funcional — Seguridad | Crear evento indicando fecha y roles requeridos / Recibir alerta de sistema y decidir acción |
+| RNF-02 | La interfaz de confirmación debe permitir que un integrante registre su asistencia y seleccione sus instrumentos en un máximo de 15 segundos y con un máximo de 3 interacciones principales. | No funcional — Capacidad de interacción | Confirmar asistencia y seleccionar uno o múltiples instrumentos |
+| RNF-03 | El registro de la asistencia y de los instrumentos seleccionados debe reflejarse en el sistema en menos de 1 segundo después de que el integrante confirme su respuesta. | No funcional — Eficiencia de desempeño | Registrar músico e instrumentos en el evento |
+| RNF-04 | El servicio utilizado para notificar nuevas convocatorias y ensayos confirmados debe mantener una tasa de entrega exitosa de al menos 99,5 %. | No funcional — Fiabilidad | Registrar evento y notificar a la banda / Bloquear agenda y notificar ensayo oficial |
+| RNF-05 | El sistema debe conservar el estado de asistencia y los instrumentos registrados utilizados para realizar la evaluación del quórum y de los roles requeridos. | No funcional — Fiabilidad | ¿Se completó el quórum y los roles requeridos? |
+
 ## Requisitos de proyecto
+
 | ID | Requisito |
-|:---|:---|
-| RP-01 | El proyecto deberá contar con un equipo de desarrollo encargado de la implementación, pruebas y mantenimiento de la solución. |
-| RP-02 | El proyecto deberá disponer de mecanismos de respaldo para proteger la información almacenada y permitir su recuperación ante fallos. |
-| RP-03 | El proyecto deberá considerar recursos para el mantenimiento, actualización y corrección de errores del sistema después de su implementación. |
-| RP-04 | El proyecto deberá considerar los costos asociados al alojamiento, almacenamiento, servicios de notificaciones y mantenimiento de la solución. |
-| RP-05 | El proyecto deberá considerar un responsable de supervisar el cumplimiento de las actividades de mantenimiento y soporte. |
-| RP-06 | El proyecto deberá contemplar capacitación para las personas encargadas de administrar y mantener la plataforma. |
+|---|---|
+| RY-01 | El proyecto deberá contar con un equipo de desarrollo encargado de la implementación, pruebas y mantenimiento de la solución. |
+| RY-02 | El proyecto deberá disponer de mecanismos de respaldo para proteger la información almacenada y permitir su recuperación ante fallos. |
+| RY-03 | El proyecto deberá considerar recursos para el mantenimiento, actualización y corrección de errores después de la implementación. |
+| RY-04 | El proyecto deberá considerar los costos asociados al alojamiento, almacenamiento y servicios necesarios para el funcionamiento de las notificaciones. |
+| RY-05 | El proyecto deberá definir un responsable de supervisar las actividades de mantenimiento y soporte de la plataforma. |
+| RY-06 | El proyecto deberá contemplar capacitación para las personas responsables de administrar y mantener la solución. |
 
 ## Requisito derivado
-**Requisito origen:** RF-04 (El sistema KarismaSync debe calcular automáticamente si los votos positivos alcanzan o superan el umbral del 70% del total de integrantes activos).
 
-**Justificación:** Para que el software pueda determinar matemáticamente si el ensayo se confirma o si se debe notificar al líder para reagendar antes del día del evento, es indispensable contar con una regla temporal de cierre; de lo contrario, si un integrante no vota, la sesión quedaría bloqueada en estado indefinido.
+**Requisito origen:** RF-04 — El sistema debe verificar si el evento continúa vigente y no ha sido cancelado antes de permitir que un integrante registre su asistencia.
+
+**Requisito derivado:** RD-01 — El sistema debe mantener un estado identificable para cada evento que permita distinguir, al menos, entre un evento vigente, cancelado o terminado.
+
+**Justificación:** Para determinar si un integrante puede continuar al registro de asistencia, el sistema necesita conocer previamente el estado actual del evento. Sin esta información no sería posible ejecutar la decisión representada en el TO-BE por la compuerta “¿El evento sigue vigente y no ha sido cancelado?” ni impedir que se registren nuevas respuestas en convocatorias que ya finalizaron.
