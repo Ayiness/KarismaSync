@@ -62,7 +62,7 @@
 
 ## Diagrama TO-BE
 
-![Proceso TO-BE](./diagramas/to-be.png)
+[Proceso TO-BE]<img width="1463" height="616" alt="Screenshot 2026-09-27 173010" src="https://github.com/user-attachments/assets/28e1f204-48b7-40a6-adfb-f367dab6b15e" />
 
 Archivo fuente editable: [`TO-BE.bpmn`](./diagramas/TO-BE.bpmn)
 
