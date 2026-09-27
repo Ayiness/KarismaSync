@@ -35,7 +35,7 @@
 ## Diagrama TO-BE
 ![Proceso TO-BE](./diagramas/to-be.png)
 
-Archivo fuente: [`./diagramas/to-be.bpmn`](./diagramas/to-be.bpmn)
+Archivo fuente: [`./diagramas/TO-BE.bpmn`](./diagramas/TO-BE.bpmn)
 
 *Tipos de tareas representadas:*
 - **User Task:** "Publicar propuesta de ensayo" (Líder), "Votar disponibilidad" (Integrante), "Registrar minuta y acuerdos" (Líder), "Consultar historial de ensayos y acuerdos" (Integrante).
