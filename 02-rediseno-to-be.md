@@ -1,56 +1,116 @@
 # Análisis de rediseño y propuesta TO-BE
 
 ## Mejoras identificadas por participante
+
 | Participante | Objetivo | Problema | Mejora deseada |
-|----------------|----------|----------|-----------------|
-| Líder de Banda | Confirmar ensayos con asistencia suficiente sin desgaste operativo. | Desglose manual de respuestas e incertidumbre sobre el quórum real. | Automatización del cálculo de quórum (al menos 70%) y alerta inmediata si se requiere reagendar. |
-| Líder de Banda | Mantener una bitácora técnica de avances. | Los acuerdos tomados se olvidan entre semanas. | Formulario centralizado para publicar canciones practicadas y observaciones técnicas por ensayo. |
-| Integrante | Saber con certeza fecha, lugar y repertorio a repasar. | Pérdida de mensajes en el chat y falta de recordatorios. | Vista de calendario centralizada con votación en un clic y recordatorios push automáticos. |
+|---|---|---|---|
+| Líder de Alabanza | Organizar ensayos y asegurar la presencia de los roles musicales requeridos. | La convocatoria se realiza mediante WhatsApp o de manera informal, dificultando conocer claramente quién asistirá y qué instrumentos estarán disponibles. | Crear eventos estructurados indicando fecha y roles requeridos, con seguimiento automático de las confirmaciones. |
+| Líder de Alabanza | Saber si existen suficientes músicos y roles para realizar el ensayo. | Actualmente debe revisar las respuestas y determinar manualmente si se cuenta con los integrantes necesarios. | Automatizar la evaluación del quórum y de los roles requeridos para el ensayo. |
+| Integrante de la banda | Conocer una convocatoria y confirmar su participación de manera simple. | Las convocatorias y respuestas se realizan mediante mensajes dispersos y pueden generar confusión. | Recibir una notificación que permita acceder directamente al evento, confirmar asistencia e indicar uno o múltiples instrumentos. |
+| Líder de Alabanza | Tomar una decisión cuando no se encuentran cubiertos los roles necesarios. | Cuando faltan integrantes, la decisión de esperar, cancelar o buscar otra fecha depende de revisar manualmente las respuestas. | Recibir una alerta del sistema indicando que existen condiciones pendientes y permitir decidir entre esperar nuevas confirmaciones o reagendar. |
 
 ## Iniciativas de rediseño
 
-### Iniciativa 1: Automatización de la Evaluación de Quórum
-- **Actividad(es) del AS-IS que afecta:** Conteo manual de respuestas por el líder en el chat de WhatsApp.
-- **Heurística aplicada:** *Automatización de tareas* y *Reducción de variabilidad*.
-- **Objetivo o mejora que resuelve:** Elimina el sesgo y tiempo invertido por el líder en contabilizar mensajes; la plataforma evalúa automáticamente el umbral del 70%.
-- **Efecto esperado (tiempo/costo/calidad/flexibilidad):** 
-  - **Tiempo:** Reduce de horas/días a segundos la verificación del quórum una vez cerrado el plazo.
-  - **Calidad:** Elimina errores humanos y ambigüedades en la confirmación.
+### Iniciativa 1: Digitalización de la convocatoria de ensayo
 
-### Iniciativa 2: Centralización de Eventos y Notificaciones Push
-- **Actividad(es) del AS-IS que afecta:** Notificación manual mediante mensajes de texto y verificación dispersa de la fecha.
-- **Heurística aplicada:** *Centralización de información (Integration)* y *Notificación proactiva por excepción*.
-- **Objetivo o mejora que resuelve:** Proporciona un calendario interactivo único y notificaciones dirigidas (convocatoria, recordatorio de votación, confirmación y recordatorio el día del evento).
+- **Actividad(es) del AS-IS que afecta:** Proponer ensayo por WhatsApp o durante una reunión.
+- **Heurística aplicada:** *Centralización de información*.
+- **Objetivo o mejora que resuelve:** Reemplazar una convocatoria informal por un evento estructurado que contenga la fecha y los roles musicales requeridos.
 - **Efecto esperado (tiempo/costo/calidad/flexibilidad):**
-  - **Calidad:** Disminuye drásticamente la tasa de inasistencia u olvido por parte de los músicos.
-  - **Flexibilidad:** El líder visualiza el estado en tiempo real.
+  - **Tiempo:** Reduce el tiempo necesario para comunicar los datos del ensayo.
+  - **Calidad:** Evita que la información importante se pierda entre conversaciones.
+  - **Flexibilidad:** Permite definir los roles requeridos según las necesidades de cada ensayo.
 
-### Iniciativa 3: Digitalización y Persistencia de la Bitácora Musical
-- **Actividad(es) del AS-IS que afecta:** Anotaciones personales o comunicación verbal de acuerdos post-ensayo.
-- **Heurística aplicada:** *Enriquecimiento de información*.
-- **Objetivo o mejora que resuelve:** Registrar y asociar canciones ensayadas y observaciones técnicas al evento ejecutado.
+### Iniciativa 2: Confirmación estructurada de asistencia e instrumentos
+
+- **Actividad(es) del AS-IS que afecta:** Responder mediante mensajes indicando asistencia o inasistencia.
+- **Heurística aplicada:** *Estandarización de tareas* y *enriquecimiento de información*.
+- **Objetivo o mejora que resuelve:** Permitir que cada integrante confirme su asistencia directamente dentro del evento e indique uno o múltiples instrumentos con los que participará.
 - **Efecto esperado (tiempo/costo/calidad/flexibilidad):**
-  - **Calidad:** Mejora sustancial en la preparación técnica de los músicos para futuras presentaciones.
+  - **Tiempo:** Reduce la necesidad de revisar mensajes individualmente.
+  - **Calidad:** Entrega información estructurada sobre la asistencia y los instrumentos disponibles.
+  - **Flexibilidad:** Permite representar músicos que desempeñan más de un rol instrumental.
+
+### Iniciativa 3: Automatización del registro y evaluación del quórum
+
+- **Actividad(es) del AS-IS que afecta:** Revisar manualmente quién confirmó asistencia y decidir si existen suficientes músicos para realizar el ensayo.
+- **Heurística aplicada:** *Automatización de tareas* y *reducción de variabilidad*.
+- **Objetivo o mejora que resuelve:** Registrar automáticamente al músico y sus instrumentos en el evento y evaluar si se ha completado el quórum y los roles requeridos.
+- **Efecto esperado (tiempo/costo/calidad/flexibilidad):**
+  - **Tiempo:** Reduce el trabajo manual necesario para revisar las confirmaciones.
+  - **Calidad:** Disminuye errores al determinar qué roles musicales se encuentran cubiertos.
+  - **Flexibilidad:** La evaluación se adapta a los roles definidos al crear cada evento.
+
+### Iniciativa 4: Gestión de excepciones y reagendamiento
+
+- **Actividad(es) del AS-IS que afecta:** Cancelar el ensayo o volver a consultar informalmente cuando no existen suficientes integrantes.
+- **Heurística aplicada:** *Notificación proactiva por excepción*.
+- **Objetivo o mejora que resuelve:** Informar al líder cuando no se complete el quórum o falten roles requeridos, permitiéndole decidir si espera nuevas confirmaciones o reagenda el ensayo.
+- **Efecto esperado (tiempo/costo/calidad/flexibilidad):**
+  - **Tiempo:** El líder conoce inmediatamente que existen condiciones pendientes.
+  - **Calidad:** La decisión se toma utilizando información registrada en el sistema.
+  - **Flexibilidad:** El líder conserva la decisión final sobre esperar o reagendar.
+
+### Iniciativa 5: Confirmación automática del ensayo
+
+- **Actividad(es) del AS-IS que afecta:** Confirmar manualmente a los integrantes que el ensayo se realizará.
+- **Heurística aplicada:** *Automatización de tareas*.
+- **Objetivo o mejora que resuelve:** Una vez cumplido el quórum y los roles requeridos, el sistema confirma automáticamente el ensayo y notifica a los integrantes.
+- **Efecto esperado (tiempo/costo/calidad/flexibilidad):**
+  - **Tiempo:** Reduce la comunicación manual posterior a la confirmación.
+  - **Calidad:** Entrega una confirmación oficial y consistente a todos los integrantes.
 
 ## Diagrama TO-BE
-![Proceso TO-BE](<img width="1437" height="644" alt="image" src="https://github.com/user-attachments/assets/64bbc703-6840-436a-8c7a-1b2242ac8b05" />
-)
 
-Archivo fuente: [`./diagramas/TO-BE.bpmn`](./diagramas/TO-BE.bpmn)
+![Proceso TO-BE](./diagramas/to-be.png)
 
-*Tipos de tareas representadas:*
-- **User Task:** "Publicar propuesta de ensayo" (Líder), "Votar disponibilidad" (Integrante), "Registrar minuta y acuerdos" (Líder), "Consultar historial de ensayos y acuerdos" (Integrante).
-- **Service Task:** "Enviar notificación push de convocatoria" (Sistema), "Cerrar período de votación" (Sistema), "Calcular quórum del 70%" (Sistema), "Confirmar y agendar evento en calendario" (Sistema), "Notificar resultado de quórum y habilitar reagendamiento" (Sistema), "Emitir recordatorio automático del ensayo" (Sistema).
-- **Manual Task:** "Ejecutar sesión de ensayo presencial" (Líder e Integrantes).
+Archivo fuente editable: [`TO-BE.bpmn`](./diagramas/TO-BE.bpmn)
+
+### Tipos de tareas representadas
+
+#### User Task
+Tareas realizadas por una persona mediante interacción con el sistema:
+
+- **Crear evento indicando fecha y roles requeridos** — Líder de Alabanza.
+- **Abrir notificación para acceder al evento** — Integrante de la banda.
+- **Confirmar asistencia y seleccionar uno o múltiples instrumentos** — Integrante de la banda.
+- **Recibir alerta de sistema y decidir acción (esperar o re-agendar)** — Líder de Alabanza.
+
+#### Service Task
+Tareas realizadas automáticamente por el sistema:
+
+- **Registrar evento y notificar a la banda.**
+- **Registrar músico e instrumentos en el evento.**
+- **Bloquear agenda y notificar ensayo oficial.**
+
+#### Compuertas de decisión
+
+- **¿El evento sigue vigente y no ha sido cancelado?**
+- **¿Se completó el quórum y los roles requeridos?**
+
+Estas compuertas determinan si el integrante puede continuar registrando su asistencia y si el ensayo puede ser confirmado oficialmente.
 
 ## Actividades que cambian del AS-IS al TO-BE
+
 | Actividad en el AS-IS | Actividad en el TO-BE | Qué cambia |
-|-------------------------|--------------------------|------------|
-| Redactar y enviar mensaje con fecha en WhatsApp | Publicar propuesta de ensayo en la aplicación | Pasa de un mensaje de texto libre a un formulario estructurado con fecha, hora de inicio/término y lugar. |
-| Leer mensajes y enviar confirmación por texto/emoji | Registrar voto de asistencia en tarjeta/calendario | Los integrantes responden mediante botones discretos ("Asisto" / "No asisto") dentro del sistema. |
-| Contar manualmente las respuestas en el chat grupal | Calcular quórum de confirmación (Regla del 70%) | El sistema ejecuta una tarea de servicio automática calculando si los votos positivos superan o igualan el 70%. |
-| Esperar y revisar manualmente las respuestas disponibles | Cerrar automáticamente el período de votación | El sistema establece una fecha y hora límite para recibir votos y utiliza las respuestas registradas hasta ese momento para calcular el quórum. |
-| Acordar informalmente o cancelar por falta de respuesta | Notificar resultado de quórum y agendar/reagendar | Si cumple, el sistema agenda automáticamente y notifica la confirmación; si no, notifica al líder para reagendar con una nueva fecha. |
-| Recordar verbalmente el ensayo o preguntar en el grupo | Enviar notificación automática de recordatorio | El sistema despacha notificaciones automáticas previas al evento y el mismo día del ensayo. |
-| Acordar de palabra o en chats qué canciones se practicaron | Registrar minuta, canciones ensayadas y observaciones | El líder completa un módulo post-ensayo adjuntando repertorio trabajado y notas de interpretación. |
-| Buscar información de ensayos anteriores en chats o depender de la memoria de los integrantes | Consultar historial de ensayos y acuerdos | Los integrantes pueden consultar centralizadamente las canciones y acuerdos registrados en ensayos anteriores. |
+|---|---|---|
+| Proponer ensayo por WhatsApp o durante una reunión | Crear evento indicando fecha y roles requeridos | La convocatoria deja de ser un mensaje informal y pasa a registrarse como un evento estructurado dentro del sistema. |
+| Comunicar la convocatoria mediante mensajes | Registrar evento y notificar a la banda | El sistema registra el evento y notifica automáticamente a los integrantes. |
+| Leer mensajes del grupo para conocer la convocatoria | Abrir notificación para acceder al evento | El integrante accede directamente al evento desde la notificación recibida. |
+| Responder mediante mensajes confirmando asistencia o inasistencia | Confirmar asistencia y seleccionar uno o múltiples instrumentos | La respuesta pasa a realizarse mediante una interfaz estructurada que además permite indicar los instrumentos con los que participará el integrante. |
+| Revisar manualmente las respuestas de los músicos | Registrar músico e instrumentos en el evento | El sistema almacena automáticamente la asistencia y los instrumentos declarados por cada integrante. |
+| Determinar manualmente si existen suficientes integrantes para realizar el ensayo | Evaluar si se completó el quórum y los roles requeridos | El sistema analiza automáticamente las confirmaciones y determina si se encuentran cubiertas las condiciones necesarias para confirmar el ensayo. |
+| Confirmar manualmente que el ensayo se realizará | Bloquear agenda y notificar ensayo oficial | Al cumplirse las condiciones requeridas, el sistema confirma automáticamente el ensayo y comunica el resultado. |
+| Cancelar el ensayo o volver a consultar cuando faltan integrantes | Recibir alerta de sistema y decidir acción (esperar o re-agendar) | El sistema informa al líder de la situación y este decide si mantiene el evento esperando nuevas respuestas o lo reagenda. |
+
+## Relación con las historias de usuario
+
+| Actividad TO-BE | Historia de usuario asociada |
+|---|---|
+| Crear evento indicando fecha y roles requeridos | HU-01 |
+| Abrir notificación para acceder al evento | HU-02 |
+| Confirmar asistencia y seleccionar uno o múltiples instrumentos | HU-03 |
+| Evaluar si se completó el quórum y los roles requeridos | HU-04 |
+| Recibir alerta de sistema y decidir acción (esperar o re-agendar) | HU-05 |
+
+De esta forma, las principales actividades nuevas o modificadas del proceso TO-BE quedan asociadas explícitamente a las historias de usuario correspondientes.
