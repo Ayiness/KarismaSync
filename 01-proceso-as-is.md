@@ -15,7 +15,7 @@ Coordinar la fecha, hora, lugar y contenido técnico de las sesiones de ensayo, 
 ## Diagrama AS-IS
 ![Proceso AS-IS](./diagramas/as-is.png)
 
-Archivo fuente: [`./diagramas/as-is.bpmn`](./diagramas/as-is.bpmn)
+Archivo fuente: [`./diagramas/AS-IS.bpmn`](./diagramas/AS-IS.bpmn)
 
 - **Manual Task:** Tareas ejecutadas por personas sin soporte digital directo (ej. revisar agendas personales físicas o ensayar presencialmente).
 - **User Task:** Tareas de usuario ejecutadas con interacción en WhatsApp (ej. redactar mensaje de convocatoria, leer chat grupal, enviar mensaje de confirmación).
