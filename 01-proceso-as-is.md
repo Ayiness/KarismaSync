@@ -13,8 +13,7 @@ Coordinar la fecha, hora, lugar y contenido técnico de las sesiones de ensayo, 
 | Integrante / Músico | Conocer con claridad los datos del ensayo (cuándo y dónde), manifestar disponibilidad fácilmente y acceder al repertorio acordado. |
 
 ## Diagrama AS-IS
-![Proceso AS-IS](./diag<img width="1437" height="644" alt="Screenshot 2026-09-27 172201" src="https://github.com/user-attachments/assets/087ef3a2-2fdf-47d6-8ad9-52a374adfb3b" />
-ramas/as-is.png)
+![Proceso AS-IS](<img width="1437" height="644" alt="Screenshot 2026-09-27 172201" src="https://github.com/user-attachments/assets/087ef3a2-2fdf-47d6-8ad9-52a374adfb3b" />)
 
 Archivo fuente: [`./diagramas/AS-IS.bpmn`](./diagramas/AS-IS.bpmn)
 
