@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_ToBe_App" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.30.0">
+  <bpmn:collaboration id="Collaboration_ToBe_App">
+    <bpmn:participant id="Participant_App" name="Coordinación de Alabanza (TO-BE con Capa de Sistema)" processRef="Process_ToBe_App" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_ToBe_App" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_App">
+      <bpmn:lane id="Lane_Lider" name="LÍDER DE ALABANZA">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Create</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Fail</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Exception</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Sistema" name="SISTEMA (Backend App)">
+        <bpmn:flowNodeRef>Task_Publish</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AddMusician</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Success</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Confirm</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Quorum</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Expired</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Active</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Integrantes" name="INTEGRANTES BANDA">
+        <bpmn:flowNodeRef>Task_ClickLink</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_VoteMulti</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_1" name="Necesidad de ensayo">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_Create" name="Crear evento indicando fecha y roles requeridos">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_Publish" name="Registrar evento y notificar a la banda">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_Create" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_Create" targetRef="Task_Publish" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_Publish" targetRef="Task_ClickLink" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_ClickLink" targetRef="Gateway_Active" />
+    <bpmn:sequenceFlow id="Flow_No_Active" name="No (Evento terminado)" sourceRef="Gateway_Active" targetRef="EndEvent_Expired" />
+    <bpmn:sequenceFlow id="Flow_Yes_Active" name="Sí" sourceRef="Gateway_Active" targetRef="Task_VoteMulti" />
+    
+    <!-- Modificación: El flujo 5 ahora va a la nueva tarea de sistema -->
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Task_VoteMulti" targetRef="Task_AddMusician" />
+    
+    <!-- Nueva tarea de backend -->
+    <bpmn:serviceTask id="Task_AddMusician" name="Registrar músico e instrumentos en el evento">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <!-- Nuevo flujo 6 desde el registro hacia la compuerta de quórum -->
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Task_AddMusician" targetRef="Gateway_Quorum" />
+    
+    <bpmn:sequenceFlow id="Flow_No_Quorum" name="No (Faltan roles)" sourceRef="Gateway_Quorum" targetRef="Task_Exception" />
+    <bpmn:sequenceFlow id="Flow_Yes_Quorum" name="Sí" sourceRef="Gateway_Quorum" targetRef="Task_Confirm" />
+    <bpmn:sequenceFlow id="Flow_End_Success" sourceRef="Task_Confirm" targetRef="EndEvent_Success" />
+    <bpmn:sequenceFlow id="Flow_End_Fail" sourceRef="Task_Exception" targetRef="EndEvent_Fail" />
+    <bpmn:endEvent id="EndEvent_Fail" name="(fin) En espera o cancelado">
+      <bpmn:incoming>Flow_End_Fail</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Task_Exception" name="Recibir alerta de sistema y decidir acción (esperar o re-agendar)">
+      <bpmn:incoming>Flow_No_Quorum</bpmn:incoming>
+      <bpmn:outgoing>Flow_End_Fail</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_Success" name="(fin) Ensayo confirmado">
+      <bpmn:incoming>Flow_End_Success</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Task_Confirm" name="Bloquear agenda y notificar ensayo oficial">
+      <bpmn:incoming>Flow_Yes_Quorum</bpmn:incoming>
+      <bpmn:outgoing>Flow_End_Success</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_Quorum" name="¿Se completó el quórum y los roles requeridos?">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_No_Quorum</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Yes_Quorum</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_ClickLink" name="Abrir notificación para acceder al evento">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_VoteMulti" name="Confirmar asistencia y seleccionar uno o múltiples instrumentos.">
+      <bpmn:incoming>Flow_Yes_Active</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_Expired" name="(fin) Aviso de expirado">
+      <bpmn:incoming>Flow_No_Active</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_Active" name="¿El evento sigue vigente y no ha sido cancelado?">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_No_Active</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Yes_Active</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_ToBe_App">
+      <!-- Ajuste de anchos para acomodar la nueva tarea -->
+      <bpmndi:BPMNShape id="Participant_App_di" bpmnElement="Participant_App" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1170" height="490" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Integrantes_di" bpmnElement="Lane_Integrantes" isHorizontal="true">
+        <dc:Bounds x="190" y="410" width="1140" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Sistema_di" bpmnElement="Lane_Sistema" isHorizontal="true">
+        <dc:Bounds x="190" y="230" width="1140" height="180" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Lider_di" bpmnElement="Lane_Lider" isHorizontal="true">
+        <dc:Bounds x="190" y="80" width="1140" height="150" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="230" y="137" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Create_di" bpmnElement="Task_Create">
+        <dc:Bounds x="300" y="115" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Publish_di" bpmnElement="Task_Publish">
+        <dc:Bounds x="300" y="265" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <!-- Figuras movidas hacia la derecha -->
+      <bpmndi:BPMNShape id="EndEvent_Fail_di" bpmnElement="EndEvent_Fail">
+        <dc:Bounds x="1232" y="137" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1209" y="173" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Exception_di" bpmnElement="Task_Exception">
+        <dc:Bounds x="1070" y="115" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Success_di" bpmnElement="EndEvent_Success">
+        <dc:Bounds x="1232" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1221" y="323" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Confirm_di" bpmnElement="Task_Confirm">
+        <dc:Bounds x="1070" y="265" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Quorum_di" bpmnElement="Gateway_Quorum" isMarkerVisible="true">
+        <dc:Bounds x="935" y="280" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="857.5" y="317" width="85" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_ClickLink_di" bpmnElement="Task_ClickLink">
+        <dc:Bounds x="410" y="450" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_VoteMulti_di" bpmnElement="Task_VoteMulti">
+        <dc:Bounds x="760" y="450" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      
+      <!-- Nueva caja de registro de sistema -->
+      <bpmndi:BPMNShape id="Task_AddMusician_di" bpmnElement="Task_AddMusician">
+        <dc:Bounds x="760" y="265" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="EndEvent_Expired_di" bpmnElement="EndEvent_Expired">
+        <dc:Bounds x="602" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="538" y="246.5" width="64" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Active_di" bpmnElement="Gateway_Active" isMarkerVisible="true">
+        <dc:Bounds x="595" y="345" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="503" y="350" width="82" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      
+      <!-- Bordes (Edges) -->
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="266" y="155" />
+        <di:waypoint x="300" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="350" y="195" />
+        <di:waypoint x="350" y="265" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="400" y="305" />
+        <di:waypoint x="460" y="305" />
+        <di:waypoint x="460" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="510" y="475" />
+        <di:waypoint x="590" y="450" />
+        <di:waypoint x="613" y="388" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_No_Active_di" bpmnElement="Flow_No_Active">
+        <di:waypoint x="620" y="345" />
+        <di:waypoint x="620" y="278" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="632" y="296" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Yes_Active_di" bpmnElement="Flow_Yes_Active">
+        <di:waypoint x="627" y="388" />
+        <di:waypoint x="650" y="450" />
+        <di:waypoint x="760" y="478" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="654" y="423" width="11" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      
+      <!-- Nuevo Flujo 5: De músico a registro de sistema -->
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="810" y="450" />
+        <di:waypoint x="810" y="345" />
+      </bpmndi:BPMNEdge>
+      
+      <!-- Nuevo Flujo 6: De registro a evaluación de quórum -->
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="860" y="305" />
+        <di:waypoint x="935" y="305" />
+      </bpmndi:BPMNEdge>
+      
+      <!-- Flujos movidos a la derecha -->
+      <bpmndi:BPMNEdge id="Flow_No_Quorum_di" bpmnElement="Flow_No_Quorum">
+        <di:waypoint x="960" y="280" />
+        <di:waypoint x="960" y="155" />
+        <di:waypoint x="1070" y="155" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="974" y="193" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Yes_Quorum_di" bpmnElement="Flow_Yes_Quorum">
+        <di:waypoint x="985" y="305" />
+        <di:waypoint x="1070" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1023" y="287" width="11" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_End_Success_di" bpmnElement="Flow_End_Success">
+        <di:waypoint x="1170" y="305" />
+        <di:waypoint x="1232" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_End_Fail_di" bpmnElement="Flow_End_Fail">
+        <di:waypoint x="1170" y="155" />
+        <di:waypoint x="1232" y="155" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
