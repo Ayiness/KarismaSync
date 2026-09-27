@@ -38,8 +38,8 @@
 Archivo fuente: [`./diagramas/to-be.bpmn`](./diagramas/to-be.bpmn)
 
 *Tipos de tareas representadas:*
-- **User Task:** "Publicar propuesta de ensayo" (Líder), "Votar disponibilidad" (Integrante), "Registrar minuta y acuerdos" (Líder).
-- **Service Task:** "Enviar notificación push de convocatoria" (Sistema), "Calcular quórum del 70%" (Sistema), "Confirmar y agendar evento en calendario" (Sistema), "Emitir recordatorio automático del ensayo" (Sistema).
+- **User Task:** "Publicar propuesta de ensayo" (Líder), "Votar disponibilidad" (Integrante), "Registrar minuta y acuerdos" (Líder), "Consultar historial de ensayos y acuerdos" (Integrante).
+- **Service Task:** "Enviar notificación push de convocatoria" (Sistema), "Cerrar período de votación" (Sistema), "Calcular quórum del 70%" (Sistema), "Confirmar y agendar evento en calendario" (Sistema), "Notificar resultado de quórum y habilitar reagendamiento" (Sistema), "Emitir recordatorio automático del ensayo" (Sistema).
 - **Manual Task:** "Ejecutar sesión de ensayo presencial" (Líder e Integrantes).
 
 ## Actividades que cambian del AS-IS al TO-BE
