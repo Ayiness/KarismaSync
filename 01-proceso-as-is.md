@@ -1,29 +1,51 @@
 # Proceso de negocio — AS-IS
 
 ## Macro-proceso y proceso específico
-Gestión Operativa de Bandas Musicales → Convocatoria, confirmación y registro de ensayos mediante mensajería instantánea (WhatsApp).
+
+Gestión Operativa de la Agrupación Musical → Coordinación y confirmación de ensayos mediante comunicación informal, principalmente a través de WhatsApp o reuniones presenciales.
 
 ## Objetivo de negocio del proceso
-Coordinar la fecha, hora, lugar y contenido técnico de las sesiones de ensayo, asegurando la asistencia suficiente de los integrantes para un ensayo productivo.
+
+Coordinar la realización de un ensayo, comunicando una propuesta a los integrantes, recopilando sus respuestas de asistencia y determinando si existe disponibilidad suficiente para llevarlo a cabo.
 
 ## Participantes y sus objetivos
+
 | Participante | Objetivo en el proceso |
-|---------------|------------------------|
-| Líder de Banda / Director Musical | Fijar oportunamente una sesión con quórum suficiente y dejar constancia de los acuerdos musicales tomados. |
-| Integrante / Músico | Conocer con claridad los datos del ensayo (cuándo y dónde), manifestar disponibilidad fácilmente y acceder al repertorio acordado. |
+|---|---|
+| Líder de Alabanza | Proponer y coordinar oportunamente un ensayo, conocer la disponibilidad de los músicos y determinar si existen suficientes integrantes para realizarlo. |
+| Integrante de la banda | Recibir la propuesta del ensayo y comunicar si podrá o no asistir. |
 
 ## Diagrama AS-IS
-[Proceso AS-IS]<img width="1437" height="644" alt="Screenshot 2026-09-27 172201" src="https://github.com/user-attachments/assets/4f05ffd8-fd06-476d-829f-d5889a776f7c" />
 
+[Proceso AS-IS]<img width="1437" height="644" alt="Proceso AS-IS" src="https://github.com/user-attachments/assets/4f05ffd8-fd06-476d-829f-d5889a776f7c" />
 
-Archivo fuente: [`./diagramas/AS-IS.bpmn`](./diagramas/AS-IS.bpmn)
+Archivo fuente editable: [`AS-IS.bpmn`](./diagramas/AS-IS.bpmn)
 
-- **Manual Task:** Tareas ejecutadas por personas sin soporte digital directo (ej. revisar agendas personales físicas o ensayar presencialmente).
-- **User Task:** Tareas de usuario ejecutadas con interacción en WhatsApp (ej. redactar mensaje de convocatoria, leer chat grupal, enviar mensaje de confirmación).
-- **Service Task:** Fijar el ensayo en los calendarios si se logró el quórum, o enviar una alerta al líder diciendo que faltó gente para que reagende.
+## Tipos de tareas representadas
+
+### User Task
+Actividades realizadas por una persona utilizando una herramienta digital como WhatsApp:
+
+- **Proponer ensayo por WhatsApp o en reunión dominical:** el Líder de Alabanza comunica la intención de realizar un ensayo.
+- **Responder confirmando asistencia o inasistencia:** los integrantes comunican su disponibilidad.
+- **Cancelar ensayo o volver a preguntar:** el líder comunica la decisión cuando no existe disponibilidad suficiente.
+
+### Manual Task
+Actividades realizadas por una persona sin automatización del sistema:
+
+- **Realizar el ensayo presencial:** los integrantes ejecutan físicamente la sesión de ensayo una vez confirmada.
+
+### Service Task
+En el proceso AS-IS no existe actualmente una plataforma especializada que automatice la evaluación del quórum, el registro de instrumentos o la confirmación del ensayo. Estas automatizaciones son incorporadas posteriormente en la propuesta TO-BE.
 
 ## Problemas identificados
-- **Dilución y pérdida de información:** Los mensajes con propuestas de fechas y lugares se pierden entre conversaciones informales, stickers y audios dentro del grupo de WhatsApp.
-- **Conteo manual y ambiguo de quórum:** El líder debe contar manualmente respuestas informales (emojis, textos ambiguos, silencios), produciendo incertidumbre sobre si el grupo alcanzará la asistencia mínima necesaria.
-- **Falta de trazabilidad de acuerdos y repertorio:** Los temas ensayados, notas de afinación y compromisos quedan en la memoria de los músicos o en audios sueltos, provocando olvidos y retrocesos en el siguiente ensayo.
-- **Ausencia de recordatorios estructurados:** Los integrantes olvidan asistir o llegar a la hora por no contar con una alerta vinculada a un calendario formal.
+
+- **Información dispersa:** La propuesta y las respuestas de asistencia quedan mezcladas con otros mensajes dentro del grupo de WhatsApp, dificultando encontrar rápidamente la información relevante.
+
+- **Confirmaciones no estructuradas:** Los integrantes comunican su asistencia o inasistencia mediante mensajes informales, por lo que no existe un formato único para registrar la disponibilidad.
+
+- **Evaluación manual del quórum:** El Líder de Alabanza debe revisar las respuestas recibidas y determinar manualmente si existen suficientes integrantes y roles musicales para realizar el ensayo.
+
+- **Falta de información sobre los roles disponibles:** Una confirmación de asistencia no permite identificar de forma estructurada qué instrumento o rol musical cubrirá cada integrante.
+
+- **Gestión manual cuando faltan integrantes:** Si no existen suficientes músicos disponibles, el líder debe decidir manualmente si espera nuevas respuestas, vuelve a preguntar o cancela el ensayo.
