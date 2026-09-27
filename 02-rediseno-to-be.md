@@ -33,7 +33,8 @@
   - **Calidad:** Mejora sustancial en la preparación técnica de los músicos para futuras presentaciones.
 
 ## Diagrama TO-BE
-![Proceso TO-BE](./diagramas/to-be.png)
+![Proceso TO-BE](<img width="1437" height="644" alt="image" src="https://github.com/user-attachments/assets/64bbc703-6840-436a-8c7a-1b2242ac8b05" />
+)
 
 Archivo fuente: [`./diagramas/TO-BE.bpmn`](./diagramas/TO-BE.bpmn)
 
