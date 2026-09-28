@@ -73,20 +73,10 @@ Por esta razón, el sistema debería registrar tanto la disponibilidad de los in
 - **Evidencia:** Capturas de pantalla de conversaciones utilizadas como parte del proceso actual de coordinación.
 
 ### Evidencia gráfica
+## Foto sacada justo después de la entrevista por miembro del grupo.
 
-![Evidencia revisión documental 1](./evidencias/revision-01.png)
+<img width="720" height="1280" alt="WhatsApp Image 2026-09-27 at 23 48 45" src="https://github.com/user-attachments/assets/b4e3f54c-02a7-48a7-8f09-bb7b531f0788" />
 
-![Evidencia revisión documental 2](./evidencias/revision-02.png)
-
-![Evidencia revisión documental 3](./evidencias/revision-03.png)
-
-![Evidencia revisión documental 4](./evidencias/revision-04.png)
-
-![Evidencia revisión documental 5](./evidencias/revision-05.png)
-
-![Evidencia revisión documental 6](./evidencias/revision-06.png)
-
-![Evidencia revisión documental 7](./evidencias/revision-07.png)
 
 ### Objetivo de la revisión
 
