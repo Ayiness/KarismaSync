@@ -16,7 +16,7 @@
 ### [Adecuación funcional]
 - Métrica: [Dado que el centro de la aplicación es resolver los problemas de los músicos y lideres de banda, necesitamos que el desorden no exista dentro de la aplicacion, fallando o no utilizando a su máximo potencial este atributo, la aplicación no da una verdadera solución. Se medirá entre la cantidad de usuarios que se registraron, cuantos de ellos se quedaron u ocupan la aplicación.]
 ### [Capacidad de interacción]
-- Métrica: [descripción]
+- Métrica: [Dado que la aplicacion apunta a un publico "Religioso", sus usuarios no tienen, genero, sexo, edad, asociables a ese subconjunto. Por ende el estar bien diseñados para que cualquier persona pueda llegar a utilizarlo es escencial para el correcto uso dentro de las iglesias, ya que el rango etario no solo contempla a los mas jovenes, sino a quienes todavia no se familiarizan con aplicaciones de organizacion mas avanzadas por ejemplo: github. Esto hace que el % de uso dentro de rangos mas lejanos sea mayor, midiendose por cantidad de usos a la semana o mes de parte de cierta cantidad de personas entre >50 años.]
 ### [Fiabilidad]
 - Métrica: [descripción]
 
