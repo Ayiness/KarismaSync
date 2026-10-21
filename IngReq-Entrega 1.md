@@ -24,3 +24,7 @@ El sistema permite registrar las respuestas de los músicos, evaluar si se encue
 4. [Historias de usuario](./04-historias-usuario.md)
 5. [Elicitación](./05-elicitacion.md)
 6. [Atributos de calidad](./06-atributos-calidad.md)
+
+## Actividades complementarias
+
+- [Casos de uso y diagramas de secuencia de sistema](./07-casos-uso-y-secuencias.md): HU-01 y HU-04, fuentes editables y PNG. Incluye supuestos de integración pendientes de validación.

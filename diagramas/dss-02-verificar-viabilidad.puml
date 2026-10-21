@@ -1,0 +1,70 @@
+@startuml
+mainframe DSS-02 - Verificar viabilidad (CU-02 / HU-04)
+autonumber
+hide footbox
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 14
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 54
+skinparam BoxPadding 4
+skinparam NotePadding 4
+skinparam sequenceMessageSpacing 6
+skinparam ArrowColor #28536B
+skinparam participantBorderColor #28536B
+skinparam participantBackgroundColor #F0F6FA
+skinparam noteBackgroundColor #FFF8DE
+skinparam noteBorderColor #BBA46B
+
+<style>
+participant {
+  Padding 8
+}
+</style>
+
+actor "Integrante de\nla banda" as Integrante
+participant "KarismaSync" as Sistema
+participant "Servicio de\nnotificaciones" as Notificaciones <<sistema externo>>
+actor "Líder de\nAlabanza" as Lider
+
+note over Integrante, Sistema
+  HU-03 activa la evaluación de HU-04.
+  Evento vigente, aún no confirmado.
+end note
+
+Integrante -> Sistema: registrarAsistencia(evento, asistencia, instrumentos)
+Sistema --> Integrante: respuestaRegistrada(evento)
+
+note over Sistema
+  Evalúa quórum y roles.
+  RF-07; HU-04 CA1-CA2.
+end note
+
+alt quórum cumplido y roles cubiertos
+  note over Sistema
+    Confirma y bloquea agenda.
+    RF-08; HU-04 CA3.
+  end note
+  Sistema -> Notificaciones: enviarConfirmacion(destinatarios, evento)
+  Notificaciones --> Sistema: solicitudAceptada
+
+  loop cada destinatario; entrega exitosa
+    Notificaciones ->> Integrante: ensayoConfirmado(evento)
+  end
+
+else quórum incumplido o roles incompletos
+  note over Sistema
+    Sin confirmar; deriva a excepción.
+    RF-09; HU-04 CA4.
+  end note
+  Sistema -> Notificaciones: enviarAlerta(lider, evento, condicionesPendientes)
+  Notificaciones --> Sistema: solicitudAceptada
+  Notificaciones ->> Lider: condicionesPendientes(evento, detalle)
+
+  note over Sistema, Lider
+    Continúa en HU-05: esperar o reagendar.
+  end note
+end
+
+@enduml

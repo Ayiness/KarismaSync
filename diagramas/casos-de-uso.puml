@@ -1,0 +1,37 @@
+@startuml
+title Casos de uso de KarismaSync - HU-01 y HU-04
+left to right direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 16
+skinparam ArrowColor #28536B
+skinparam actorBorderColor #28536B
+skinparam usecaseBorderColor #28536B
+skinparam usecaseBackgroundColor #F0F6FA
+skinparam rectangleBorderColor #28536B
+skinparam noteBackgroundColor #FFF8DE
+skinparam noteBorderColor #BBA46B
+
+actor "Líder de Alabanza" as Lider
+actor "Integrante de la banda" as Integrante
+actor "Servicio de\nnotificaciones" as Notificaciones <<sistema externo>>
+
+rectangle "KarismaSync" {
+  usecase "CU-01\nCrear convocatoria\nde ensayo" as CU01
+  usecase "CU-02\nVerificar viabilidad\ndel ensayo" as CU02
+}
+
+Lider -- CU01
+CU01 -- Notificaciones
+
+Lider -- CU02
+Integrante -- CU02
+CU02 -- Notificaciones
+
+legend bottom
+  CU-01 deriva de HU-01. CU-02 deriva de HU-04.
+  CU-02 se activa tras registrar una respuesta de asistencia.
+  Servicio externo propuesto: proveedor y canal por validar.
+endlegend
+@enduml

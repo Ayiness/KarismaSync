@@ -1,0 +1,55 @@
+@startuml
+mainframe DSS-01 - Crear convocatoria (CU-01 / HU-01)
+autonumber
+hide footbox
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 14
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 54
+skinparam BoxPadding 4
+skinparam NotePadding 4
+skinparam sequenceMessageSpacing 6
+skinparam ArrowColor #28536B
+skinparam participantBorderColor #28536B
+skinparam participantBackgroundColor #F0F6FA
+skinparam noteBackgroundColor #FFF8DE
+skinparam noteBorderColor #BBA46B
+
+<style>
+participant {
+  Padding 8
+}
+</style>
+
+actor "Líder de\nAlabanza" as Lider
+participant "KarismaSync" as Sistema
+participant "Servicio de\nnotificaciones" as Notificaciones <<sistema externo>>
+actor "Integrante de\nla banda" as Integrante
+
+Lider -> Sistema: crearEvento(fecha, rolesRequeridos)
+
+alt solicitante con permiso de creación
+  note over Sistema
+    Registra y publica el evento.
+    RF-01 y RF-02.
+  end note
+
+  Sistema -> Notificaciones: enviarConvocatoria(destinatarios, evento, enlace)
+  Notificaciones --> Sistema: solicitudAceptada
+  Sistema --> Lider: eventoCreado(evento, envioSolicitado)
+
+  loop cada destinatario; entrega exitosa
+    Notificaciones ->> Integrante: convocatoria(evento, enlace)
+  end
+
+else solicitante sin permiso de creación
+  Sistema --> Lider: creacionRechazada(motivo: sinPermiso)
+  note over Sistema
+    Sin creación ni envíos.
+    RNF-01.
+  end note
+end
+
+@enduml
