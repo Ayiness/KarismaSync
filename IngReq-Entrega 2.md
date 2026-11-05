@@ -7,7 +7,7 @@
 - [Cristofer Riveros]
  
 ## Proyecto
-KarismaSync: Tratandose de una aplcacion destinada a la buena organizacion y posterior realizacion de eventos musicales en iglesias.
+KarismaSync: Tratandose de una aplicacion destinada a la buena organizacion y posterior realizacion de eventos musicales en iglesias.
  
 ## Responsabilidades individuales
 | Documento | Ítem de rúbrica | Responsable(s) |
