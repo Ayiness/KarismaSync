@@ -12,12 +12,12 @@ KarismaSync: Tratandose de una aplcacion destinada a la buena organizacion y pos
 ## Responsabilidades individuales
 | Documento | Ítem de rúbrica | Responsable(s) |
 |-----------|-----------------|----------------|
-| 07-criterios-aceptacion.md | 1 | [Ignacio Cortez] |
+| 07-criterios-aceptacion.md | 1 | [Ignacio Cortez, Ariadna Espejo] |
 | 08-modelo-dominio.md | 2 | [Ignacio Cortez] |
 | 09-casos-de-uso.md | 3 | [Ariadna Espejo] |
 | 10-diagramas-secuencia.md | 4 | [Benjamín Figueroa] |
 | 11-diagramas-estado.md | 5 | [Cristofer Riveros] |
-| 12-trazabilidad.md | 6 | [Cristofer Rviveros] |
+| 12-trazabilidad.md | 6 | [Cristofer Rviveros, Benjamin Figueroa] |
  
 ## Uso de IA generativa
 [Herramienta usada, para qué tareas y qué se corrigió o descartó del borrador;
