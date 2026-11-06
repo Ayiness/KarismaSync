@@ -1,0 +1,31 @@
+@startuml
+' EST-02: respuesta de asistencia de un integrante (KarismaSync)
+title EST-02 - Ciclo de vida de la asistencia
+left to right direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam ArrowColor #317C77
+skinparam state {
+  BackgroundColor #DDF5F1
+  BorderColor #317C77
+  FontColor #214744
+  FontSize 14
+  RoundCorner 14
+}
+
+state "Pendiente" as Pendiente
+state "Confirmada" as Confirmada
+state "No asiste" as NoAsiste
+state "Sin respuesta" as SinRespuesta #F7DFDA
+
+[*] --> Pendiente : convocatoriaEmitida\n/ habilitar respuesta
+Pendiente --> Confirmada : registrarAsistencia [asiste y elige instrumentos]\n/ guardar asistencia
+Pendiente --> NoAsiste : registrarAsistencia [no asistirá]\n/ guardar respuesta
+Pendiente --> Pendiente : registrarAsistencia [asiste sin instrumentos]\n/ solicitar instrumentos
+Pendiente --> SinRespuesta : eventoCerrado [no respondió]\n/ cerrar respuesta
+Confirmada --> [*]
+NoAsiste --> [*]
+SinRespuesta --> [*]
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+' EST-01: ciclo de vida del evento de ensayo (KarismaSync)
+title EST-01 - Ciclo de vida del evento de ensayo
+left to right direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam ArrowColor #317C77
+skinparam state {
+  BackgroundColor #DDF5F1
+  BorderColor #317C77
+  FontColor #214744
+  FontSize 14
+  RoundCorner 14
+}
+
+' Los tres subestados corresponden al estado Vigente del modelo de dominio.
+state "Vigente" as Vigente {
+  state "Convocatoria\nabierta" as Abierta
+  state "Condiciones\npendientes" as Pendientes
+  state "En espera" as Espera
+
+  [*] --> Abierta
+  Abierta --> Pendientes : registrarAsistencia\n[faltan condiciones] / avisar al líder
+  Pendientes --> Espera : decidirEsperar\n/ mantener convocatoria
+  Espera --> Abierta : reagendarEvento\n/ actualizar fecha y notificar
+}
+
+state "Confirmado" as Confirmado
+state "Terminado" as Terminado
+state "Cancelado" as Cancelado #F7DFDA
+
+[*] --> Vigente : crearEvento [líder autorizado]\n/ registrar y notificar
+Abierta --> Confirmado : registrarAsistencia\n[quórum y roles completos]\n/ bloquear agenda y notificar
+Pendientes --> Confirmado : registrarAsistencia\n[quórum y roles completos]\n/ bloquear agenda y notificar
+Espera --> Confirmado : registrarAsistencia\n[quórum y roles completos]\n/ bloquear agenda y notificar
+Confirmado --> Terminado : ensayoFinalizado\n/ cerrar evento
+Confirmado --> Cancelado : cancelacionRegistrada\n/ informar cancelación
+Terminado --> [*]
+Cancelado --> [*]
+@enduml
