@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block titulo %}Crear evento de ensayo — KarismaSync{% endblock %}
+{% block contenido %}
+  <h1>Crear evento de ensayo</h1>
+
+  {% if error %}
+  <p class="error" role="alert">{{ error }}</p>
+  {% endif %}
+
+  {% if not usuario %}
+  <p class="aviso">Elige un usuario de demostración para identificar quién crea el evento.</p>
+  {% elif not usuario.es_lider %}
+  <p class="aviso">Solo el Líder de Alabanza puede crear eventos de ensayo. Cambia el usuario de demostración a Marta.</p>
+  {% endif %}
+
+  <form class="formulario" method="post" action="/eventos">
+    <label class="campo">Fecha del ensayo
+      <input type="date" name="fecha" value="{{ valores.get('fecha') or '' }}" required>
+    </label>
+
+    <label class="campo">Quórum requerido (integrantes)
+      <input type="number" name="quorum" min="1" value="{{ valores.get('quorum') or integrantes|length }}" required>
+    </label>
+
+    <fieldset>
+      <legend>Músicos convocados y sus instrumentos</legend>
+      <p class="principal">Vienen todos los integrantes de la banda. Desmarca a quien no asistirá y ajusta los instrumentos de cada uno.</p>
+      {% set seleccionados = valores.get('convocados_ids') %}
+      {% set marcados_por_integrante = valores.get('instrumentos_por_integrante', {}) %}
+      {% for integrante in integrantes %}
+      {% set convocado = seleccionados is none or integrante.id in seleccionados %}
+      {% set instrumentos_marcados = marcados_por_integrante.get(integrante.id) %}
+      {% if instrumentos_marcados is none %}
+      {% set instrumentos_marcados = [integrante.instrumento_principal_id] if integrante.instrumento_principal_id else [] %}
+      {% endif %}
+      <div class="musico">
+        <label class="check">
+          <input type="checkbox" name="convocados" value="{{ integrante.id }}"{% if convocado %} checked{% endif %}>
+          <strong>{{ integrante.nombre }}</strong>
+        </label>
+        {% if integrante.instrumento_principal %}
+        <span class="principal">Instrumento principal: {{ integrante.instrumento_principal }}</span>
+        {% endif %}
+        <div>
+          {% for instrumento in instrumentos %}
+          <label class="check">
+            <input type="checkbox" name="instrumentos_{{ integrante.id }}" value="{{ instrumento.id }}"{% if instrumento.id in instrumentos_marcados %} checked{% endif %}>
+            {{ instrumento.nombre }}
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </fieldset>
+
+    {% set incluir_repertorio = valores.get('incluir_repertorio', '1') == '1' %}
+    {% set canciones_marcadas = valores.get('canciones_ids', []) %}
+    <fieldset>
+      <legend>Repertorio de canciones (opcional)</legend>
+      <label class="check">
+        <input type="checkbox" id="incluir-repertorio" name="incluir_repertorio" value="1"{% if incluir_repertorio %} checked{% endif %}>
+        Incluir canciones en este evento
+      </label>
+      <p class="principal">Viene activado por defecto. Desactívalo o deja la lista vacía si el evento es una reunión u otra actividad sin ensayo.</p>
+      <div id="lista-canciones">
+        {% for cancion in canciones %}
+        <label class="check">
+          <input type="checkbox" name="canciones" value="{{ cancion.id }}"{% if cancion.id in canciones_marcadas %} checked{% endif %}>
+          {{ cancion.titulo }}{% if cancion.autor %} — {{ cancion.autor }}{% endif %}
+        </label>
+        {% endfor %}
+      </div>
+    </fieldset>
+
+    <div>
+      <button type="submit">Crear evento y convocar a los músicos seleccionados</button>
+      <a class="boton" href="/" style="background:#52606d">Cancelar</a>
+    </div>
+  </form>
+
+  <script>
+    document.querySelectorAll('.musico').forEach(function (caja) {
+      var convocado = caja.querySelector('input[name="convocados"]');
+      var instrumentos = caja.querySelectorAll('input[name^="instrumentos_"]');
+      function sincronizar() {
+        instrumentos.forEach(function (instrumento) {
+          instrumento.disabled = !convocado.checked;
+        });
+      }
+      convocado.addEventListener('change', sincronizar);
+      sincronizar();
+    });
+
+    var incluirRepertorio = document.getElementById('incluir-repertorio');
+    var listaCanciones = document.getElementById('lista-canciones');
+    function sincronizarRepertorio() {
+      listaCanciones.querySelectorAll('input').forEach(function (cancion) {
+        cancion.disabled = !incluirRepertorio.checked;
+      });
+    }
+    incluirRepertorio.addEventListener('change', sincronizarRepertorio);
+    sincronizarRepertorio();
+  </script>
+{% endblock %}

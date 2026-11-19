@@ -315,6 +315,27 @@
         <mxCell id="fix_rol_requeridos" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;whiteSpace=wrap;fontColor=#111111;fontSize=18;" value="rolesRequeridos" vertex="1">
           <mxGeometry height="28" width="150" x="1048" y="408" as="geometry" />
         </mxCell>
+        <mxCell id="Cancion" parent="1" style="swimlane;html=1;startSize=48;horizontal=1;rounded=0;whiteSpace=wrap;fillColor=#D9EAF7;swimlaneFillColor=#FFFFFF;strokeColor=#145A91;strokeWidth=1.6;fontColor=#111111;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;spacingTop=8;" value="Cancion" vertex="1">
+          <mxGeometry height="106" width="175" x="20" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="Cancion_attrs" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;spacingLeft=14;fontColor=#111111;fontSize=19;" value="titulo : Texto&lt;br&gt;autor : Texto" vertex="1">
+          <mxGeometry height="55" width="171" x="22" y="299" as="geometry" />
+        </mxCell>
+        <mxCell id="r_evento_incluye" edge="1" parent="1" source="Evento" target="Cancion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#123F70;strokeWidth=1.8;endArrow=none;startArrow=none;fontColor=#111111;fontSize=17;labelBackgroundColor=#FFFFFF;" value="incluye">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="423" />
+              <mxPoint x="520" y="303" />
+              <mxPoint x="195" y="303" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_evento_incluye" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontColor=#111111;fontSize=18;" value="0..*" vertex="1">
+          <mxGeometry height="28" width="60" x="560" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="m_cancion_incluye" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontColor=#111111;fontSize=18;" value="0..*" vertex="1">
+          <mxGeometry height="28" width="60" x="205" y="275" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>

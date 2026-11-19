@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titulo %}Mi perfil instrumental — KarismaSync{% endblock %}
+{% block contenido %}
+  <h1>Mi perfil instrumental</h1>
+
+  {% if error %}
+  <p class="error" role="alert">{{ error }}</p>
+  {% endif %}
+
+  {% if not usuario %}
+  <p class="aviso">Elige un usuario de demostración para registrar su instrumento principal.</p>
+  {% else %}
+  <p class="aviso">El Líder de Alabanza usará este instrumento como base al convocarte a un ensayo.</p>
+  <form class="formulario" method="post" action="/perfil">
+    <fieldset>
+      <legend>Instrumento principal de {{ usuario.nombre }}</legend>
+      {% for instrumento in instrumentos %}
+      <label class="check">
+        <input type="radio" name="instrumento_id" value="{{ instrumento.id }}"{% if instrumento.id == instrumento_principal_id %} checked{% endif %} required>
+        {{ instrumento.nombre }}
+      </label>
+      {% endfor %}
+    </fieldset>
+    <div>
+      <button type="submit">Guardar instrumento principal</button>
+      <a class="boton" href="/" style="background:#52606d">Volver</a>
+    </div>
+  </form>
+  {% endif %}
+{% endblock %}

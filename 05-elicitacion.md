@@ -108,6 +108,27 @@ La propuesta TO-BE busca reducir este problema mediante eventos estructurados, r
 
 ---
 
+## Técnica 3: Solicitud de cambio del cliente
+
+- **Participante(s):** Encargado de la agrupación musical / cliente.
+- **Fecha y modalidad:** 18-11-2026, conversación de validación del sistema generado.
+- **Tipo de técnica:** Solicitud directa de cambio sobre el sistema ya generado.
+- **Evidencia:** Mensaje del cliente durante la sesión de validación.
+
+### Hallazgos principales
+
+- No todos los eventos de la banda son ensayos: también existen reuniones de coordinación u otras actividades en las que no se interpretarán canciones.
+- El cliente necesita que el repertorio de canciones sea **opcional por evento**, no obligatorio.
+- Al crear un evento, el bloque de selección de canciones debe venir **activado por defecto**, porque la mayoría de los eventos son ensayos.
+- Debe existir la posibilidad de **desactivar el bloque o no seleccionar canciones** para crear un evento sin repertorio.
+- El sistema debe disponer de un catálogo de canciones de ejemplo para que el líder pueda seleccionar el repertorio.
+
+### Conclusión de la solicitud
+
+La necesidad se incorpora como la historia HU-07 y el requisito RF-13. El repertorio se modela como una asociación opcional entre el evento y las canciones: un evento puede tener cero o más canciones, y la ausencia de canciones representa una reunión u otra actividad sin ensayo. No se agrega un estado nuevo al evento.
+
+---
+
 ## Acta de acuerdo
 
 A partir de la entrevista y de la revisión de la información disponible, se establecen los siguientes acuerdos y necesidades principales:
@@ -131,3 +152,5 @@ A partir de la entrevista y de la revisión de la información disponible, se es
 9. El sistema deberá disminuir la dependencia de mensajes dispersos para conocer el estado actual de una convocatoria.
 
 10. Las decisiones y requisitos obtenidos mediante la elicitación servirán como base para definir y validar el proceso TO-BE, los requisitos de producto y las historias de usuario.
+
+11. El repertorio de canciones será opcional por evento: el bloque de selección se mostrará activado por defecto y podrá desactivarse o dejarse sin selección para eventos que no sean ensayos.

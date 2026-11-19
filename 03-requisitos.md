@@ -6,23 +6,25 @@
 
 | ID | Requisito | Tipo | Actividad TO-BE asociada |
 |---|---|---|---|
-| RF-01 | El sistema debe permitir al Líder de Alabanza crear un evento de ensayo indicando la fecha y los roles o instrumentos requeridos. | Funcional | Crear evento indicando fecha y roles requeridos |
-| RF-02 | El sistema debe registrar el evento creado y notificar automáticamente a los integrantes de la banda sobre la nueva convocatoria. | Funcional | Registrar evento y notificar a la banda |
+| RF-01 | El sistema debe permitir al Líder de Alabanza crear un evento de ensayo indicando la fecha, el quórum, los músicos convocados y los instrumentos que usará cada uno. | Funcional | Crear evento convocando músicos y asignando sus instrumentos |
+| RF-02 | El sistema debe registrar el evento creado y notificar automáticamente a los músicos convocados sobre la nueva convocatoria. | Funcional | Registrar evento y notificar a los músicos convocados |
 | RF-03 | El sistema debe permitir que un integrante acceda al evento correspondiente desde la notificación recibida. | Funcional | Abrir notificación para acceder al evento |
 | RF-04 | El sistema debe verificar si el evento continúa vigente y no ha sido cancelado antes de permitir que un integrante registre su asistencia. | Funcional | Abrir notificación para acceder al evento / ¿El evento sigue vigente y no ha sido cancelado? |
-| RF-05 | El sistema debe permitir a cada integrante confirmar su asistencia e indicar uno o múltiples instrumentos o roles con los que participará en el ensayo. | Funcional | Confirmar asistencia y seleccionar uno o múltiples instrumentos |
-| RF-06 | El sistema debe registrar al músico y los instrumentos seleccionados dentro del evento correspondiente. | Funcional | Registrar músico e instrumentos en el evento |
+| RF-05 | El sistema debe permitir a cada músico convocado confirmar su asistencia y mostrarle los instrumentos que el Líder de Alabanza le asignó para el ensayo. | Funcional | Confirmar asistencia al ensayo |
+| RF-06 | El sistema debe registrar la asistencia del músico junto con los instrumentos asignados en su convocatoria dentro del evento correspondiente. | Funcional | Registrar asistencia y asignación de instrumentos |
 | RF-07 | El sistema debe evaluar automáticamente si se completó el quórum y si se encuentran cubiertos los roles requeridos para el ensayo. | Funcional | ¿Se completó el quórum y los roles requeridos? |
 | RF-08 | Si se cumplen las condiciones de quórum y roles requeridos, el sistema debe confirmar oficialmente el ensayo, bloquear la agenda correspondiente y notificar a los integrantes. | Funcional | Bloquear agenda y notificar ensayo oficial |
 | RF-09 | Si no se completa el quórum o faltan roles requeridos, el sistema debe alertar al Líder de Alabanza e indicar que existen condiciones pendientes. | Funcional | Recibir alerta de sistema y decidir acción (esperar o re-agendar) |
 | RF-10 | El sistema debe permitir al Líder de Alabanza decidir entre mantener el evento en espera de nuevas confirmaciones o reagendarlo cuando no se cumplan las condiciones requeridas. | Funcional | Recibir alerta de sistema y decidir acción (esperar o re-agendar) |
 | RF-11 | Si el integrante intenta acceder a un evento que terminó o fue cancelado, el sistema debe informar que el evento ya no se encuentra disponible para registrar asistencia. | Funcional | ¿El evento sigue vigente y no ha sido cancelado? |
+| RF-12 | El sistema debe permitir que cada integrante registre y cambie su instrumento principal, y debe dejarlo disponible para el Líder de Alabanza al crear un evento de ensayo. | Funcional | Registrar el perfil instrumental del integrante |
+| RF-13 | El sistema debe permitir al Líder de Alabanza incluir, de forma opcional, un repertorio de canciones al crear un evento, mostrando el bloque de selección activado por defecto, permitiendo desactivarlo y registrando únicamente las canciones seleccionadas. Un evento sin canciones debe poder crearse. | Funcional | Crear evento convocando músicos y asignando sus instrumentos (incluye el repertorio opcional de canciones) |
 
 ### Requisitos no funcionales
 
 | ID | Requisito | Tipo | Actividad TO-BE asociada |
 |---|---|---|---|
-| RNF-01 | El sistema debe controlar el acceso según el rol del usuario, restringiendo la creación y reagendamiento de eventos al rol autorizado de Líder de Alabanza. | No funcional — Seguridad | Crear evento indicando fecha y roles requeridos / Recibir alerta de sistema y decidir acción |
+| RNF-01 | El sistema debe controlar el acceso según el rol del usuario, restringiendo la creación y reagendamiento de eventos al rol autorizado de Líder de Alabanza. | No funcional — Seguridad | Crear evento convocando músicos y asignando sus instrumentos / Recibir alerta de sistema y decidir acción |
 | RNF-02 | La interfaz de confirmación debe permitir que un integrante registre su asistencia y seleccione sus instrumentos en un máximo de 15 segundos y con un máximo de 3 interacciones principales. | No funcional — Capacidad de interacción | Confirmar asistencia y seleccionar uno o múltiples instrumentos |
 | RNF-03 | El registro de la asistencia y de los instrumentos seleccionados debe reflejarse en el sistema en menos de 1 segundo después de que el integrante confirme su respuesta. | No funcional — Eficiencia de desempeño | Registrar músico e instrumentos en el evento |
 | RNF-04 | El servicio utilizado para notificar nuevas convocatorias y ensayos confirmados debe mantener una tasa de entrega exitosa de al menos 99,5 %. | No funcional — Fiabilidad | Registrar evento y notificar a la banda / Bloquear agenda y notificar ensayo oficial |

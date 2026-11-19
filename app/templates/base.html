@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}KarismaSync{% endblock %}</title>
+  <style>
+    :root {
+      --tinta: #1f2933;
+      --suave: #52606d;
+      --borde: #d9e2ec;
+      --fondo: #f5f7fa;
+      --acento: #28536b;
+      --acento-claro: #e3eef4;
+      --error: #a61b1b;
+      --error-fondo: #fdecec;
+      --ok: #1f6f43;
+      --ok-fondo: #e6f4ec;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: var(--tinta);
+      background: var(--fondo);
+      line-height: 1.5;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: #fff;
+      border-bottom: 1px solid var(--borde);
+    }
+    header a { color: var(--acento); text-decoration: none; font-weight: 700; font-size: 1.15rem; }
+    header .lema { color: var(--suave); margin-left: .5rem; font-size: .95rem; }
+    .selector { display: flex; gap: .5rem; align-items: center; font-size: .9rem; }
+    select, input, button { font: inherit; }
+    select, input[type="date"], input[type="number"] {
+      padding: .45rem .55rem;
+      border: 1px solid var(--borde);
+      border-radius: 6px;
+      background: #fff;
+    }
+    main { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    h1 { font-size: 1.6rem; margin-top: 0; }
+    h2 { font-size: 1.15rem; margin-top: 2rem; }
+    .boton, button {
+      display: inline-block;
+      background: var(--acento);
+      color: #fff;
+      border: 0;
+      border-radius: 6px;
+      padding: .55rem .9rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .boton:hover, button:hover { background: #1d3f52; }
+    .aviso {
+      background: var(--acento-claro);
+      border-left: 4px solid var(--acento);
+      padding: .75rem 1rem;
+      border-radius: 4px;
+    }
+    .error {
+      background: var(--error-fondo);
+      border-left: 4px solid var(--error);
+      color: var(--error);
+      padding: .75rem 1rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--ok-fondo);
+      color: var(--ok);
+      border-radius: 999px;
+      padding: .15rem .65rem;
+      font-size: .85rem;
+      font-weight: 600;
+    }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--borde); }
+    th, td { text-align: left; padding: .65rem .75rem; border-bottom: 1px solid var(--borde); }
+    th { background: var(--fondo); font-size: .85rem; text-transform: uppercase; letter-spacing: .03em; color: var(--suave); }
+    tr:last-child td { border-bottom: 0; }
+    form.formulario { background: #fff; border: 1px solid var(--borde); border-radius: 8px; padding: 1.25rem; display: grid; gap: 1rem; }
+    form.formulario label.campo { display: grid; gap: .35rem; font-weight: 600; }
+    fieldset { border: 1px solid var(--borde); border-radius: 6px; padding: .75rem 1rem; }
+    legend { font-weight: 600; padding: 0 .35rem; }
+    .check { display: inline-flex; gap: .4rem; align-items: center; margin: .25rem 1rem .25rem 0; font-weight: 400; }
+    .musico { border: 1px solid var(--borde); border-radius: 6px; padding: .6rem .8rem; margin: .5rem 0; display: grid; gap: .35rem; }
+    .principal { color: var(--suave); font-size: .85rem; display: block; }
+    dl { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1rem; background: #fff; border: 1px solid var(--borde); border-radius: 8px; padding: 1rem 1.25rem; }
+    dt { color: var(--suave); }
+    dd { margin: 0; font-weight: 600; }
+    footer { text-align: center; color: var(--suave); font-size: .85rem; padding: 1.5rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <a href="/">KarismaSync</a><span class="lema">Convocatorias de ensayo</span>
+    </div>
+    <form class="selector" method="post" action="/demo/usuario">
+      <label for="usuario_id">Usuario de demostración</label>
+      <select id="usuario_id" name="usuario_id" onchange="this.form.submit()">
+        <option value="">— Elegir —</option>
+        {% for integrante in integrantes %}
+        <option value="{{ integrante.id }}"{% if usuario and usuario.id == integrante.id %} selected{% endif %}>{{ integrante.nombre }}{% if integrante.es_lider %} (Líder de Alabanza){% endif %}</option>
+        {% endfor %}
+      </select>
+      <noscript><button type="submit">Cambiar</button></noscript>
+    </form>
+  </header>
+  <main>
+    {% block contenido %}{% endblock %}
+  </main>
+  <footer>Los avisos se envían mediante un Servicio de notificaciones simulado.</footer>
+</body>
+</html>

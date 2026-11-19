@@ -32,6 +32,8 @@ El evento comienza con una **Convocatoria abierta**. A medida que los integrante
 
 **Nota:** la Entrega 1 menciona eventos cancelados, pero no explica cómo se realiza la cancelación. Por eso se muestra como `cancelacionRegistrada`, sin agregar un procedimiento que el equipo todavía no ha definido.
 
+**Nota sobre HU-07:** el repertorio opcional de canciones no agrega estados ni transiciones al evento. Se registra como un dato asociado al evento y puede estar vacío; el ciclo de vida de EST-01 no cambia.
+
 ## EST-02 — Ciclo de vida de la asistencia
 
 - **Clase del dominio:** Asistencia ([modelo de dominio](./08-modelo-dominio.md)).
@@ -42,19 +44,18 @@ El evento comienza con una **Convocatoria abierta**. A medida que los integrante
 
 **Archivo editable:** [est-02.drawio](./diagramas/est-02.drawio).
 
-Este diagrama muestra cómo queda registrada la respuesta de un integrante. Al recibir la convocatoria, su asistencia está **Pendiente**. Si confirma que irá y señala sus instrumentos, pasa a **Confirmada**. También puede indicar que **No asiste**. Si el evento se cancela o termina antes de que responda, queda **Sin respuesta**.
+Este diagrama muestra cómo queda registrada la respuesta de un integrante. Al recibir la convocatoria, su asistencia está **Pendiente**. Si confirma que irá, pasa a **Confirmada** con los instrumentos que el líder le asignó. También puede indicar que **No asiste**. Si el evento se cancela o termina antes de que responda, queda **Sin respuesta**.
 
 ### Tabla de transiciones — EST-02
 
 | Estado origen | Evento | Guarda | Acción | Estado destino |
 |---|---|---|---|---|
 | Inicial | Convocatoria emitida | — | Dejar disponible la respuesta | Pendiente |
-| Pendiente | `registrarAsistencia` | Evento vigente y confirma con instrumentos | Guardar la asistencia y los instrumentos | Confirmada |
+| Pendiente | `registrarAsistencia` | Evento vigente y confirma | Guardar la asistencia con los instrumentos asignados en la convocatoria | Confirmada |
 | Pendiente | `registrarAsistencia` | Evento vigente y señala que no asistirá | Registrar que no asistirá | No asiste |
-| Pendiente | `registrarAsistencia` | Confirma, pero no indica instrumentos | No guardar la respuesta incompleta | Pendiente |
 | Pendiente | Evento cancelado o terminado | El integrante no ha respondido | Cerrar la convocatoria para ese integrante | Sin respuesta |
 | Confirmada | Fin de la respuesta | — | — | Final |
 | No asiste | Fin de la respuesta | — | — | Final |
 | Sin respuesta | Fin de la respuesta | — | — | Final |
 
-La asistencia **Confirmada** de un integrante no significa que todo el ensayo esté confirmado. Para eso, KarismaSync también revisa el quórum y los roles necesarios.
+La asistencia **Confirmada** de un integrante no significa que todo el ensayo esté confirmado. Para eso, KarismaSync también revisa el quórum y los roles necesarios. El integrante no puede modificar los instrumentos de su convocatoria.

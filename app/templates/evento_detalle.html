@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block titulo %}Evento del {{ evento.fecha }} — KarismaSync{% endblock %}
+{% block contenido %}
+  <h1>Evento de ensayo del {{ evento.fecha }}</h1>
+
+  <dl>
+    <dt>Banda</dt>
+    <dd>{{ evento.banda }}</dd>
+    <dt>Fecha</dt>
+    <dd>{{ evento.fecha }}</dd>
+    <dt>Quórum requerido</dt>
+    <dd>{{ evento.quorum }} integrantes</dd>
+    <dt>Roles requeridos</dt>
+    <dd>{% for rol in roles %}{{ rol.nombre }}{% if not loop.last %}, {% endif %}{% endfor %}</dd>
+    <dt>Estado</dt>
+    <dd><span class="badge">{{ evento.estado }}</span></dd>
+  </dl>
+
+  <h2>Repertorio de canciones</h2>
+  {% if canciones %}
+  <ul>
+    {% for cancion in canciones %}
+    <li>{{ cancion.titulo }}{% if cancion.autor %} — {{ cancion.autor }}{% endif %}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>Este evento no incluye repertorio de canciones.</p>
+  {% endif %}
+
+  <h2>Músicos convocados</h2>
+  <p>{{ convocatorias|length }} músicos recibieron la convocatoria del evento.</p>
+  <ul>
+    {% for convocatoria in convocatorias %}
+    <li>{{ convocatoria.integrante }} — {{ convocatoria.instrumentos or 'sin instrumentos' }}</li>
+    {% endfor %}
+  </ul>
+
+  <p><a class="boton" href="/">Volver a los eventos</a></p>
+{% endblock %}

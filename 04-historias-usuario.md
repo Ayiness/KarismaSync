@@ -1,15 +1,19 @@
 # Historias de usuario
 
 ## HU-01: Crear evento de ensayo con roles requeridos
-Como Líder de Alabanza, quiero crear un evento de ensayo indicando la fecha y los roles requeridos, para organizar la convocatoria y definir qué músicos son necesarios para realizar el ensayo.
+Como Líder de Alabanza, quiero crear un evento de ensayo seleccionando qué músicos convocar y con qué instrumentos participará cada uno, para convocar solo a quienes se necesitan y definir los roles que cubrirá el evento.
 
-**Actividad TO-BE asociada:** Crear evento indicando fecha y roles requeridos
+**Actividad TO-BE asociada:** Crear evento convocando músicos y asignando sus instrumentos
 
 **Criterios de aceptación:**
 - CA1: El líder debe poder ingresar la fecha del ensayo.
-- CA2: El líder debe poder indicar los roles o instrumentos requeridos para el ensayo.
-- CA3: Al crear el evento, el sistema debe registrarlo y notificar a los integrantes de la banda.
-- CA4: El evento debe quedar disponible para que los integrantes puedan acceder a la convocatoria.
+- CA2: El sistema debe mostrar a todos los integrantes de la banda con su instrumento principal preseleccionado, y el líder debe poder quitar o volver a agregar músicos a la convocatoria.
+- CA3: El líder debe poder asignar uno o más instrumentos a cada músico convocado, pudiendo reemplazar su instrumento principal por otro.
+- CA4: El líder debe indicar el quórum requerido, con la cantidad de músicos convocados como valor por defecto.
+- CA5: Al crear el evento, el sistema debe registrarlo con los roles que resultan de los instrumentos asignados a los convocados.
+- CA6: Al crear el evento, el sistema debe notificar solo a los músicos convocados.
+- CA7: El evento debe quedar disponible para que los músicos convocados accedan a la convocatoria.
+- CA8: No se debe crear el evento sin al menos un músico convocado con al menos un instrumento.
 
 ---
 
@@ -26,16 +30,17 @@ Como Integrante de la banda, quiero abrir la notificación recibida para acceder
 
 ---
 
-## HU-03: Confirmar asistencia y seleccionar instrumentos
-Como Integrante de la banda, quiero confirmar mi asistencia e indicar uno o múltiples instrumentos con los que participaré, para que el sistema registre correctamente mi disponibilidad y aporte musical al ensayo.
+## HU-03: Confirmar asistencia al ensayo
+Como Integrante de la banda, quiero confirmar mi asistencia al ensayo y ver con qué instrumentos fui convocado, para saber cómo participaré.
 
-**Actividad TO-BE asociada:** Confirmar asistencia y seleccionar uno o múltiples instrumentos
+**Actividad TO-BE asociada:** Confirmar asistencia al ensayo
 
 **Criterios de aceptación:**
 - CA1: El integrante debe poder indicar si asistirá al ensayo.
-- CA2: Si confirma su asistencia, debe poder seleccionar uno o múltiples instrumentos o roles.
-- CA3: El sistema debe registrar al músico y los instrumentos seleccionados dentro del evento.
+- CA2: Si confirma su asistencia, el sistema debe mostrarle los instrumentos que el Líder de Alabanza le asignó.
+- CA3: El sistema debe registrar la asistencia del músico y los instrumentos asignados en su convocatoria dentro del evento.
 - CA4: La información registrada debe quedar disponible para la evaluación automática del quórum y de los roles requeridos.
+- CA5: El integrante no debe poder cambiar los instrumentos de su convocatoria; solo el Líder de Alabanza los define al crear el evento.
 
 ---
 
@@ -62,3 +67,32 @@ Como Líder de Alabanza, quiero recibir una alerta cuando no se complete el quó
 - CA2: El líder debe poder identificar qué condición impide confirmar el ensayo.
 - CA3: El líder debe poder decidir entre mantener el evento en espera o reagendarlo.
 - CA4: Mientras no se cumplan las condiciones de confirmación, el sistema no debe marcar el ensayo como oficialmente confirmado.
+
+---
+
+## HU-06: Registrar el perfil instrumental del integrante
+Como Integrante de la banda, quiero registrar mi instrumento principal, para que el Líder de Alabanza sepa con qué instrumento convocarme a un ensayo.
+
+**Actividad TO-BE asociada:** Registrar el perfil instrumental del integrante
+
+**Criterios de aceptación:**
+- CA1: El integrante debe poder seleccionar su instrumento principal del catálogo.
+- CA2: El perfil no puede quedar registrado sin instrumento principal.
+- CA3: El instrumento principal debe quedar disponible para el Líder de Alabanza al crear un evento de ensayo.
+- CA4: El integrante debe poder cambiar su instrumento principal.
+
+---
+
+## HU-07: Incluir un repertorio opcional de canciones en el evento
+Como Líder de Alabanza, quiero incluir opcionalmente canciones en un evento, para preparar el repertorio cuando el evento sea un ensayo y omitirlo cuando sea una reunión u otra actividad.
+
+**Actividad TO-BE asociada:** Crear evento convocando músicos y asignando sus instrumentos (incluye el repertorio opcional de canciones)
+
+**Criterios de aceptación:**
+- CA1: Al abrir el formulario de creación, el bloque de repertorio debe mostrarse activado por defecto.
+- CA2: El líder debe poder desactivar el bloque de repertorio, y el evento debe poder crearse sin canciones.
+- CA3: El líder debe poder seleccionar cero o más canciones del catálogo; la selección de canciones no es obligatoria.
+- CA4: El sistema debe registrar las canciones seleccionadas asociadas al evento.
+- CA5: Las canciones que no fueron seleccionadas no deben quedar asociadas al evento.
+- CA6: El detalle del evento debe mostrar el repertorio registrado o indicar que el evento no incluye canciones.
+- CA7: El catálogo de canciones debe estar disponible para el líder al crear el evento, con al menos 20 canciones de ejemplo.

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block titulo %}Eventos de ensayo — KarismaSync{% endblock %}
+{% block contenido %}
+  <h1>Eventos de ensayo</h1>
+
+  {% if not usuario %}
+  <p class="aviso">Elige un usuario de demostración para actuar como Líder de Alabanza o integrante.</p>
+  {% elif usuario.es_lider %}
+  <p><a class="boton" href="/eventos/nuevo">Crear evento de ensayo</a></p>
+  {% else %}
+  <p class="aviso">Estás actuando como {{ usuario.nombre }}. Solo el Líder de Alabanza puede crear eventos.</p>
+  {% endif %}
+
+  {% if usuario %}
+  <p><a class="boton" href="/perfil" style="background:#52606d">Mi perfil instrumental</a></p>
+  {% endif %}
+
+  {% if eventos %}
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Banda</th>
+        <th>Quórum</th>
+        <th>Roles</th>
+        <th>Convocatorias</th>
+        <th>Canciones</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for evento in eventos %}
+      <tr>
+        <td><a href="/eventos/{{ evento.id }}">{{ evento.fecha }}</a></td>
+        <td>{{ evento.banda }}</td>
+        <td>{{ evento.quorum }} integrantes</td>
+        <td>{{ evento.total_roles }}</td>
+        <td>{{ evento.total_convocatorias }}</td>
+        <td>{{ evento.total_canciones }}</td>
+        <td><span class="badge">{{ evento.estado }}</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>Todavía no hay eventos de ensayo registrados.</p>
+  {% endif %}
+{% endblock %}

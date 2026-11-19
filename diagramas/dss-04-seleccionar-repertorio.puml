@@ -1,0 +1,47 @@
+@startuml
+mainframe DSS-04 - Seleccionar el repertorio opcional (CU-04 / HU-07)
+autonumber
+hide footbox
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 14
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 58
+skinparam BoxPadding 4
+skinparam NotePadding 4
+skinparam sequenceMessageSpacing 6
+skinparam ArrowColor #28536B
+skinparam participantBorderColor #28536B
+skinparam participantBackgroundColor #F0F6FA
+skinparam noteBackgroundColor #FFF8DE
+skinparam noteBorderColor #BBA46B
+
+actor "Líder de\nAlabanza" as Lider
+participant "KarismaSync" as Sistema
+
+Lider -> Sistema: abrirCrearEvento()
+Sistema --> Lider: formularioEvento(catalogoCanciones, repertorioActivoPorDefecto)
+
+alt líder incluye repertorio
+  Lider -> Sistema: seleccionarCanciones(canciones[])
+  note over Sistema
+    El bloque de repertorio
+    viene activado por defecto.
+    RF-13.
+  end note
+else líder desactiva el repertorio o no selecciona canciones
+  note over Sistema
+    El evento se creará sin canciones.
+    La selección no es obligatoria.
+  end note
+end
+
+Lider -> Sistema: crearEvento(fecha, quorum, convocados, canciones[])
+Sistema --> Lider: eventoCreado(evento, repertorioRegistrado)
+note over Sistema
+  Solo se asocian las canciones
+  seleccionadas; las demás no.
+end note
+
+@enduml

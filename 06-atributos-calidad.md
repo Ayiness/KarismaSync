@@ -20,3 +20,6 @@
 ### [Fiabilidad]
 - Métrica: [Dado que la aplicación es para organizarse, es esencial el que siempre este operativo la mayor parte del tiempo (siempre si es posible), dado que esta hecho para que cualquiera pueda en cualquier momento crear, modificar y seleccionar un evento a realizar/se, y el ver el historial de eventos pasados para aprender de ellos. Se medirá en base a la cantidad de veces a los días de la semana que se hacen eventos y si cambian con un % alto, o bajo. Al igual que medirlo por la cantidad de veces que se ingresa a un evento en 1 dia.]
 
+## Nota sobre HU-07 (repertorio opcional)
+La inclusión opcional de canciones no requiere un atributo de calidad nuevo ni una métrica adicional: es una funcionalidad que refuerza la **adecuación funcional** y la **flexibilidad** ya priorizadas. La interacción sigue cubierta por RNF-02 y no se agrega una restricción de rendimiento específica para el catálogo de canciones.
+

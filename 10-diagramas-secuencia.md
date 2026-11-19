@@ -8,7 +8,9 @@
 ![DSS-01](./diagramas/dss-01-crear-convocatoria.png)
 Archivo fuente: [`./diagramas/dss-01.puml`](./diagramas/dss-01-crear-convocatoria.puml)
  
-Variantes representadas: [descripción de cada alt/opt/loop]
+Mensajes representados: `crearEvento(fecha, quorum, convocados[integrante, instrumentos])`; `enviarConvocatoria(convocados, evento, enlace)`.
+ 
+Variantes representadas: creación autorizada o rechazada; rechazo cuando no hay músicos convocados o un convocado queda sin instrumentos.
 ## DSS-02 — [Verificar viabilidad]
 - Caso de uso: [CU-04](./09-casos-de-uso.md)
 - Historia: [HU-04](./04-historias-usuario.md#hu-04)
@@ -18,4 +20,28 @@ Variantes representadas: [descripción de cada alt/opt/loop]
  
 Archivo fuente: [`./diagramas/dss-02.puml`](./diagramas/dss-02-verificar-viabilidad.puml)
  
-Variantes representadas: [descripción de cada alt/opt/loop]
+Mensajes representados: `registrarAsistencia(asiste)`; la evaluación usa los instrumentos asignados en la convocatoria.
+ 
+Variantes representadas: confirmación del ensayo o alerta por quórum o roles pendientes.
+
+## DSS-03 — Registrar el perfil instrumental
+- Caso de uso: [CU-03](./09-casos-de-uso.md#cu-03-gestionar-perfil-instrumental-del-integrante)
+- Historia: [HU-06](./04-historias-usuario.md#hu-06-registrar-el-perfil-instrumental-del-integrante)
+- Sistemas externos que participan: Ninguno
+
+![DSS-03](./diagramas/dss-03-registrar-perfil-instrumental.png)
+Archivo fuente: [`./diagramas/dss-03-registrar-perfil-instrumental.puml`](./diagramas/dss-03-registrar-perfil-instrumental.puml)
+
+Variantes representadas: el integrante registra o cambia su instrumento principal; si no indica ninguno, el sistema no guarda y responde con error.
+
+## DSS-04 — Seleccionar el repertorio opcional
+- Caso de uso: [CU-04](./09-casos-de-uso.md#cu-04-incluir-repertorio-opcional-al-crear-un-evento)
+- Historia: [HU-07](./04-historias-usuario.md#hu-07-incluir-un-repertorio-opcional-de-canciones-en-el-evento)
+- Sistemas externos que participan: Ninguno
+
+![DSS-04](./diagramas/dss-04-seleccionar-repertorio.png)
+Archivo fuente: [`./diagramas/dss-04-seleccionar-repertorio.puml`](./diagramas/dss-04-seleccionar-repertorio.puml)
+
+Mensajes representados: `abrirCrearEvento()`, `formularioEvento(catalogoCanciones, repertorioActivoPorDefecto)` y `crearEvento(fecha, quorum, convocados, canciones[])`.
+
+Variantes representadas: el líder incluye repertorio y selecciona canciones, o desactiva el bloque o deja la selección vacía; en ambos casos el evento se crea y solo se asocian las canciones seleccionadas.
