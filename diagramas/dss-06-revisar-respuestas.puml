@@ -1,0 +1,41 @@
+@startuml
+mainframe DSS-06 - Revisar respuestas de los convocados (CU-06 / HU-03)
+autonumber
+hide footbox
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 14
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 58
+skinparam BoxPadding 4
+skinparam NotePadding 4
+skinparam sequenceMessageSpacing 6
+skinparam ArrowColor #28536B
+skinparam participantBorderColor #28536B
+skinparam participantBackgroundColor #F0F6FA
+skinparam noteBackgroundColor #FFF8DE
+skinparam noteBorderColor #BBA46B
+
+actor "Líder de Alabanza o\nintegrante convocado" as Actor
+participant "KarismaSync" as Sistema
+
+Actor -> Sistema: verEvento(evento)
+
+alt líder o integrante convocado
+  Sistema --> Actor: estadoConvocados(convocados[integrante, instrumentos, estadoAsistencia, motivo])
+  note over Sistema
+    estadoAsistencia: Pendiente,
+    Confirmada o No asiste.
+    El motivo solo aparece
+    cuando no asiste. RF-14.
+  end note
+else integrante no convocado
+  Sistema --> Actor: detalleEvento(evento)
+  note over Sistema
+    Sin las respuestas
+    de los convocados.
+  end note
+end
+
+@enduml

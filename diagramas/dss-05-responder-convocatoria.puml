@@ -1,0 +1,56 @@
+@startuml
+mainframe DSS-05 - Responder convocatoria (CU-05 / HU-03)
+autonumber
+hide footbox
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 14
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 58
+skinparam BoxPadding 4
+skinparam NotePadding 4
+skinparam sequenceMessageSpacing 6
+skinparam ArrowColor #28536B
+skinparam participantBorderColor #28536B
+skinparam participantBackgroundColor #F0F6FA
+skinparam noteBackgroundColor #FFF8DE
+skinparam noteBorderColor #BBA46B
+
+actor "Integrante de\nla banda" as Integrante
+participant "KarismaSync" as Sistema
+
+Integrante -> Sistema: verEvento(evento)
+Sistema --> Integrante: detalleEvento(evento, instrumentosAsignados, estadoAsistencia)
+note over Sistema
+  A un integrante no convocado
+  no se le ofrece responder.
+end note
+
+Integrante -> Sistema: registrarAsistencia(evento, asiste, motivo)
+
+alt evento vigente, integrante convocado y respuesta válida
+  Sistema --> Integrante: respuestaRegistrada(evento, estadoAsistencia)
+  note over Sistema
+    Confirmada: con los instrumentos
+    de la convocatoria; se borra el motivo.
+    No asiste: guarda el motivo.
+    Puede cambiar entre ambas mientras
+    el evento siga vigente (EST-02).
+  end note
+else no asistirá sin motivo
+  Sistema --> Integrante: respuestaRechazada(motivo: sinMotivo)
+else evento no vigente
+  Sistema --> Integrante: respuestaRechazada(motivo: convocatoriaNoDisponible)
+else integrante no convocado
+  Sistema --> Integrante: respuestaRechazada(motivo: noConvocado)
+else intenta cambiar los instrumentos
+  Sistema --> Integrante: respuestaRechazada(motivo: instrumentosAsignadosPorLider)
+end
+note over Sistema
+  En los rechazos la respuesta
+  no se registra. RF-04, RF-05,
+  RF-06 y RF-14.
+end note
+
+@enduml

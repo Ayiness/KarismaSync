@@ -19,6 +19,7 @@
 | RF-11 | Si el integrante intenta acceder a un evento que terminó o fue cancelado, el sistema debe informar que el evento ya no se encuentra disponible para registrar asistencia. | Funcional | ¿El evento sigue vigente y no ha sido cancelado? |
 | RF-12 | El sistema debe permitir que cada integrante registre y cambie su instrumento principal, y debe dejarlo disponible para el Líder de Alabanza al crear un evento de ensayo. | Funcional | Registrar el perfil instrumental del integrante |
 | RF-13 | El sistema debe permitir al Líder de Alabanza incluir, de forma opcional, un repertorio de canciones al crear un evento, mostrando el bloque de selección activado por defecto, permitiendo desactivarlo y registrando únicamente las canciones seleccionadas. Un evento sin canciones debe poder crearse. | Funcional | Crear evento convocando músicos y asignando sus instrumentos (incluye el repertorio opcional de canciones) |
+| RF-14 | El sistema debe solicitar un motivo cuando un integrante indique que no asistirá, permitirle cambiar su respuesta mientras el evento esté vigente y mostrar al Líder de Alabanza y a los convocados el estado de respuesta de cada convocado y su motivo. | Funcional | Confirmar asistencia al ensayo |
 
 ### Requisitos no funcionales
 

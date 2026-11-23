@@ -11,9 +11,9 @@ Para revisar las referencias se utilizaron las [historias de usuario](./04-histo
 | RF-01 | HU-01 | CU-01 | DSS-01 | EST-01 | `EventoDeEnsayo`, `Instrumento`, `Integrante`, `Banda` |
 | RF-02 | HU-01 | CU-01 | DSS-01 | EST-01, EST-02 | `EventoDeEnsayo`, `Convocatoria`, `Integrante` |
 | RF-03 | HU-02 | — | — | — | `Convocatoria`, `Integrante`, `EventoDeEnsayo` |
-| RF-04 | HU-02 | — | — | EST-01, EST-02 | `EventoDeEnsayo`, `Asistencia` |
-| RF-05 | HU-03 | — | DSS-02 | EST-02 | `Integrante`, `Asistencia`, `Instrumento` |
-| RF-06 | HU-03 | — | DSS-02 | EST-02 | `EventoDeEnsayo`, `Integrante`, `Asistencia`, `Instrumento` |
+| RF-04 | HU-02, HU-03 | CU-05 | DSS-05 | EST-01, EST-02 | `EventoDeEnsayo`, `Asistencia` |
+| RF-05 | HU-03 | CU-05 | DSS-05, DSS-02 | EST-02 | `Integrante`, `Convocatoria`, `Asistencia`, `Instrumento` |
+| RF-06 | HU-03 | CU-05 | DSS-05, DSS-02 | EST-02 | `EventoDeEnsayo`, `Convocatoria`, `Asistencia`, `Instrumento` |
 | RF-07 | HU-04 | CU-02 | DSS-02 | EST-01 | `EventoDeEnsayo`, `Asistencia`, `Instrumento` |
 | RF-08 | HU-04 | CU-02 | DSS-02 | EST-01 | `EventoDeEnsayo`, `Integrante` |
 | RF-09 | HU-04, HU-05 | CU-02 | DSS-02 | EST-01 | `EventoDeEnsayo`, `Alerta`, `Integrante`, `Instrumento` |
@@ -26,6 +26,7 @@ Para revisar las referencias se utilizaron las [historias de usuario](./04-histo
 | RNF-05 | HU-03, HU-04 | CU-02 | DSS-02 | EST-01, EST-02 | `EventoDeEnsayo`, `Asistencia`, `Instrumento` |
 | RF-12 | HU-06 | CU-03 | DSS-03 | — | `Integrante`, `Instrumento` |
 | RF-13 | HU-07 | CU-04 | DSS-04 | — | `EventoDeEnsayo`, `Cancion` |
+| RF-14 | HU-03 | CU-05, CU-06 | DSS-05, DSS-06 | EST-02 | `Convocatoria`, `Asistencia`, `Integrante`, `Instrumento` |
 | RD-01 | HU-02, HU-04 | CU-02 | DSS-02 | EST-01 | `EventoDeEnsayo` |
 | RY-01 | — | — | — | — | — |
 | RY-02 | — | — | — | — | — |
@@ -49,8 +50,8 @@ Pruebas de apoyo (no son escenarios Gherkin): EST-01 `Inicial → Vigente` y tra
 
 ## Observaciones
 
-- Las siete historias de usuario (HU-01 a HU-07) están incluidas en la matriz. Los casos de uso y las secuencias desarrollados en esta entrega corresponden a **HU-01** (`CU-01` y `DSS-01`), **HU-04** (`CU-02` y `DSS-02`), **HU-06** (`CU-03` y `DSS-03`) y **HU-07** (`CU-04` y `DSS-04`). Por eso algunas filas tienen «—»: esas historias no cuentan con un caso de uso o secuencia propios.
-- **HU-03** no tiene un caso de uso independiente, pero el mensaje `registrarAsistencia` aparece al inicio de `DSS-02` y activa la evaluación del ensayo. **HU-05** se refleja en `EST-01` con las decisiones de esperar o reagendar, aunque todavía no tiene una secuencia propia.
+- Las siete historias de usuario (HU-01 a HU-07) están incluidas en la matriz. Los casos de uso y las secuencias desarrollados en esta entrega corresponden a **HU-01** (`CU-01` y `DSS-01`), **HU-04** (`CU-02` y `DSS-02`), **HU-06** (`CU-03` y `DSS-03`), **HU-07** (`CU-04` y `DSS-04`) y **HU-03** (`CU-05`/`DSS-05` y `CU-06`/`DSS-06`). Por eso algunas filas tienen «—»: esas historias no cuentan con un caso de uso o secuencia propios.
+- **HU-03** se representa con `CU-05` (responder la convocatoria) y `CU-06` (revisar las respuestas). El mensaje `registrarAsistencia(evento, asiste, motivo)` de `DSS-05` es el mismo que inicia `DSS-02`, donde activa la evaluación del ensayo (HU-04). **HU-05** se refleja en `EST-01` con las decisiones de esperar o reagendar, aunque todavía no tiene una secuencia propia.
 - En **RF-03**, abrir la notificación no cambia por sí solo el estado del evento, por eso no se relaciona con un diagrama de estado. **RF-04** y **RF-11** sí se apoyan en los estados del evento para distinguir cuándo se puede registrar asistencia y cuándo ya no está disponible; el mensaje de indisponibilidad de RF-11 no está detallado en una secuencia.
 - **RNF-02**, **RNF-03** y **RNF-04** incluyen medidas de calidad (15 segundos y 3 interacciones; menos de 1 segundo; 99,5 % de entrega). Las secuencias y los estados muestran las operaciones relacionadas cuando corresponde, pero no comprueban esos valores. Se necesitarían pruebas para verificarlos.
 - Los **RY-01 a RY-06** son requisitos de proyecto: equipo, respaldos, mantenimiento, costos, responsables y capacitación. No se representan directamente mediante historias, casos de uso o diagramas del comportamiento del sistema, por lo que se dejaron con «—».
