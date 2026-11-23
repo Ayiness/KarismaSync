@@ -67,8 +67,9 @@ indica que el evento no incluye repertorio. Las canciones no seleccionadas no se
 2. Elige a Pedro y abre el evento desde el inicio: verás tus instrumentos, tu respuesta (`Pendiente`) y las opciones
    **Confirmar asistencia** o **No asistiré** (con motivo obligatorio, máximo 200 caracteres).
 3. Mientras el evento esté `Vigente` puedes **cambiar tu respuesta**; al volver a confirmar se borra el motivo anterior.
-4. La Líder de Alabanza y los convocados ven la tabla con el estado (`Pendiente`, `Confirmada`, `No asiste`) y el motivo
-   de cada convocado. Un integrante no convocado ve el evento, pero no puede responder ni ver las respuestas.
+4. La Líder de Alabanza ve la tabla con el estado (`Pendiente`, `Confirmada`, `No asiste`) y el motivo de cada convocado.
+   Los demás convocados ven la tabla con los estados, pero no los motivos (son privados). Un integrante no convocado
+   ve el evento, pero no puede responder ni ver las respuestas.
 
 ## Probar
 

@@ -2,7 +2,7 @@
 
 ## Context
 
-Fuentes: HU-03 en `04-historias-usuario.md` (CA1–CA9) y `07-criterios-aceptacion.md` (10 escenarios), clase `Asistencia`, enumeración `EstadoAsistencia` y asociación `tiene` en `08-modelo-dominio.md`, EST-02 en `11-diagramas-estado.md`, CU-05 y CU-06 en `09-casos-uso.md`, DSS-05 y DSS-06 en `10-diagramas-secuencia.md`. Decisiones del equipo (2026-11-23): el músico puede cambiar su respuesta mientras el evento esté vigente; el líder y los convocados ven estados y motivos; un no convocado ve el evento pero no puede responder ni ver las respuestas; el motivo es obligatorio y de hasta 200 caracteres.
+Fuentes: HU-03 en `04-historias-usuario.md` (CA1–CA9) y `07-criterios-aceptacion.md` (10 escenarios), clase `Asistencia`, enumeración `EstadoAsistencia` y asociación `tiene` en `08-modelo-dominio.md`, EST-02 en `11-diagramas-estado.md`, CU-05 y CU-06 en `09-casos-uso.md`, DSS-05 y DSS-06 en `10-diagramas-secuencia.md`. Decisiones del equipo (2026-11-23): el músico puede cambiar su respuesta mientras el evento esté vigente; el líder y los convocados ven los estados, pero el motivo de inasistencia es privado y solo lo ven el líder y el propio integrante (corrección del 2026-11-23 sobre la decisión inicial); un no convocado ve el evento pero no puede responder ni ver las respuestas; el motivo es obligatorio y de hasta 200 caracteres.
 
 ## Goals / Non-Goals
 
@@ -53,7 +53,7 @@ Si todo es válido: `Confirmada` guarda `motivo = NULL`; `No asiste` guarda el m
 
 | Método y ruta | Mensaje | Resultado |
 |---------------|---------|-----------|
-| `GET /eventos/{id}` | `verEvento(evento)` → `detalleEvento(...)` / `estadoConvocados(...)` | Para un convocado: sus instrumentos, su estado y el formulario si el evento está vigente. Para el líder y los convocados: tabla con integrante, instrumentos, estado y motivo. Para un no convocado: el evento sin formulario ni tabla. |
+| `GET /eventos/{id}` | `verEvento(evento)` → `detalleEvento(...)` / `estadoConvocados(...)` | Para un convocado: sus instrumentos, su estado y el formulario si el evento está vigente. Para el líder: tabla con integrante, instrumentos, estado y motivo. Para los convocados: la misma tabla sin la columna de motivo (su propio motivo aparece en «Tu convocatoria»). Para un no convocado: el evento sin formulario ni tabla. |
 | `POST /eventos/{id}/asistencia` | `registrarAsistencia(evento, asiste, motivo)` | Éxito → redirige a `GET /eventos/{id}` (`respuestaRegistrada`). Error → vuelve a mostrar el detalle con el mensaje (`respuestaRechazada`). |
 
 Formulario: si el estado es `Pendiente`, dos opciones («Confirmar asistencia» y «No asistiré» con campo de motivo). Si es `Confirmada`, solo «Cambiar respuesta: no asistiré» con motivo. Si es `No asiste`, se muestra el motivo y «Cambiar respuesta: confirmar asistencia».

@@ -28,6 +28,7 @@
 - [x] 4.9 Un integrante no convocado intenta confirmar su asistencia.
 - [x] 4.10 El líder revisa el estado de las respuestas de los convocados.
 - [x] 4.11 Pruebas de dominio de EST-02: una transición válida y una inválida.
+- [x] 4.12 Un músico convocado revisa las respuestas sin ver los motivos de los demás.
 
 ## 5. Documentación
 

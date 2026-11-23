@@ -22,7 +22,7 @@ Las historias HU-01 y HU-04 requieren notificaciones (convocar a la banda y comu
 Fuente editable: [casos-de-uso.puml](./diagramas/casos-de-uso.puml).
 
 - **Líder de Alabanza:** crea la convocatoria, selecciona opcionalmente el repertorio de canciones y recibe alertas.
-- **Líder de Alabanza e integrantes convocados:** revisan las respuestas de los convocados (estado y motivo).
+- **Líder de Alabanza e integrantes convocados:** revisan las respuestas de los convocados; el líder ve además el motivo de cada inasistencia.
 - **Integrante de la banda:** responde la convocatoria (confirma o indica que no asistirá, con motivo), registra su perfil instrumental y recibe notificaciones; no crea convocatorias.
 - **Servicio de notificaciones:** sistema externo que distribuye los mensajes.
 
@@ -120,9 +120,11 @@ Fuente editable: [dss-05-responder-convocatoria.puml](./diagramas/dss-05-respond
 
 **Condición inicial:** el evento existe y tiene músicos convocados.
 
-**Flujo principal:** el actor abre el detalle del evento. KarismaSync muestra a cada convocado con sus instrumentos, el estado de su respuesta (Pendiente, Confirmada o No asiste) y el motivo cuando no asiste.
+**Flujo principal:** el Líder de Alabanza abre el detalle del evento. KarismaSync muestra a cada convocado con sus instrumentos, el estado de su respuesta (Pendiente, Confirmada o No asiste) y el motivo cuando no asiste.
 
-**Alternativa:** si quien abre el evento no es el Líder de Alabanza ni un músico convocado, KarismaSync muestra los datos del evento sin las respuestas de los convocados.
+**Alternativas:**
+- **Músico convocado:** ve a cada convocado con sus instrumentos y el estado de su respuesta, pero no los motivos de inasistencia de los demás (son privados); su propio motivo lo ve en su convocatoria.
+- **No convocado:** si quien abre el evento no es el Líder de Alabanza ni un músico convocado, KarismaSync muestra los datos del evento sin las respuestas de los convocados.
 
 ### DSS-06: Revisar respuestas de los convocados
 

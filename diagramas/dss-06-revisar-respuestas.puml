@@ -22,13 +22,20 @@ participant "KarismaSync" as Sistema
 
 Actor -> Sistema: verEvento(evento)
 
-alt líder o integrante convocado
+alt Líder de Alabanza
   Sistema --> Actor: estadoConvocados(convocados[integrante, instrumentos, estadoAsistencia, motivo])
   note over Sistema
     estadoAsistencia: Pendiente,
     Confirmada o No asiste.
     El motivo solo aparece
     cuando no asiste. RF-14.
+  end note
+else integrante convocado
+  Sistema --> Actor: estadoConvocados(convocados[integrante, instrumentos, estadoAsistencia])
+  note over Sistema
+    Sin los motivos de los demás:
+    son privados. Su propio motivo
+    lo ve en su convocatoria (DSS-05).
   end note
 else integrante no convocado
   Sistema --> Actor: detalleEvento(evento)

@@ -291,3 +291,32 @@ def test_hu03_el_lider_revisa_el_estado_de_las_respuestas_de_los_convocados(
         "<td>tengo turno en el trabajo</td>"
     ) in texto
     assert '<td>Luis</td> <td>batería</td> <td><span class="badge">Pendiente</span></td>' in texto
+
+
+def test_hu03_un_musico_convocado_revisa_las_respuestas_sin_ver_los_motivos_de_los_demas(
+    conexion, cliente
+):
+    # Dado que Marta creó el evento convocando a Pedro, Ana y Luis
+    evento_id = _crear_evento(
+        conexion,
+        {"Pedro": ["guitarra eléctrica"], "Ana": ["teclado"], "Luis": ["batería"]},
+    )
+    # Y que Ana informó que no asistirá porque «tengo turno en el trabajo»
+    _como(cliente, conexion, "Ana")
+    _responder(cliente, evento_id, "no_asistire", motivo="tengo turno en el trabajo")
+
+    # Cuando Luis abre el detalle del evento
+    _como(cliente, conexion, "Luis")
+    detalle = cliente.get(f"/eventos/{evento_id}")
+    texto = " ".join(detalle.text.split())
+
+    # Entonces ve a Ana con su instrumento y el estado No asiste
+    assert detalle.status_code == 200
+    assert '<td>Ana</td> <td>teclado</td> <td><span class="badge">No asiste</span></td>' in texto
+    # Y no ve el motivo de Ana
+    assert "tengo turno en el trabajo" not in detalle.text
+    assert "<th>Motivo</th>" not in detalle.text
+
+    # La propia Ana sí ve su motivo en «Tu convocatoria»
+    _como(cliente, conexion, "Ana")
+    assert "tengo turno en el trabajo" in cliente.get(f"/eventos/{evento_id}").text

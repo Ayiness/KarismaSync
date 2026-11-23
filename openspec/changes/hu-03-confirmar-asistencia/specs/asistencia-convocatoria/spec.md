@@ -102,7 +102,7 @@ El sistema DEBE permitir que un integrante no convocado vea el evento, pero NO D
 
 ### Requirement: Mostrar el estado de las respuestas de los convocados
 
-El sistema DEBE mostrar al Líder de Alabanza y a los músicos convocados, en el detalle del evento, a cada convocado con sus instrumentos, el estado de su respuesta y el motivo cuando no asiste.
+El sistema DEBE mostrar al Líder de Alabanza y a los músicos convocados, en el detalle del evento, a cada convocado con sus instrumentos y el estado de su respuesta. El motivo de inasistencia es privado: el sistema DEBE mostrarlo solo al Líder de Alabanza y al propio integrante.
 
 #### Scenario: El líder revisa el estado de las respuestas de los convocados
 
@@ -114,3 +114,11 @@ El sistema DEBE mostrar al Líder de Alabanza y a los músicos convocados, en el
 - **THEN** ve a Pedro con su instrumento y el estado Confirmada
 - **AND** ve a Ana con su instrumento, el estado No asiste y el motivo «tengo turno en el trabajo»
 - **AND** ve a Luis con su instrumento y el estado Pendiente
+
+#### Scenario: Un músico convocado revisa las respuestas sin ver los motivos de los demás
+
+- **GIVEN** Marta creó el evento del sábado 14 de noviembre convocando a Pedro, Ana y Luis
+- **AND** Ana informó que no asistirá porque «tengo turno en el trabajo»
+- **WHEN** Luis abre el detalle del evento
+- **THEN** ve a Ana con su instrumento y el estado No asiste
+- **AND** no ve el motivo de Ana

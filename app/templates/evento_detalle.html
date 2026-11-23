@@ -79,7 +79,7 @@
   {% if puede_ver_respuestas %}
   <table>
     <thead>
-      <tr><th>Integrante</th><th>Instrumentos</th><th>Estado</th><th>Motivo</th></tr>
+      <tr><th>Integrante</th><th>Instrumentos</th><th>Estado</th>{% if puede_ver_motivos %}<th>Motivo</th>{% endif %}</tr>
     </thead>
     <tbody>
       {% for convocatoria in convocatorias %}
@@ -87,7 +87,9 @@
         <td>{{ convocatoria.integrante }}</td>
         <td>{{ convocatoria.instrumentos or 'sin instrumentos' }}</td>
         <td><span class="badge">{{ convocatoria.estado_asistencia }}</span></td>
+        {% if puede_ver_motivos %}
         <td>{% if convocatoria.estado_asistencia == 'No asiste' %}{{ convocatoria.motivo }}{% else %}—{% endif %}</td>
+        {% endif %}
       </tr>
       {% endfor %}
     </tbody>

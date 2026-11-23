@@ -10,7 +10,7 @@ Hoy el líder crea el evento y los músicos reciben la convocatoria, pero no pue
 - El músico puede confirmar (queda `Confirmada` con los instrumentos de su convocatoria) o indicar que no asistirá con un motivo obligatorio de hasta 200 caracteres (queda `No asiste`).
 - Mientras el evento esté vigente, puede cambiar su respuesta («Cambiar respuesta»): de `Confirmada` a `No asiste` (con motivo) o de `No asiste` a `Confirmada` (se borra el motivo).
 - Se rechaza responder si el evento no está vigente, si el integrante no fue convocado, si falta el motivo o si se intenta cambiar los instrumentos.
-- El líder y los convocados ven la tabla de convocados con instrumentos, estado y motivo; un integrante no convocado ve el evento sin esa tabla.
+- El líder y los convocados ven la tabla de convocados con instrumentos y estado; el motivo de inasistencia solo lo ven el líder y el propio integrante; un integrante no convocado ve el evento sin esa tabla.
 - Cada convocatoria nace con su asistencia en `Pendiente` (transición `convocatoriaEmitida` de EST-02).
 
 ## Capabilities

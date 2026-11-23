@@ -182,6 +182,13 @@ Característica: Confirmar asistencia al ensayo
     Entonces ve a Pedro con su instrumento y el estado Confirmada
     Y ve a Ana con su instrumento, el estado No asiste y el motivo «tengo turno en el trabajo»
     Y ve a Luis con su instrumento y el estado Pendiente
+
+  Escenario: Un músico convocado revisa las respuestas sin ver los motivos de los demás
+    Dado que Marta creó el evento del sábado 14 de noviembre convocando a Pedro, Ana y Luis
+    Y que Ana informó que no asistirá porque «tengo turno en el trabajo»
+    Cuando Luis abre el detalle del evento
+    Entonces ve a Ana con su instrumento y el estado No asiste
+    Y no ve el motivo de Ana
 ```
  
 ## HU-04 — Evaluar automáticamente el quórum y los roles requeridos

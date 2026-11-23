@@ -313,9 +313,11 @@ def _render_detalle(
         mi_convocatoria = next(
             (c for c in convocatorias if c["integrante_id"] == usuario["id"]), None
         )
-    puede_ver_respuestas = usuario is not None and (
-        bool(usuario["es_lider"]) or mi_convocatoria is not None
-    )
+    es_lider = usuario is not None and bool(usuario["es_lider"])
+    puede_ver_respuestas = es_lider or mi_convocatoria is not None
+    # El motivo de inasistencia es privado: solo lo ve el Líder de Alabanza
+    # (cada integrante ve el suyo en «Tu convocatoria»). HU-03 CA9, DSS-06.
+    puede_ver_motivos = es_lider
 
     contexto = _contexto_comun(request, conexion)
     contexto.update(
@@ -326,6 +328,7 @@ def _render_detalle(
             "canciones": canciones,
             "mi_convocatoria": mi_convocatoria,
             "puede_ver_respuestas": puede_ver_respuestas,
+            "puede_ver_motivos": puede_ver_motivos,
             "evento_vigente": evento["estado"] == "Vigente",
             "error": error,
             "motivo": motivo,
