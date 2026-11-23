@@ -33,8 +33,8 @@ note over Integrante, Sistema
   Evento vigente, aún no confirmado.
 end note
 
-Integrante -> Sistema: registrarAsistencia(evento, asistencia, instrumentos)
-Sistema --> Integrante: respuestaRegistrada(evento)
+Integrante -> Sistema: registrarAsistencia(evento, asiste, motivo)
+Sistema --> Integrante: respuestaRegistrada(evento, estadoAsistencia)
 
 note over Sistema
   Evalúa quórum y roles.

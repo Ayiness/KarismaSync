@@ -2,6 +2,7 @@ import sqlite3
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
 
+from app.dominio import asistencia as ciclo_asistencia
 from app.dominio.evento_ensayo import EventoDeEnsayo, transicionar
 from app.integraciones.notificaciones import (
     RespuestaEnvio,
@@ -163,6 +164,15 @@ def crear_evento(
                 (evento_id, integrante_id, evento.fecha, fecha_envio),
             )
             convocatoria_id = cursor.lastrowid
+            conexion.execute(
+                "INSERT INTO asistencias (convocatoria_id, estado) VALUES (?, ?)",
+                (
+                    convocatoria_id,
+                    ciclo_asistencia.transicionar(
+                        ciclo_asistencia.ESTADO_INICIAL, "convocatoriaEmitida"
+                    ),
+                ),
+            )
             for instrumento_id in instrumentos_ids:
                 conexion.execute(
                     "INSERT INTO convocatorias_instrumentos "

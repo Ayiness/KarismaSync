@@ -46,7 +46,7 @@ Si se completa el quórum y están cubiertos los roles necesarios, el evento pas
 
 **Archivo fuente (PlantUML):** [est-02.puml](./diagramas/est-02.puml).
 
-Este diagrama muestra cómo queda registrada la respuesta de un integrante. Al recibir la convocatoria, su asistencia está **Pendiente**. Si confirma que irá, pasa a **Confirmada** con los instrumentos que el líder le asignó. También puede indicar que **No asiste**. Si el evento se cancela o termina antes de que responda, queda **Sin respuesta**.
+Este diagrama muestra cómo queda registrada la respuesta de un músico convocado. Al emitirse la convocatoria, su asistencia está **Pendiente**. Si confirma que irá, pasa a **Confirmada** con los instrumentos que el líder le asignó. También puede indicar que **No asiste**, escribiendo obligatoriamente el motivo. Mientras el evento siga vigente puede cambiar su respuesta: de Confirmada a No asiste (con motivo) o de No asiste a Confirmada (se borra el motivo). Si el evento se cancela o termina antes de que responda, queda **Sin respuesta**. Cualquier otra transición, como repetir la misma respuesta o responder cuando el evento ya no está vigente, no está modelada y se rechaza.
 
 ### Tabla de transiciones — EST-02
 
@@ -54,10 +54,12 @@ Este diagrama muestra cómo queda registrada la respuesta de un integrante. Al r
 |---|---|---|---|---|
 | Inicial | `convocatoriaEmitida` | — | Dejar disponible la respuesta | Pendiente |
 | Pendiente | `registrarAsistencia` | Evento vigente y confirma | Guardar la asistencia con los instrumentos asignados en la convocatoria | Confirmada |
-| Pendiente | `registrarAsistencia` | Evento vigente y señala que no asistirá | Registrar que no asistirá | No asiste |
+| Pendiente | `registrarAsistencia` | Evento vigente, no asistirá e indica motivo | Guardar la respuesta y el motivo | No asiste |
+| Confirmada | `registrarAsistencia` | Evento vigente, no asistirá e indica motivo | Reemplazar la respuesta y guardar el motivo | No asiste |
+| No asiste | `registrarAsistencia` | Evento vigente y confirma | Reemplazar la respuesta y borrar el motivo | Confirmada |
 | Pendiente | `eventoCerrado` | El integrante no ha respondido | Cerrar la convocatoria para ese integrante | Sin respuesta |
-| Confirmada | Fin de la respuesta | — | — | Final |
-| No asiste | Fin de la respuesta | — | — | Final |
+| Confirmada | `eventoCerrado` | — | — | Final |
+| No asiste | `eventoCerrado` | — | — | Final |
 | Sin respuesta | Fin de la respuesta | — | — | Final |
 
-La asistencia **Confirmada** de un integrante no significa que todo el ensayo esté confirmado. Para eso, KarismaSync también revisa el quórum y los roles necesarios. El integrante no puede modificar los instrumentos de su convocatoria.
+La asistencia **Confirmada** de un integrante no significa que todo el ensayo esté confirmado. Para eso, KarismaSync también revisa el quórum y los roles necesarios (HU-04). El integrante no puede modificar los instrumentos de su convocatoria. El evento `eventoCerrado` ocurre cuando el ensayo se cancela o termina; esa funcionalidad todavía no está implementada.

@@ -122,9 +122,30 @@ Característica: Confirmar asistencia al ensayo
  
   Escenario: El integrante informa que no asistirá
     Dado que el evento de ensayo del sábado 14 de noviembre está vigente
-    Cuando Pedro informa que no asistirá al ensayo
-    Entonces Pedro queda registrado como no asistente del ensayo
+    Y que Pedro fue convocado con guitarra eléctrica
+    Cuando Pedro informa que no asistirá al ensayo porque «tengo turno en el trabajo»
+    Entonces Pedro queda registrado como no asistente del ensayo con el motivo «tengo turno en el trabajo»
     Y no se registran instrumentos a su nombre para ese ensayo
+
+  Escenario: El integrante intenta informar que no asistirá sin indicar el motivo
+    Dado que el evento de ensayo del sábado 14 de noviembre está vigente
+    Y que Pedro fue convocado con guitarra eléctrica
+    Cuando Pedro informa que no asistirá al ensayo sin escribir un motivo
+    Entonces la respuesta de Pedro no queda registrada y su asistencia sigue pendiente
+    Y Pedro es informado de que debe indicar el motivo por el que no asistirá
+
+  Escenario: El integrante cambia su respuesta de confirmada a no asiste
+    Dado que el evento de ensayo del sábado 14 de noviembre está vigente
+    Y que Pedro confirmó su asistencia
+    Cuando Pedro cambia su respuesta e informa que no asistirá porque «me enfermé»
+    Entonces Pedro queda registrado como no asistente del ensayo con el motivo «me enfermé»
+
+  Escenario: El integrante cambia su respuesta de no asiste a confirmada
+    Dado que el evento de ensayo del sábado 14 de noviembre está vigente
+    Y que Pedro informó que no asistirá porque «tengo turno en el trabajo»
+    Cuando Pedro cambia su respuesta y confirma que asistirá
+    Entonces Pedro queda registrado como asistente del ensayo
+    Y el motivo «tengo turno en el trabajo» ya no queda registrado
  
   Escenario: El integrante intenta cambiar los instrumentos de su convocatoria
     Dado que Pedro fue convocado con guitarra eléctrica y voz
@@ -134,9 +155,40 @@ Característica: Confirmar asistencia al ensayo
  
   Escenario: El integrante intenta confirmar después de que el evento fue cancelado
     Dado que el evento de ensayo del sábado 14 de noviembre fue cancelado
-    Cuando Pedro intenta confirmar que asistirá con el instrumento bajo
+    Cuando Pedro intenta confirmar que asistirá
     Entonces la asistencia de Pedro no queda registrada
     Y Pedro es informado de que la convocatoria ya no está disponible
+
+  Escenario: Un integrante no convocado abre el evento
+    Dado que el evento de ensayo del sábado 14 de noviembre está vigente
+    Y que Sofía no fue convocada a ese evento
+    Cuando Sofía abre el evento
+    Entonces Sofía ve la fecha del ensayo
+    Y Sofía no ve la opción de responder ni las respuestas de los convocados
+
+  Escenario: Un integrante no convocado intenta confirmar su asistencia
+    Dado que el evento de ensayo del sábado 14 de noviembre está vigente
+    Y que Sofía no fue convocada a ese evento
+    Cuando Sofía intenta confirmar que asistirá
+    Entonces la asistencia de Sofía no queda registrada
+    Y Sofía es informada de que no fue convocada a este evento
+
+  Escenario: El líder revisa el estado de las respuestas de los convocados
+    Dado que Marta creó el evento del sábado 14 de noviembre convocando a Pedro, Ana y Luis
+    Y que Pedro confirmó su asistencia
+    Y que Ana informó que no asistirá porque «tengo turno en el trabajo»
+    Y que Luis todavía no responde
+    Cuando Marta abre el detalle del evento
+    Entonces ve a Pedro con su instrumento y el estado Confirmada
+    Y ve a Ana con su instrumento, el estado No asiste y el motivo «tengo turno en el trabajo»
+    Y ve a Luis con su instrumento y el estado Pendiente
+
+  Escenario: Un músico convocado revisa las respuestas sin ver los motivos de los demás
+    Dado que Marta creó el evento del sábado 14 de noviembre convocando a Pedro, Ana y Luis
+    Y que Ana informó que no asistirá porque «tengo turno en el trabajo»
+    Cuando Luis abre el detalle del evento
+    Entonces ve a Ana con su instrumento y el estado No asiste
+    Y no ve el motivo de Ana
 ```
  
 ## HU-04 — Evaluar automáticamente el quórum y los roles requeridos

@@ -1,5 +1,5 @@
 @startuml
-title Casos de uso de KarismaSync - HU-01, HU-04, HU-06 y HU-07
+title Casos de uso de KarismaSync - HU-01, HU-03, HU-04, HU-06 y HU-07
 left to right direction
 skinparam backgroundColor white
 skinparam shadowing false
@@ -22,6 +22,8 @@ rectangle "KarismaSync" {
   usecase "CU-02\nVerificar viabilidad\ndel ensayo" as CU02
   usecase "CU-03\nGestionar perfil\ninstrumental" as CU03
   usecase "CU-04\nIncluir repertorio\nopcional" as CU04
+  usecase "CU-05\nResponder\nconvocatoria" as CU05
+  usecase "CU-06\nRevisar respuestas\nde los convocados" as CU06
 }
 
 Lider -- CU01
@@ -34,9 +36,14 @@ CU02 -- Notificaciones
 Integrante -- CU03
 Lider -- CU04
 
+Integrante -- CU05
+Lider -- CU06
+Integrante -- CU06
+
 legend bottom
   CU-01 deriva de HU-01. CU-02 deriva de HU-04.
   CU-03 deriva de HU-06. CU-04 deriva de HU-07.
+  CU-05 y CU-06 derivan de HU-03.
   CU-02 se activa tras registrar una respuesta de asistencia.
   Servicio externo propuesto: proveedor y canal por validar.
 endlegend

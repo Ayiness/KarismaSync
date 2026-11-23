@@ -41,6 +41,10 @@ Como Integrante de la banda, quiero confirmar mi asistencia al ensayo y ver con 
 - CA3: El sistema debe registrar la asistencia del músico y los instrumentos asignados en su convocatoria dentro del evento.
 - CA4: La información registrada debe quedar disponible para la evaluación automática del quórum y de los roles requeridos.
 - CA5: El integrante no debe poder cambiar los instrumentos de su convocatoria; solo el Líder de Alabanza los define al crear el evento.
+- CA6: Si el integrante indica que no asistirá, debe escribir un motivo (obligatorio, máximo 200 caracteres); sin motivo la respuesta no se registra.
+- CA7: Mientras el evento esté vigente, el integrante puede cambiar su respuesta: de Confirmada a No asiste, indicando el motivo, o de No asiste a Confirmada, con lo que se borra el motivo anterior.
+- CA8: Solo los músicos convocados pueden responder. Un integrante no convocado puede ver el evento, pero no registrar asistencia ni ver las respuestas.
+- CA9: El Líder de Alabanza y los músicos convocados deben ver, en el detalle del evento, a cada convocado con sus instrumentos y el estado de su respuesta (Pendiente, Confirmada o No asiste). El motivo de inasistencia es privado: solo lo ven el Líder de Alabanza y el propio integrante.
 
 ---
 

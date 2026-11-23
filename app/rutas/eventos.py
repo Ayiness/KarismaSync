@@ -11,6 +11,11 @@ from app.servicios.crear_evento import (
     ErrorCreacionEvento,
     crear_evento,
 )
+from app.servicios.registrar_asistencia import (
+    ErrorRespuesta,
+    EventoNoEncontrado,
+    registrar_asistencia,
+)
 from app.vistas import templates
 
 router = APIRouter()
@@ -214,6 +219,56 @@ def detalle(
     request: Request,
     conexion: sqlite3.Connection = Depends(obtener_conexion),
 ) -> HTMLResponse:
+    return _render_detalle(request, conexion, evento_id)
+
+
+@router.post(
+    "/eventos/{evento_id}/asistencia", response_class=HTMLResponse, response_model=None
+)
+async def responder_convocatoria(
+    evento_id: int,
+    request: Request,
+    conexion: sqlite3.Connection = Depends(obtener_conexion),
+) -> HTMLResponse | RedirectResponse:
+    """registrarAsistencia(evento, asiste, motivo) de DSS-05."""
+    formulario = await request.form()
+    respuesta = str(formulario.get("respuesta", "")).strip()
+    motivo = str(formulario.get("motivo", ""))
+    instrumentos_ids = [
+        int(valor) for valor in formulario.getlist("instrumentos") if str(valor).isdigit()
+    ]
+    if respuesta not in ("confirmar", "no_asistire"):
+        return _render_detalle(
+            request, conexion, evento_id, error="seleccione una respuesta", motivo=motivo
+        )
+
+    usuario = usuario_actual(request, conexion)
+    try:
+        registrar_asistencia(
+            conexion,
+            usuario["id"] if usuario else None,
+            evento_id,
+            asiste=respuesta == "confirmar",
+            motivo=motivo,
+            instrumentos_ids=instrumentos_ids,
+        )
+    except EventoNoEncontrado as error:
+        raise HTTPException(status_code=404, detail="Evento no encontrado") from error
+    except ErrorRespuesta as error:
+        return _render_detalle(
+            request, conexion, evento_id, error=str(error), motivo=motivo
+        )
+
+    return RedirectResponse(url=f"/eventos/{evento_id}", status_code=303)
+
+
+def _render_detalle(
+    request: Request,
+    conexion: sqlite3.Connection,
+    evento_id: int,
+    error: str | None = None,
+    motivo: str = "",
+) -> HTMLResponse:
     evento = conexion.execute(
         "SELECT e.*, b.nombre AS banda "
         "FROM eventos_ensayo e JOIN bandas b ON b.id = e.banda_id "
@@ -229,15 +284,19 @@ def detalle(
         "WHERE r.evento_id = ? ORDER BY i.id",
         (evento_id,),
     ).fetchall()
+    # estadoConvocados(convocados[integrante, instrumentos, estadoAsistencia, motivo]) de DSS-06
     convocatorias = conexion.execute(
-        "SELECT i.nombre AS integrante, c.fecha_envio, "
-        "  GROUP_CONCAT(ins.nombre, ', ') AS instrumentos "
+        "SELECT c.integrante_id, i.nombre AS integrante, c.fecha_envio, "
+        "  a.estado AS estado_asistencia, a.motivo, "
+        "  (SELECT GROUP_CONCAT(ins.nombre, ', ') "
+        "   FROM convocatorias_instrumentos ci "
+        "   JOIN instrumentos ins ON ins.id = ci.instrumento_id "
+        "   WHERE ci.convocatoria_id = c.id) AS instrumentos "
         "FROM convocatorias c "
         "JOIN integrantes i ON i.id = c.integrante_id "
-        "LEFT JOIN convocatorias_instrumentos ci ON ci.convocatoria_id = c.id "
-        "LEFT JOIN instrumentos ins ON ins.id = ci.instrumento_id "
+        "LEFT JOIN asistencias a ON a.convocatoria_id = c.id "
         "WHERE c.evento_id = ? "
-        "GROUP BY c.id ORDER BY i.id",
+        "ORDER BY i.id",
         (evento_id,),
     ).fetchall()
     canciones = conexion.execute(
@@ -247,6 +306,19 @@ def detalle(
         (evento_id,),
     ).fetchall()
 
+    usuario = usuario_actual(request, conexion)
+    # detalleEvento(evento, instrumentosAsignados, estadoAsistencia) de DSS-05
+    mi_convocatoria = None
+    if usuario is not None:
+        mi_convocatoria = next(
+            (c for c in convocatorias if c["integrante_id"] == usuario["id"]), None
+        )
+    es_lider = usuario is not None and bool(usuario["es_lider"])
+    puede_ver_respuestas = es_lider or mi_convocatoria is not None
+    # El motivo de inasistencia es privado: solo lo ve el Líder de Alabanza
+    # (cada integrante ve el suyo en «Tu convocatoria»). HU-03 CA9, DSS-06.
+    puede_ver_motivos = es_lider
+
     contexto = _contexto_comun(request, conexion)
     contexto.update(
         {
@@ -254,6 +326,12 @@ def detalle(
             "roles": roles,
             "convocatorias": convocatorias,
             "canciones": canciones,
+            "mi_convocatoria": mi_convocatoria,
+            "puede_ver_respuestas": puede_ver_respuestas,
+            "puede_ver_motivos": puede_ver_motivos,
+            "evento_vigente": evento["estado"] == "Vigente",
+            "error": error,
+            "motivo": motivo,
         }
     )
     return templates.TemplateResponse(

@@ -21,11 +21,12 @@ state "No asiste" as NoAsiste
 state "Sin respuesta" as SinRespuesta #F7DFDA
 
 [*] --> Pendiente : convocatoriaEmitida\n/ habilitar respuesta
-Pendiente --> Confirmada : registrarAsistencia [asiste y elige instrumentos]\n/ guardar asistencia
-Pendiente --> NoAsiste : registrarAsistencia [no asistirá]\n/ guardar respuesta
-Pendiente --> Pendiente : registrarAsistencia [asiste sin instrumentos]\n/ solicitar instrumentos
+Pendiente --> Confirmada : registrarAsistencia\n[evento vigente y confirma]\n/ guardar asistencia
+Pendiente --> NoAsiste : registrarAsistencia\n[evento vigente, no asistirá e indica motivo]\n/ guardar respuesta y motivo
+Confirmada --> NoAsiste : registrarAsistencia\n[evento vigente, no asistirá e indica motivo]\n/ reemplazar respuesta y guardar motivo
+NoAsiste --> Confirmada : registrarAsistencia\n[evento vigente y confirma]\n/ reemplazar respuesta y borrar motivo
 Pendiente --> SinRespuesta : eventoCerrado [no respondió]\n/ cerrar respuesta
-Confirmada --> [*]
-NoAsiste --> [*]
+Confirmada --> [*] : eventoCerrado
+NoAsiste --> [*] : eventoCerrado
 SinRespuesta --> [*]
 @enduml
