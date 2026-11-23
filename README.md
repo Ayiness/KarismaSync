@@ -9,6 +9,7 @@ Historias implementadas:
 | HU-01 — Crear evento de ensayo convocando músicos con sus instrumentos | `hu-01-crear-evento-ensayo` | `tests/test_hu01_crear_evento.py` |
 | HU-06 — Registrar el perfil instrumental del integrante | `hu-06-perfil-instrumental` | `tests/test_hu06_perfil_instrumental.py` |
 | HU-07 — Incluir un repertorio opcional de canciones en el evento | `hu-07-repertorio-opcional` | `tests/test_hu07_repertorio.py` |
+| HU-03 — Confirmar asistencia al ensayo | `hu-03-confirmar-asistencia` | `tests/test_hu03_confirmar_asistencia.py`, `tests/test_asistencia_dominio.py` |
 
 La trazabilidad completa (historia → código → prueba) está en [`12-trazabilidad.md`](./12-trazabilidad.md).
 
@@ -60,13 +61,22 @@ El líder puede seleccionar una o varias canciones del catálogo, dejar la selec
 desactivar el bloque; en todos los casos el evento se crea. Si no hay canciones, el detalle
 indica que el evento no incluye repertorio. Las canciones no seleccionadas no se asocian.
 
+## Responder una convocatoria (HU-03)
+
+1. Elige a Marta en el selector y crea un evento convocando, por ejemplo, a Pedro, Ana y Luis.
+2. Elige a Pedro y abre el evento desde el inicio: verás tus instrumentos, tu respuesta (`Pendiente`) y las opciones
+   **Confirmar asistencia** o **No asistiré** (con motivo obligatorio, máximo 200 caracteres).
+3. Mientras el evento esté `Vigente` puedes **cambiar tu respuesta**; al volver a confirmar se borra el motivo anterior.
+4. La Líder de Alabanza y los convocados ven la tabla con el estado (`Pendiente`, `Confirmada`, `No asiste`) y el motivo
+   de cada convocado. Un integrante no convocado ve el evento, pero no puede responder ni ver las respuestas.
+
 ## Probar
 
 ```powershell
 pytest
 ```
 
-Las pruebas cubren los escenarios Gherkin de HU-01, HU-06 y HU-07 (una prueba por escenario, con el
+Las pruebas cubren los escenarios Gherkin de HU-01, HU-03, HU-06 y HU-07 (una prueba por escenario, con el
 prefijo `test_hu0X_`), la transición de estado del evento, la integración simulada de notificaciones y las pantallas.
 Las pruebas crean su propia base SQLite temporal; no necesitan ejecutar el seed antes.
 

@@ -37,7 +37,7 @@
 |----------|--------|--------------------|-------|----------------|
 | HU-01 | implementada, pendiente de validación del estudiante | `hu-01-crear-evento-ensayo` | 2026-11-05 | 14 pruebas en verde; notificaciones simuladas; falta probar a mano y archivar el cambio |
 | HU-02 | pendiente | — | — | — |
-| HU-03 | pendiente | — | — | — |
+| HU-03 | implementada, pendiente de validación del estudiante | `hu-03-confirmar-asistencia` | 2026-11-23 | responder la convocatoria con motivo y cambio de respuesta; tabla de respuestas para líder y convocados; asistencia `Pendiente` al emitir la convocatoria |
 | HU-04 | pendiente | — | — | — |
 | HU-05 | pendiente | — | — | — |
 | HU-06 | implementada, pendiente de validación del estudiante | `hu-06-perfil-instrumental` | 2026-11-05 | cambio de OpenSpec creado el 2026-11-22 para documentarla; pruebas separadas por escenario en `test_hu06_perfil_instrumental.py` |
@@ -51,4 +51,5 @@
 | Cambio | Historia afectada | Motivo | Fecha |
 |--------|-------------------|--------|-------|
 | `hu-07-repertorio-opcional` | HU-07 (nueva) | Repertorio de canciones opcional por evento, activado por defecto y con catálogo de 20 canciones | 2026-11-18 |
+| `hu-03-confirmar-asistencia` | HU-03 (nueva) | Asistencia con estado y motivo (EST-02), CU-05, CU-06, DSS-05, DSS-06, RF-14; modelo de dominio actualizado (`tiene`, `EstadoAsistencia`) | 2026-11-23 |
 | `hu-01-quorum-obligatorio` | HU-01 | El quórum es obligatorio (campo vacío en el formulario) y no puede superar a los convocados; la spec `eventos-ensayo` se alinea con el Gherkin vigente; DSS-01 corregido | 2026-11-23 |

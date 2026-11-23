@@ -27,13 +27,72 @@
   <p>Este evento no incluye repertorio de canciones.</p>
   {% endif %}
 
+  {% if error %}
+  <p class="error" role="alert">{{ error }}</p>
+  {% endif %}
+
+  {% if mi_convocatoria %}
+  <h2>Tu convocatoria</h2>
+  <dl>
+    <dt>Tus instrumentos</dt>
+    <dd>{{ mi_convocatoria.instrumentos or 'sin instrumentos' }}</dd>
+    <dt>Tu respuesta</dt>
+    <dd><span class="badge">{{ mi_convocatoria.estado_asistencia }}</span></dd>
+    {% if mi_convocatoria.estado_asistencia == 'No asiste' %}
+    <dt>Tu motivo</dt>
+    <dd>{{ mi_convocatoria.motivo }}</dd>
+    {% endif %}
+  </dl>
+
+  {% if evento_vigente %}
+    {% set estado = mi_convocatoria.estado_asistencia %}
+    {% if estado == 'Pendiente' %}
+  <form class="formulario" method="post" action="/eventos/{{ evento.id }}/asistencia">
+    <input type="hidden" name="respuesta" value="confirmar">
+    <button type="submit">Confirmar asistencia</button>
+  </form>
+    {% endif %}
+    {% if estado == 'Pendiente' or estado == 'Confirmada' %}
+  <form class="formulario" method="post" action="/eventos/{{ evento.id }}/asistencia">
+    <input type="hidden" name="respuesta" value="no_asistire">
+    <label class="campo">Motivo por el que no asistirás (obligatorio, máximo 200 caracteres)
+      <input type="text" name="motivo" maxlength="200" value="{{ motivo }}">
+    </label>
+    <button type="submit">{% if estado == 'Confirmada' %}Cambiar respuesta: no asistiré{% else %}No asistiré{% endif %}</button>
+  </form>
+    {% endif %}
+    {% if estado == 'No asiste' %}
+  <form class="formulario" method="post" action="/eventos/{{ evento.id }}/asistencia">
+    <input type="hidden" name="respuesta" value="confirmar">
+    <button type="submit">Cambiar respuesta: confirmar asistencia</button>
+  </form>
+    {% endif %}
+  {% else %}
+  <p class="aviso">La convocatoria ya no está disponible para responder.</p>
+  {% endif %}
+  {% elif usuario and not usuario.es_lider %}
+  <p class="aviso">No fuiste convocado a este evento.</p>
+  {% endif %}
+
   <h2>Músicos convocados</h2>
   <p>{{ convocatorias|length }} músicos recibieron la convocatoria del evento.</p>
-  <ul>
-    {% for convocatoria in convocatorias %}
-    <li>{{ convocatoria.integrante }} — {{ convocatoria.instrumentos or 'sin instrumentos' }}</li>
-    {% endfor %}
-  </ul>
+  {% if puede_ver_respuestas %}
+  <table>
+    <thead>
+      <tr><th>Integrante</th><th>Instrumentos</th><th>Estado</th><th>Motivo</th></tr>
+    </thead>
+    <tbody>
+      {% for convocatoria in convocatorias %}
+      <tr>
+        <td>{{ convocatoria.integrante }}</td>
+        <td>{{ convocatoria.instrumentos or 'sin instrumentos' }}</td>
+        <td><span class="badge">{{ convocatoria.estado_asistencia }}</span></td>
+        <td>{% if convocatoria.estado_asistencia == 'No asiste' %}{{ convocatoria.motivo }}{% else %}—{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
 
   <p><a class="boton" href="/">Volver a los eventos</a></p>
 {% endblock %}
