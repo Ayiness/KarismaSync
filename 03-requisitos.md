@@ -26,8 +26,8 @@
 | ID | Requisito | Tipo | Actividad TO-BE asociada |
 |---|---|---|---|
 | RNF-01 | El sistema debe controlar el acceso según el rol del usuario, restringiendo la creación y reagendamiento de eventos al rol autorizado de Líder de Alabanza. | No funcional — Seguridad | Crear evento convocando músicos y asignando sus instrumentos / Recibir alerta de sistema y decidir acción |
-| RNF-02 | La interfaz de confirmación debe permitir que un integrante registre su asistencia y seleccione sus instrumentos en un máximo de 15 segundos y con un máximo de 3 interacciones principales. | No funcional — Capacidad de interacción | Confirmar asistencia y seleccionar uno o múltiples instrumentos |
-| RNF-03 | El registro de la asistencia y de los instrumentos seleccionados debe reflejarse en el sistema en menos de 1 segundo después de que el integrante confirme su respuesta. | No funcional — Eficiencia de desempeño | Registrar músico e instrumentos en el evento |
+| RNF-02 | La interfaz de respuesta debe permitir que un integrante registre su respuesta (confirmar o indicar que no asistirá con su motivo) en un máximo de 15 segundos y con un máximo de 3 interacciones principales. | No funcional — Capacidad de interacción | Confirmar asistencia al ensayo |
+| RNF-03 | El registro de la respuesta de asistencia (con los instrumentos asignados en la convocatoria) debe reflejarse en el sistema en menos de 1 segundo después de que el integrante confirme su respuesta. | No funcional — Eficiencia de desempeño | Registrar músico e instrumentos en el evento |
 | RNF-04 | El servicio utilizado para notificar nuevas convocatorias y ensayos confirmados debe mantener una tasa de entrega exitosa de al menos 99,5 %. | No funcional — Fiabilidad | Registrar evento y notificar a la banda / Bloquear agenda y notificar ensayo oficial |
 | RNF-05 | El sistema debe conservar el estado de asistencia y los instrumentos registrados utilizados para realizar la evaluación del quórum y de los roles requeridos. | No funcional — Fiabilidad | ¿Se completó el quórum y los roles requeridos? |
 

@@ -6,7 +6,7 @@
 - Sistemas externos que participan: [Sistema de notificaciones]
  
 ![DSS-01](./diagramas/dss-01-crear-convocatoria.png)
-Archivo fuente: [`./diagramas/dss-01.puml`](./diagramas/dss-01-crear-convocatoria.puml)
+Archivo fuente: [`./diagramas/dss-01-crear-convocatoria.puml`](./diagramas/dss-01-crear-convocatoria.puml)
  
 Mensajes representados: `crearEvento(fecha, quorum, convocados[integrante, instrumentos])`; `enviarConvocatoria(convocados, evento, enlace)`; `creacionRechazada(motivo)`.
 
@@ -19,7 +19,7 @@ Variantes representadas: creación autorizada con datos válidos; rechazo por fa
  
 ![DSS-02](./diagramas/dss-02-verificar-viabilidad.png)
  
-Archivo fuente: [`./diagramas/dss-02.puml`](./diagramas/dss-02-verificar-viabilidad.puml)
+Archivo fuente: [`./diagramas/dss-02-verificar-viabilidad.puml`](./diagramas/dss-02-verificar-viabilidad.puml)
  
 Mensajes representados: `registrarAsistencia(evento, asiste, motivo)` (el mismo mensaje de DSS-05) y `respuestaRegistrada(evento, estadoAsistencia)`; la evaluación usa los instrumentos asignados en la convocatoria.
  
