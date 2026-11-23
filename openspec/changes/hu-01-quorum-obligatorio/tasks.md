@@ -20,4 +20,4 @@
 
 - [x] 4.1 Actualizar HU-01 CA4, el Gherkin de HU-01, CU-01 y DSS-01.
 - [x] 4.2 Actualizar `12-trazabilidad.md` y `.cin324/proyecto.md`.
-- [ ] 4.3 Exportar `diagramas/dss-01-crear-convocatoria.png` desde el `.puml` actualizado.
+- [x] 4.3 Exportar `diagramas/dss-01-crear-convocatoria.png` desde el `.puml` actualizado.
