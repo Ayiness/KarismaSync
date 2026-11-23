@@ -14,7 +14,7 @@ Característica: Crear evento de ensayo con roles requeridos
     Y que la banda tiene 6 integrantes, cada uno con su instrumento principal
     Cuando Marta abre el formulario de creación de un evento de ensayo
     Entonces la lista muestra a los 6 integrantes convocados con su instrumento principal preseleccionado
-    Y el quórum se propone en 6 integrantes
+    Y el campo de quórum aparece vacío para que Marta indique el quórum requerido
  
   Escenario: El líder crea un evento convocando a toda la banda
     Dado que Marta tiene el rol de Líder de Alabanza
@@ -58,6 +58,22 @@ Característica: Crear evento de ensayo con roles requeridos
     Cuando Marta intenta crear un evento de ensayo para el sábado 14 de noviembre
     Entonces el evento de ensayo no queda registrado
     Y Marta es informada de que cada músico convocado debe tener al menos un instrumento
+
+  Escenario: El líder intenta crear un evento de ensayo sin quórum
+    Dado que Marta tiene el rol de Líder de Alabanza
+    Y que Pedro y Ana están convocados con sus instrumentos principales
+    Cuando Marta intenta crear un evento de ensayo para el sábado 14 de noviembre sin indicar el quórum
+    Entonces el evento de ensayo no queda registrado
+    Y ningún integrante recibe una convocatoria
+    Y Marta es informada de que debe indicar el quórum requerido
+
+  Escenario: El líder intenta crear un evento con un quórum mayor que los músicos convocados
+    Dado que Marta tiene el rol de Líder de Alabanza
+    Y que Marta, Pedro, Ana y Luis están convocados con sus instrumentos principales
+    Cuando Marta intenta crear un evento de ensayo para el sábado 14 de noviembre con un quórum de 5 integrantes
+    Entonces el evento de ensayo no queda registrado
+    Y ningún integrante recibe una convocatoria
+    Y Marta es informada de que el quórum no puede superar la cantidad de músicos convocados
 ```
  
 ## HU-02 — Acceder al evento desde la notificación

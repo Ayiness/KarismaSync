@@ -22,11 +22,11 @@ El atributo `estado` de EventoDeEnsayo toma los valores de la enumeración Estad
 ## Asociaciones
 | Asociación | Clases | Multiplicidades | Justificación |
 |------------|--------|-----------------|----------------|
-| integra | Integrante – Banda | 1..* a 1 | Cada integrante pertenece a la banda, y una banda tiene al menos un integrante (HU-01: la banda es convocada completa). |
+| integra | Integrante – Banda | 1..* a 1 | Cada integrante pertenece a la banda, y una banda tiene al menos un integrante (HU-01: el líder convoca a los integrantes de su banda que necesita). |
 | lidera | Integrante (líder) – Banda | 1..* a 0..1 | Solo el Líder de Alabanza puede crear y reagendar eventos (RNF-01). La banda tiene al menos un líder; la elicitación identificó dos responsables: el encargado y el director musical. Un integrante lidera a lo más una banda. |
 | toca | Integrante – Instrumento (instrumentoPrincipal) | 1 a 0..1 | Cada integrante registra como máximo un instrumento principal (HU-06); un instrumento puede ser principal de muchos integrantes. Un integrante sin perfil registrado aún no tiene principal. |
 | organiza | Banda – EventoDeEnsayo | 1 a 0..* | Cada evento de ensayo pertenece a una banda; una banda puede no tener ensayos o tener muchos (RF-01). |
-| requiere | EventoDeEnsayo – Instrumento (rolesRequeridos) | 0..* a 1..* | Un evento exige al menos un rol requerido (HU-01, escenario de error); un mismo instrumento puede requerirse en muchos eventos. Se deriva de la unión de los instrumentos asignados en las convocatorias. |
+| requiere | EventoDeEnsayo – Instrumento (rolesRequeridos) | 0..* a 1..* | Un evento tiene al menos un rol requerido porque exige al menos un músico convocado con al menos un instrumento (HU-01, CA8); un mismo instrumento puede requerirse en muchos eventos. Se deriva de la unión de los instrumentos asignados en las convocatorias. |
 | incluye | EventoDeEnsayo – Cancion (repertorio) | 0..* a 0..* | Un evento puede incluir cero o más canciones del catálogo y una canción puede estar en muchos eventos. La ausencia de canciones representa un evento sin repertorio, como una reunión de coordinación (HU-07). |
 | emite | EventoDeEnsayo – Convocatoria | 1 a 1..* | Al crear el evento se emite su convocatoria (RF-02), y al reagendarlo se emite una nueva con la fecha actualizada (HU-05). |
 | es recibida por | Convocatoria – Integrante | 0..* a 1..* | Solo los integrantes convocados reciben la convocatoria (HU-01); un integrante recibe convocatorias de distintos eventos. |

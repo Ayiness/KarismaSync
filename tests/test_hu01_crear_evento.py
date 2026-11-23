@@ -187,15 +187,43 @@ def test_hu01_lider_con_musico_convocado_sin_instrumentos_no_crea_evento(conexio
     assert _conteo(conexion, "eventos_ensayo") == 0
 
 
-def test_hu01_quorum_vacio_usa_la_cantidad_de_convocados(conexion, cliente):
+def test_hu01_lider_sin_quorum_no_crea_evento(conexion, cliente):
+    # Dado que Marta tiene el rol de Líder de Alabanza
     marta = id_de(conexion, "Marta")
     cliente.cookies.set("usuario_id", str(marta))
 
-    cliente.post(
+    # Cuando Marta intenta crear un evento sin indicar el quórum
+    respuesta = cliente.post(
         "/eventos",
         data=_datos_formulario(conexion, quorum="", convocados=["Pedro", "Ana"]),
         follow_redirects=False,
     )
 
-    evento = conexion.execute("SELECT * FROM eventos_ensayo").fetchone()
-    assert evento["quorum"] == 2
+    # Entonces el evento no queda registrado y nadie recibe convocatoria
+    assert respuesta.status_code == 200
+    assert _conteo(conexion, "eventos_ensayo") == 0
+    assert _conteo(conexion, "convocatorias") == 0
+    # Y Marta es informada de que debe indicar el quórum requerido
+    assert "debe indicar el quórum requerido" in respuesta.text
+
+
+def test_hu01_lider_con_quorum_mayor_que_convocados_no_crea_evento(conexion, cliente):
+    # Dado que Marta tiene el rol de Líder de Alabanza
+    marta = id_de(conexion, "Marta")
+    cliente.cookies.set("usuario_id", str(marta))
+
+    # Cuando Marta convoca a 4 músicos e indica un quórum de 5 integrantes
+    respuesta = cliente.post(
+        "/eventos",
+        data=_datos_formulario(
+            conexion, quorum="5", convocados=["Marta", "Pedro", "Ana", "Luis"]
+        ),
+        follow_redirects=False,
+    )
+
+    # Entonces el evento no queda registrado y nadie recibe convocatoria
+    assert respuesta.status_code == 200
+    assert _conteo(conexion, "eventos_ensayo") == 0
+    assert _conteo(conexion, "convocatorias") == 0
+    # Y Marta es informada de que el quórum no puede superar a los convocados
+    assert "el quórum no puede superar la cantidad de músicos convocados" in respuesta.text

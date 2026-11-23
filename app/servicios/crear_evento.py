@@ -94,16 +94,17 @@ def crear_evento(
             "cada músico convocado debe tener al menos un instrumento válido"
         )
 
+    quorum_ingresado = "" if datos.quorum is None else str(datos.quorum).strip()
     try:
-        quorum = (
-            int(datos.quorum)
-            if datos.quorum is not None and str(datos.quorum).strip() != ""
-            else len(convocados)
-        )
-    except (TypeError, ValueError):
+        quorum = int(quorum_ingresado)
+    except ValueError:
         quorum = None
     if quorum is None or quorum < 1:
         raise ErrorCreacionEvento("debe indicar el quórum requerido")
+    if quorum > len(convocados):
+        raise ErrorCreacionEvento(
+            "el quórum no puede superar la cantidad de músicos convocados"
+        )
 
     fecha_ingresada = str(datos.fecha or "").strip()
     try:

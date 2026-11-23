@@ -51,3 +51,4 @@
 | Cambio | Historia afectada | Motivo | Fecha |
 |--------|-------------------|--------|-------|
 | `hu-07-repertorio-opcional` | HU-07 (nueva) | Repertorio de canciones opcional por evento, activado por defecto y con catálogo de 20 canciones | 2026-11-18 |
+| `hu-01-quorum-obligatorio` | HU-01 | El quórum es obligatorio (campo vacío en el formulario) y no puede superar a los convocados; la spec `eventos-ensayo` se alinea con el Gherkin vigente; DSS-01 corregido | 2026-11-23 |
