@@ -1,0 +1,14 @@
+# Entorno y cachés de Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Base de datos generada por python -m app.db.seed
+data/app.db
+
+# Dependencias locales de OpenCode
+.opencode/node_modules/
+
+# Respaldos locales
+_respaldo_local/

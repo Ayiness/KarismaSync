@@ -2,7 +2,7 @@
 
 ## Context
 
-La aplicación ya crea eventos de ensayo con fecha, quórum, convocados e instrumentos (HU-01). La fuente de verdad para esta historia es `08-modelo-dominio.md` (clase `Cancion` y asociación `incluye`), `04-historias-usuario.md` (HU-07), `07-criterios-aceptacion.md` (HU-07) y `09-casos-de-uso.md` (CU-04). El repertorio es un dato opcional del evento y no modifica el ciclo de vida de EST-01.
+La aplicación ya crea eventos de ensayo con fecha, quórum, convocados e instrumentos (HU-01). La fuente de verdad para esta historia es `08-modelo-dominio.md` (clase `Cancion` y asociación `incluye`), `04-historias-usuario.md` (HU-07), `07-criterios-aceptacion.md` (HU-07) y `09-casos-uso.md` (CU-04). El repertorio es un dato opcional del evento y no modifica el ciclo de vida de EST-01.
 
 ## Goals / Non-Goals
 

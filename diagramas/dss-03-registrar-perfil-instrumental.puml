@@ -1,0 +1,43 @@
+@startuml
+mainframe DSS-03 - Registrar el perfil instrumental (CU-03 / HU-06)
+autonumber
+hide footbox
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 14
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 58
+skinparam BoxPadding 4
+skinparam NotePadding 4
+skinparam sequenceMessageSpacing 6
+skinparam ArrowColor #28536B
+skinparam participantBorderColor #28536B
+skinparam participantBackgroundColor #F0F6FA
+skinparam noteBackgroundColor #FFF8DE
+skinparam noteBorderColor #BBA46B
+
+actor "Integrante de\nla banda" as Integrante
+participant "KarismaSync" as Sistema
+
+Integrante -> Sistema: abrirPerfil()
+Sistema --> Integrante: formularioPerfil(catalogoInstrumentos, instrumentoPrincipalActual)
+
+Integrante -> Sistema: guardarPerfil(instrumentoPrincipal)
+
+alt indica un instrumento del catálogo
+  Sistema --> Integrante: perfilRegistrado(instrumentoPrincipal)
+  note over Sistema
+    Si ya tenía uno, se reemplaza
+    (cambiar instrumento principal).
+    Queda visible para el Líder
+    al crear un evento. RF-12.
+  end note
+else no indica instrumento principal
+  Sistema --> Integrante: error("debe indicar un instrumento principal")
+  note over Sistema
+    El perfil no se registra.
+  end note
+end
+
+@enduml

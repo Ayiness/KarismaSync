@@ -1,7 +1,7 @@
 # Diagramas de secuencia de sistema
  
 ## DSS-01 — [Crear convocatoria]
-- Caso de uso: [CU-01](./09-casos-de-uso.md)
+- Caso de uso: [CU-01](./09-casos-uso.md)
 - Historia: [HU-01](./04-historias-usuario.md#hu-01)
 - Sistemas externos que participan: [Sistema de notificaciones]
  
@@ -12,7 +12,7 @@ Mensajes representados: `crearEvento(fecha, quorum, convocados[integrante, instr
  
 Variantes representadas: creación autorizada o rechazada; rechazo cuando no hay músicos convocados o un convocado queda sin instrumentos.
 ## DSS-02 — [Verificar viabilidad]
-- Caso de uso: [CU-04](./09-casos-de-uso.md)
+- Caso de uso: [CU-04](./09-casos-uso.md)
 - Historia: [HU-04](./04-historias-usuario.md#hu-04)
 - Sistemas externos que participan: [Sistema de notificaciones]
  
@@ -25,7 +25,7 @@ Mensajes representados: `registrarAsistencia(asiste)`; la evaluación usa los in
 Variantes representadas: confirmación del ensayo o alerta por quórum o roles pendientes.
 
 ## DSS-03 — Registrar el perfil instrumental
-- Caso de uso: [CU-03](./09-casos-de-uso.md#cu-03-gestionar-perfil-instrumental-del-integrante)
+- Caso de uso: [CU-03](./09-casos-uso.md#cu-03-gestionar-perfil-instrumental-del-integrante)
 - Historia: [HU-06](./04-historias-usuario.md#hu-06-registrar-el-perfil-instrumental-del-integrante)
 - Sistemas externos que participan: Ninguno
 
@@ -35,7 +35,7 @@ Archivo fuente: [`./diagramas/dss-03-registrar-perfil-instrumental.puml`](./diag
 Variantes representadas: el integrante registra o cambia su instrumento principal; si no indica ninguno, el sistema no guarda y responde con error.
 
 ## DSS-04 — Seleccionar el repertorio opcional
-- Caso de uso: [CU-04](./09-casos-de-uso.md#cu-04-incluir-repertorio-opcional-al-crear-un-evento)
+- Caso de uso: [CU-04](./09-casos-uso.md#cu-04-incluir-repertorio-opcional-al-crear-un-evento)
 - Historia: [HU-07](./04-historias-usuario.md#hu-07-incluir-un-repertorio-opcional-de-canciones-en-el-evento)
 - Sistemas externos que participan: Ninguno
 
