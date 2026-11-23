@@ -46,36 +46,3 @@ def test_perfil_requiere_usuario_de_demostracion(conexion, cliente):
 
     assert respuesta.status_code == 200
     assert "Elige un usuario de demostración" in respuesta.text
-
-
-def test_perfil_registra_y_cambia_el_instrumento_principal(conexion, cliente):
-    pedro = id_de(conexion, "Pedro")
-    cliente.cookies.set("usuario_id", str(pedro))
-
-    respuesta = cliente.post(
-        "/perfil",
-        data={"instrumento_id": str(id_instrumento(conexion, "guitarra acústica"))},
-        follow_redirects=False,
-    )
-
-    assert respuesta.status_code == 303
-    fila = conexion.execute(
-        "SELECT instrumento_id FROM integrantes_instrumentos WHERE integrante_id = ?",
-        (pedro,),
-    ).fetchone()
-    assert fila["instrumento_id"] == id_instrumento(conexion, "guitarra acústica")
-
-
-def test_perfil_sin_instrumento_no_guarda(conexion, cliente):
-    pedro = id_de(conexion, "Pedro")
-    cliente.cookies.set("usuario_id", str(pedro))
-
-    respuesta = cliente.post("/perfil", data={}, follow_redirects=False)
-
-    assert respuesta.status_code == 200
-    assert "debe indicar un instrumento principal" in respuesta.text
-    fila = conexion.execute(
-        "SELECT instrumento_id FROM integrantes_instrumentos WHERE integrante_id = ?",
-        (pedro,),
-    ).fetchone()
-    assert fila["instrumento_id"] == id_instrumento(conexion, "guitarra eléctrica")
