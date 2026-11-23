@@ -2,7 +2,41 @@
 
 ## MODIFIED Requirements
 
+### Requirement: Exigir el quórum del ensayo
+
+El sistema DEBE rechazar la creación de un evento cuando no se indica el quórum o cuando el quórum supera la cantidad de músicos convocados, sin registrar el evento ni enviar convocatorias, e informar al líder el motivo.
+
+#### Scenario: El líder intenta crear un evento de ensayo sin quórum
+
+- **GIVEN** Marta tiene el rol de Líder de Alabanza y Pedro y Ana están convocados con sus instrumentos principales
+- **WHEN** Marta intenta crear un evento de ensayo para el sábado 14 de noviembre sin indicar el quórum
+- **THEN** el evento de ensayo no queda registrado
+- **AND** ningún integrante recibe una convocatoria
+- **AND** Marta es informada de que debe indicar el quórum requerido
+
+#### Scenario: El líder intenta crear un evento con un quórum mayor que los músicos convocados
+
+- **GIVEN** Marta tiene el rol de Líder de Alabanza y Marta, Pedro, Ana y Luis están convocados con sus instrumentos principales
+- **WHEN** Marta intenta crear un evento de ensayo para el sábado 14 de noviembre con un quórum de 5 integrantes
+- **THEN** el evento de ensayo no queda registrado
+- **AND** ningún integrante recibe una convocatoria
+- **AND** Marta es informada de que el quórum no puede superar la cantidad de músicos convocados
+
+## REMOVED Requirements
+
 ### Requirement: Registrar un evento de ensayo vigente y convocar a la banda
+
+**Reason**: Desde la petición del cliente, el líder elige qué músicos convocar y con qué instrumentos; ya no se convoca siempre a toda la banda ni se indican roles a mano.
+**Migration**: Se reemplaza por «Registrar un evento de ensayo vigente y convocar a los músicos seleccionados», con los escenarios del Gherkin vigente de HU-01.
+
+### Requirement: Exigir al menos un rol requerido
+
+**Reason**: Desde la petición del cliente, el líder ya no indica roles a mano: los roles resultan de los instrumentos asignados a los convocados.
+**Migration**: La regla se reemplaza por «Exigir músicos convocados con instrumentos».
+
+## ADDED Requirements
+
+### Requirement: Registrar un evento de ensayo vigente y convocar a los músicos seleccionados
 
 El sistema DEBE mostrar a todos los integrantes de la banda con su instrumento principal preseleccionado, permitir que el Líder de Alabanza elija qué músicos convocar y con qué instrumentos, registrar el evento como Vigente con la fecha, el quórum y los roles que resultan de esos instrumentos, y enviar la convocatoria solo a los músicos convocados.
 
@@ -35,34 +69,6 @@ El sistema DEBE mostrar a todos los integrantes de la banda con su instrumento p
 - **THEN** guitarra acústica y voz quedan registrados como los instrumentos de Pedro en ese evento
 - **AND** guitarra eléctrica no queda requerida por Pedro en ese evento
 
-### Requirement: Exigir el quórum del ensayo
-
-El sistema DEBE rechazar la creación de un evento cuando no se indica el quórum o cuando el quórum supera la cantidad de músicos convocados, sin registrar el evento ni enviar convocatorias, e informar al líder el motivo.
-
-#### Scenario: El líder intenta crear un evento de ensayo sin quórum
-
-- **GIVEN** Marta tiene el rol de Líder de Alabanza y Pedro y Ana están convocados con sus instrumentos principales
-- **WHEN** Marta intenta crear un evento de ensayo para el sábado 14 de noviembre sin indicar el quórum
-- **THEN** el evento de ensayo no queda registrado
-- **AND** ningún integrante recibe una convocatoria
-- **AND** Marta es informada de que debe indicar el quórum requerido
-
-#### Scenario: El líder intenta crear un evento con un quórum mayor que los músicos convocados
-
-- **GIVEN** Marta tiene el rol de Líder de Alabanza y Marta, Pedro, Ana y Luis están convocados con sus instrumentos principales
-- **WHEN** Marta intenta crear un evento de ensayo para el sábado 14 de noviembre con un quórum de 5 integrantes
-- **THEN** el evento de ensayo no queda registrado
-- **AND** ningún integrante recibe una convocatoria
-- **AND** Marta es informada de que el quórum no puede superar la cantidad de músicos convocados
-
-## REMOVED Requirements
-
-### Requirement: Exigir al menos un rol requerido
-
-**Reason**: Desde la petición del cliente, el líder ya no indica roles a mano: los roles resultan de los instrumentos asignados a los convocados.
-**Migration**: La regla se reemplaza por «Exigir músicos convocados con instrumentos».
-
-## ADDED Requirements
 
 ### Requirement: Exigir músicos convocados con instrumentos
 
