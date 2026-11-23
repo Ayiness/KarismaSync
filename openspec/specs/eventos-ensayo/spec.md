@@ -1,7 +1,7 @@
 # eventos-ensayo Specification
 
 ## Purpose
-Gestionar la creación y convocatoria de los eventos de ensayo de la banda, asegurando que solo el Líder de Alabanza los cree con fecha, quórum y roles requeridos, y que todos los integrantes reciban el aviso.
+Gestionar la creación y convocatoria de los eventos de ensayo de la banda, asegurando que solo el Líder de Alabanza los cree con fecha, un quórum indicado que no supere a los convocados y los músicos convocados con sus instrumentos, y que solo los convocados reciban el aviso.
 
 ## Requirements
 

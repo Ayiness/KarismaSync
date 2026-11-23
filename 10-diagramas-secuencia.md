@@ -8,9 +8,10 @@
 ![DSS-01](./diagramas/dss-01-crear-convocatoria.png)
 Archivo fuente: [`./diagramas/dss-01.puml`](./diagramas/dss-01-crear-convocatoria.puml)
  
-Mensajes representados: `crearEvento(fecha, quorum, convocados[integrante, instrumentos])`; `enviarConvocatoria(convocados, evento, enlace)`.
+Mensajes representados: `crearEvento(fecha, quorum, convocados[integrante, instrumentos])`; `enviarConvocatoria(convocados, evento, enlace)`; `creacionRechazada(motivo)`.
+
+Variantes representadas: creación autorizada con datos válidos; rechazo por falta de permiso (`sinPermiso`); rechazo por datos inválidos (`datosInvalidos`: sin convocados, convocado sin instrumentos, sin quórum o quórum mayor que los convocados).
  
-Variantes representadas: creación autorizada o rechazada; rechazo cuando no hay músicos convocados o un convocado queda sin instrumentos.
 ## DSS-02 — [Verificar viabilidad]
 - Caso de uso: [CU-04](./09-casos-uso.md)
 - Historia: [HU-04](./04-historias-usuario.md#hu-04)

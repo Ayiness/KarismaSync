@@ -10,7 +10,7 @@ context: |
   Artefactos del curso (fuente de verdad, no modificar sin permiso del estudiante):
   historias en 04-historias-usuario.md, Gherkin en 07-criterios-aceptacion.md,
   modelo de dominio en 08-modelo-dominio.md y diagramas/modelo-dominio.drawio,
-  casos de uso en 09-casos-de-uso.md, diagramas de secuencia en 10-diagramas-secuencia.md,
+  casos de uso en 09-casos-uso.md, diagramas de secuencia en 10-diagramas-secuencia.md,
   diagramas de estado en 11-diagramas-estado.md, requisitos en 03-requisitos.md.
   Fichas confirmadas de cada historia en .cin324/historias/HU-xx.md: son el insumo de cada propuesta.
   Alcance: una historia por cambio. No se implementan requisitos no funcionales ni autenticación real

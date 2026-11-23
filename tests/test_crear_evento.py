@@ -87,26 +87,47 @@ def test_quorum_invalido_no_crea(conexion):
     assert _conteo_eventos(conexion) == 0
 
 
-def test_quorum_vacio_usa_la_cantidad_de_convocados(conexion):
+def test_quorum_vacio_no_crea(conexion):
     marta = id_de(conexion, "Marta")
 
-    resultado = crear_evento(
-        conexion,
-        marta,
-        DatosNuevoEvento(
-            fecha="2026-11-14",
-            quorum="",
-            convocados=[
-                _convocado(conexion, "Pedro", ["guitarra eléctrica"]),
-                _convocado(conexion, "Ana", ["teclado"]),
-            ],
-        ),
-    )
+    with pytest.raises(ErrorCreacionEvento, match="debe indicar el quórum requerido"):
+        crear_evento(
+            conexion,
+            marta,
+            DatosNuevoEvento(
+                fecha="2026-11-14",
+                quorum="",
+                convocados=[
+                    _convocado(conexion, "Pedro", ["guitarra eléctrica"]),
+                    _convocado(conexion, "Ana", ["teclado"]),
+                ],
+            ),
+        )
 
-    evento = conexion.execute(
-        "SELECT * FROM eventos_ensayo WHERE id = ?", (resultado.evento_id,)
-    ).fetchone()
-    assert evento["quorum"] == 2
+    assert _conteo_eventos(conexion) == 0
+
+
+def test_quorum_mayor_que_convocados_no_crea(conexion):
+    marta = id_de(conexion, "Marta")
+
+    with pytest.raises(
+        ErrorCreacionEvento,
+        match="el quórum no puede superar la cantidad de músicos convocados",
+    ):
+        crear_evento(
+            conexion,
+            marta,
+            DatosNuevoEvento(
+                fecha="2026-11-14",
+                quorum="3",
+                convocados=[
+                    _convocado(conexion, "Pedro", ["guitarra eléctrica"]),
+                    _convocado(conexion, "Ana", ["teclado"]),
+                ],
+            ),
+        )
+
+    assert _conteo_eventos(conexion) == 0
 
 
 def test_fecha_invalida_no_crea(conexion):
@@ -118,7 +139,7 @@ def test_fecha_invalida_no_crea(conexion):
             marta,
             DatosNuevoEvento(
                 fecha="no-es-fecha",
-                quorum="4",
+                quorum="1",
                 convocados=[_convocado(conexion, "Pedro", ["guitarra eléctrica"])],
             ),
         )

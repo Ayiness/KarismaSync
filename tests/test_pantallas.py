@@ -39,6 +39,8 @@ def test_formulario_muestra_los_musicos_con_su_instrumento_principal(conexion, c
     ]:
         assert instrumento in respuesta.text
     assert "Instrumento principal" in respuesta.text
+    # El campo de quórum aparece vacío para que el líder lo indique
+    assert 'name="quorum" min="1" value=""' in respuesta.text
 
 
 def test_perfil_requiere_usuario_de_demostracion(conexion, cliente):

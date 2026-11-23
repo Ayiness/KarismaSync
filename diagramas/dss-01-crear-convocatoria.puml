@@ -28,19 +28,19 @@ participant "KarismaSync" as Sistema
 participant "Servicio de\nnotificaciones" as Notificaciones <<sistema externo>>
 actor "Integrante de\nla banda" as Integrante
 
-Lider -> Sistema: crearEvento(fecha, rolesRequeridos)
+Lider -> Sistema: crearEvento(fecha, quorum, convocados[integrante, instrumentos])
 
-alt solicitante con permiso de creación
+alt solicitante con permiso de creación y datos válidos
   note over Sistema
     Registra y publica el evento.
     RF-01 y RF-02.
   end note
 
-  Sistema -> Notificaciones: enviarConvocatoria(destinatarios, evento, enlace)
+  Sistema -> Notificaciones: enviarConvocatoria(convocados, evento, enlace)
   Notificaciones --> Sistema: solicitudAceptada
   Sistema --> Lider: eventoCreado(evento, envioSolicitado)
 
-  loop cada destinatario; entrega exitosa
+  loop cada convocado; entrega exitosa
     Notificaciones ->> Integrante: convocatoria(evento, enlace)
   end
 
@@ -49,6 +49,15 @@ else solicitante sin permiso de creación
   note over Sistema
     Sin creación ni envíos.
     RNF-01.
+  end note
+
+else datos inválidos
+  Sistema --> Lider: creacionRechazada(motivo: datosInvalidos)
+  note over Sistema
+    Sin músicos convocados, convocado
+    sin instrumentos, sin quórum o
+    quórum mayor que los convocados.
+    Sin creación ni envíos.
   end note
 end
 

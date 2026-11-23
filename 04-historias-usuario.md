@@ -9,7 +9,7 @@ Como Líder de Alabanza, quiero crear un evento de ensayo seleccionando qué mú
 - CA1: El líder debe poder ingresar la fecha del ensayo.
 - CA2: El sistema debe mostrar a todos los integrantes de la banda con su instrumento principal preseleccionado, y el líder debe poder quitar o volver a agregar músicos a la convocatoria.
 - CA3: El líder debe poder asignar uno o más instrumentos a cada músico convocado, pudiendo reemplazar su instrumento principal por otro.
-- CA4: El líder debe indicar el quórum requerido, con la cantidad de músicos convocados como valor por defecto.
+- CA4: El líder debe indicar el quórum requerido: un número de al menos 1 que no supere la cantidad de músicos convocados. El formulario no propone un valor y el evento no se crea sin quórum.
 - CA5: Al crear el evento, el sistema debe registrarlo con los roles que resultan de los instrumentos asignados a los convocados.
 - CA6: Al crear el evento, el sistema debe notificar solo a los músicos convocados.
 - CA7: El evento debe quedar disponible para que los músicos convocados accedan a la convocatoria.

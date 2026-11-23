@@ -19,7 +19,7 @@
     </label>
 
     <label class="campo">Quórum requerido (integrantes)
-      <input type="number" name="quorum" min="1" value="{{ valores.get('quorum') or integrantes|length }}" required>
+      <input type="number" name="quorum" min="1" value="{{ valores.get('quorum', '') }}" required>
     </label>
 
     <fieldset>

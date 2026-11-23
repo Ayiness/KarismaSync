@@ -33,7 +33,7 @@ Los casos están dentro de KarismaSync y los actores fuera. No se requiere `incl
 
 **Flujo principal:** el líder envía la fecha, el quórum, los músicos convocados y el o los instrumentos asignados a cada uno. KarismaSync comprueba sus permisos, registra el evento con los roles que resultan de esos instrumentos y lo deja disponible. Solicita al servicio externo enviar la convocatoria con su enlace solo a los músicos convocados, recibe la aceptación del envío e informa al líder. El servicio entrega las notificaciones a los convocados.
 
-**Alternativas:** si el solicitante carece del permiso de creación, KarismaSync rechaza la solicitud sin crear el evento ni enviar notificaciones (RNF-01). Si no hay ningún músico convocado o algún convocado queda sin instrumentos, rechaza la solicitud e informa al líder.
+**Alternativas:** si el solicitante carece del permiso de creación, KarismaSync rechaza la solicitud sin crear el evento ni enviar notificaciones (RNF-01). Si no hay ningún músico convocado, algún convocado queda sin instrumentos, no se indica el quórum o el quórum supera la cantidad de músicos convocados, rechaza la solicitud e informa al líder.
 
 ### DSS-01: Crear convocatoria
 
