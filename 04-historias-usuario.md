@@ -100,3 +100,15 @@ Como Líder de Alabanza, quiero incluir opcionalmente canciones en un evento, pa
 - CA5: Las canciones que no fueron seleccionadas no deben quedar asociadas al evento.
 - CA6: El detalle del evento debe mostrar el repertorio registrado o indicar que el evento no incluye canciones.
 - CA7: El catálogo de canciones debe estar disponible para el líder al crear el evento, con al menos 20 canciones de ejemplo.
+
+## HU-08: Comfirmar evento masivo
+
+Como Representante de musicos, quiero poder confirmar si un evento sera llevado a cabo antes de que el sistema publique publicamente, y asi poder aceptarlo o rechazarlo con su debida justificacion 
+
+**Criterios de aceptación:**
+-CA1: El evento debe ser enviado primero al representante de musicos sin publicarlo
+-CA2: El representante de musicos debe poder aceptar el evento o rechazarlo 
+
+## HU-09: Hacer evento masivo 
+
+pendiente....

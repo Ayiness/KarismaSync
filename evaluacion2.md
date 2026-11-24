@@ -10,7 +10,7 @@ CAMBIOS
 
 IMPLEMENTACIONES NUEVAS
 
-1-Una nueva historia de usuario con sus criterios de aceptacion
+1-Unas nuevas historia de usuario con sus criterios de aceptacion
 
 COMO LO VOMOS A HACER
 
@@ -20,7 +20,7 @@ CAMBIO 2 - agregando la participacion del representante de musico
 
 CAMBIO 3 - cambios que sean necesarios involucrando al representante de musico 
 
-IMPLEMENTACION 1 - al involucrar un nuevo usuario llamado representante de musicos
+IMPLEMENTACION 1 - al involucrar un nuevo usuario llamado representante de musicos y evento masivo
 
 PENDIENTE A CONFIRMACION
 
