@@ -144,6 +144,3 @@ KarismaSync aparece como una única caja negra. El marco exterior contiene el es
 
 Las fuentes PlantUML y los PNG están en `diagramas/`. Se verificó su sintaxis y se revisó su legibilidad. La integración propuesta y las reglas pendientes requieren validación del equipo.
 
-Hecho en clases 24/11
-<img width="4080" height="1888" alt="Diagrama de secuencia" src="https://github.com/user-attachments/assets/8e65523f-3a48-4d1d-93b6-c51ec6e56338" />
-
