@@ -52,4 +52,5 @@ El atributo `estado` de EventoDeEnsayo toma los valores de la enumeración Estad
 - **La agenda de la banda no se modeló como clase:** bloquear la agenda (RF-08) corresponde a que el EventoDeEnsayo pase al estado Confirmado. La regla exacta de qué agenda se bloquea sigue pendiente de validación, como se indica en los casos de uso.
 
 Hecho clases 24/11
-![Uploading modelo de dominio.jpg…]()
+<img width="4080" height="1888" alt="modelo de dominio" src="https://github.com/user-attachments/assets/fc63b2fc-fb0f-4c09-a29b-e949f1beb7d4" />
+
