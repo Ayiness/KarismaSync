@@ -50,3 +50,7 @@ El atributo `estado` de EventoDeEnsayo toma los valores de la enumeración Estad
 - **El servicio de notificaciones no es una clase del dominio:** es un sistema externo y aparece como actor en los [casos de uso](./09-casos-uso.md) y como participante en los [diagramas de secuencia](./10-diagramas-secuencia.md).
 - **«En espera» no es un estado propio del evento:** según HU-05, cuando el líder decide esperar, el ensayo «sigue vigente y sin confirmar», por lo que se representa como EventoDeEnsayo en estado Vigente con una Alerta generada. El ciclo de vida detallado de EstadoEvento se describe en los [diagramas de estado](./11-diagramas-estado.md).
 - **La agenda de la banda no se modeló como clase:** bloquear la agenda (RF-08) corresponde a que el EventoDeEnsayo pase al estado Confirmado. La regla exacta de qué agenda se bloquea sigue pendiente de validación, como se indica en los casos de uso.
+
+Hecho clases 24/11
+<img width="4080" height="1888" alt="modelo de dominio" src="https://github.com/user-attachments/assets/fc63b2fc-fb0f-4c09-a29b-e949f1beb7d4" />
+

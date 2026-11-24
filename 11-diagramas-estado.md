@@ -63,3 +63,5 @@ Este diagrama muestra cómo queda registrada la respuesta de un músico convocad
 | Sin respuesta | Fin de la respuesta | — | — | Final |
 
 La asistencia **Confirmada** de un integrante no significa que todo el ensayo esté confirmado. Para eso, KarismaSync también revisa el quórum y los roles necesarios (HU-04). El integrante no puede modificar los instrumentos de su convocatoria. El evento `eventoCerrado` ocurre cuando el ensayo se cancela o termina; esa funcionalidad todavía no está implementada.
+clase 24/11
+<img width="4080" height="1888" alt="diagrama de estado" src="https://github.com/user-attachments/assets/ff09ca30-e063-4b18-86eb-e417a0ab8aec" />
