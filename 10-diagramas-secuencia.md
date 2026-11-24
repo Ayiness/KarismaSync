@@ -70,3 +70,7 @@ Archivo fuente: [`./diagramas/dss-06-revisar-respuestas.puml`](./diagramas/dss-0
 Mensajes representados: `verEvento(evento)` y `estadoConvocados(convocados[integrante, instrumentos, estadoAsistencia, motivo])`.
 
 Variantes representadas: el Líder de Alabanza ve las respuestas con el motivo de cada inasistencia; un músico convocado ve las respuestas sin los motivos de los demás (`estadoConvocados(convocados[integrante, instrumentos, estadoAsistencia])`); un integrante no convocado ve el evento sin las respuestas (`detalleEvento(evento)`).
+
+Hecho en clase 24/11
+
+<img width="4080" height="1888" alt="Diagrama de secuencia" src="https://github.com/user-attachments/assets/f8fe473d-ffce-493a-9385-e421c004e782" />
