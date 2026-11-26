@@ -1,6 +1,6 @@
 # Casos de uso y secuencias de sistema — KarismaSync
 
-Se representan cinco historias del proyecto mediante un diagrama de casos de uso y seis secuencias de sistema con alternativas.
+Se representan siete historias del proyecto mediante un diagrama de casos de uso y siete secuencias de sistema con alternativas. En la Evaluación 2 se agregaron el evento masivo (HU-09, dentro de CU-01) y el Representante de músicos (HU-08, CU-07).
 
 ## 1. Historias y trazabilidad
 
@@ -12,6 +12,8 @@ Se representan cinco historias del proyecto mediante un diagrama de casos de uso
 | [HU-07: Incluir un repertorio opcional de canciones en el evento](./04-historias-usuario.md#hu-07-incluir-un-repertorio-opcional-de-canciones-en-el-evento) | [CU-04: Incluir repertorio opcional al crear un evento](#cu-04-incluir-repertorio-opcional-al-crear-un-evento) | [DSS-04](#dss-04-seleccionar-el-repertorio-opcional) | RF-13 |
 | [HU-03: Confirmar asistencia al ensayo](./04-historias-usuario.md#hu-03-confirmar-asistencia-al-ensayo) | [CU-05: Responder convocatoria](#cu-05-responder-convocatoria) | [DSS-05](#dss-05-responder-convocatoria) | RF-04, RF-05, RF-06, RF-14 |
 | [HU-03: Confirmar asistencia al ensayo](./04-historias-usuario.md#hu-03-confirmar-asistencia-al-ensayo) | [CU-06: Revisar respuestas de los convocados](#cu-06-revisar-respuestas-de-los-convocados) | [DSS-06](#dss-06-revisar-respuestas-de-los-convocados) | RF-14 |
+| [HU-09: Crear un evento masivo](./04-historias-usuario.md#hu-09-crear-un-evento-masivo) | [CU-01: Crear convocatoria de ensayo](#cu-01-crear-convocatoria-de-ensayo) (alternativa evento masivo) | [DSS-01](#dss-01-crear-convocatoria) | RF-15, RNF-01 |
+| [HU-08: Confirmar la convocatoria de un evento masivo](./04-historias-usuario.md#hu-08-confirmar-la-convocatoria-de-un-evento-masivo) | [CU-07: Revisar convocatoria de evento masivo](#cu-07-revisar-convocatoria-de-evento-masivo) | [DSS-07](#dss-07-revisar-convocatoria-de-evento-masivo) | RF-16, RNF-01, RNF-04 |
 
 Las historias HU-01 y HU-04 requieren notificaciones (convocar a la banda y comunicar la confirmación o las condiciones pendientes); HU-06 y HU-07 no las requieren. CU-04 describe la selección opcional del repertorio dentro de la creación del evento.
 
@@ -24,19 +26,22 @@ Fuente editable: [casos-de-uso.puml](./diagramas/casos-de-uso.puml).
 - **Líder de Alabanza:** crea la convocatoria, selecciona opcionalmente el repertorio de canciones y recibe alertas.
 - **Líder de Alabanza e integrantes convocados:** revisan las respuestas de los convocados; el líder ve además el motivo de cada inasistencia.
 - **Integrante de la banda:** responde la convocatoria (confirma o indica que no asistirá, con motivo), registra su perfil instrumental y recibe notificaciones; no crea convocatorias.
+- **Representante de músicos:** revisa solo las convocatorias de eventos masivos de su banda y las aprueba o rechaza con justificación. No tiene permisos de líder: no crea, no reagenda ni asigna instrumentos. Es un integrante con ese rol, igual que el líder; se dibuja como actor propio porque el diagrama muestra roles, no personas.
 - **Servicio de notificaciones:** sistema externo que distribuye los mensajes.
 
 Los casos están dentro de KarismaSync y los actores fuera. No se requiere `include` ni `extend`: son objetivos que ocurren en momentos distintos.
 
 ## CU-01: Crear convocatoria de ensayo
 
-**Origen:** HU-01, CA1–CA8. **Actor principal:** Líder de Alabanza.
+**Origen:** HU-01, CA1–CA8, y HU-09, CA1–CA7. **Actor principal:** Líder de Alabanza.
 
 **Condición inicial:** solicitante identificado, banda conocida, músicos con su instrumento principal registrado y datos válidos para el escenario.
 
-**Flujo principal:** el líder envía la fecha, el quórum, los músicos convocados y el o los instrumentos asignados a cada uno. KarismaSync comprueba sus permisos, registra el evento con los roles que resultan de esos instrumentos y lo deja disponible. Solicita al servicio externo enviar la convocatoria con su enlace solo a los músicos convocados, recibe la aceptación del envío e informa al líder. El servicio entrega las notificaciones a los convocados.
+**Flujo principal:** el líder elige el tipo de evento (Ensayo por defecto) y envía la fecha, el quórum, los músicos convocados y el o los instrumentos asignados a cada uno. KarismaSync comprueba sus permisos, registra el evento con los roles que resultan de esos instrumentos y lo deja disponible. Solicita al servicio externo enviar la convocatoria con su enlace solo a los músicos convocados, recibe la aceptación del envío e informa al líder. El servicio entrega las notificaciones a los convocados.
 
-**Alternativas:** si el solicitante carece del permiso de creación, KarismaSync rechaza la solicitud sin crear el evento ni enviar notificaciones (RNF-01). Si no hay ningún músico convocado, algún convocado queda sin instrumentos, no se indica el quórum o el quórum supera la cantidad de músicos convocados, rechaza la solicitud e informa al líder.
+**Alternativas:** si el solicitante carece del permiso de creación, KarismaSync rechaza la solicitud sin crear el evento ni enviar notificaciones (RNF-01). Si no hay ningún músico convocado, algún convocado queda sin instrumentos, no se indica el quórum o el quórum supera la cantidad de músicos convocados, rechaza la solicitud e informa al líder. Un Representante de músicos que intenta crear un evento recibe el mismo rechazo por falta de permiso.
+
+**Alternativa evento masivo (HU-09):** si el tipo es Masivo, KarismaSync registra el evento Pendiente de aprobación, **no** lo publica ni notifica a los convocados, solicita la revisión al Representante de músicos de la banda e informa al líder que el evento está en revisión. El flujo continúa en CU-07. Si la banda no tiene representante, rechaza la creación.
 
 ### DSS-01: Crear convocatoria
 
@@ -131,6 +136,26 @@ Fuente editable: [dss-05-responder-convocatoria.puml](./diagramas/dss-05-respond
 ![DSS-06: revisar las respuestas de los convocados](./diagramas/dss-06-revisar-respuestas.png)
 
 Fuente editable: [dss-06-revisar-respuestas.puml](./diagramas/dss-06-revisar-respuestas.puml).
+
+## CU-07: Revisar convocatoria de evento masivo
+
+**Origen:** HU-08, CA1–CA8. **Actor principal:** Representante de músicos. **Actor secundario:** Servicio de notificaciones.
+
+**Condición inicial:** el representante está identificado y su banda tiene al menos un evento masivo Pendiente de aprobación.
+
+**Flujo principal:** el representante abre las convocatorias por revisar; KarismaSync muestra solo los eventos masivos pendientes de su banda. Abre uno y ve la fecha, el quórum, los convocados con sus instrumentos y el repertorio. Aprueba la convocatoria. KarismaSync registra la revisión, deja el evento Vigente, emite las convocatorias (asistencia Pendiente) y solicita notificar a los convocados y al líder.
+
+**Alternativas:**
+- **Rechazar:** el representante rechaza indicando una justificación; KarismaSync registra la revisión, deja el evento Rechazado, no notifica a los convocados e informa la justificación al líder.
+- **Sin justificación:** si rechaza sin justificación, KarismaSync no registra la revisión e informa que debe indicarla.
+- **Evento no revisable:** si el evento no es masivo o ya fue revisado, KarismaSync rechaza la solicitud.
+- **Sin permiso:** si quien revisa no es el Representante de músicos de la banda (por ejemplo, el líder que creó el evento), KarismaSync rechaza la solicitud (RNF-01).
+
+### DSS-07: Revisar convocatoria de evento masivo
+
+![DSS-07: aprobar o rechazar la convocatoria de un evento masivo](./diagramas/dss-07-revisar-evento-masivo.png)
+
+Fuente editable: [dss-07-revisar-evento-masivo.puml](./diagramas/dss-07-revisar-evento-masivo.puml).
 
 ## 3. Lectura de las secuencias y supuestos
 

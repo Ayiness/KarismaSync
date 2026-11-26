@@ -1,5 +1,5 @@
 @startuml
-title Casos de uso de KarismaSync - HU-01, HU-03, HU-04, HU-06 y HU-07
+title Casos de uso de KarismaSync - HU-01, HU-03, HU-04, HU-06, HU-07, HU-08 y HU-09
 left to right direction
 skinparam backgroundColor white
 skinparam shadowing false
@@ -15,15 +15,17 @@ skinparam noteBorderColor #BBA46B
 
 actor "Líder de Alabanza" as Lider
 actor "Integrante de la banda" as Integrante
+actor "Representante\nde músicos" as Representante
 actor "Servicio de\nnotificaciones" as Notificaciones <<sistema externo>>
 
 rectangle "KarismaSync" {
-  usecase "CU-01\nCrear convocatoria\nde ensayo" as CU01
+  usecase "CU-01\nCrear convocatoria\n(ensayo o evento masivo)" as CU01
   usecase "CU-02\nVerificar viabilidad\ndel ensayo" as CU02
   usecase "CU-03\nGestionar perfil\ninstrumental" as CU03
   usecase "CU-04\nIncluir repertorio\nopcional" as CU04
   usecase "CU-05\nResponder\nconvocatoria" as CU05
   usecase "CU-06\nRevisar respuestas\nde los convocados" as CU06
+  usecase "CU-07\nRevisar convocatoria\nde evento masivo" as CU07 #E2F0D9
 }
 
 Lider -- CU01
@@ -40,11 +42,15 @@ Integrante -- CU05
 Lider -- CU06
 Integrante -- CU06
 
+Representante -- CU07
+CU07 -- Notificaciones
+
 legend bottom
-  CU-01 deriva de HU-01. CU-02 deriva de HU-04.
+  CU-01 deriva de HU-01 y HU-09 (tipo de evento). CU-02 deriva de HU-04.
   CU-03 deriva de HU-06. CU-04 deriva de HU-07.
-  CU-05 y CU-06 derivan de HU-03.
+  CU-05 y CU-06 derivan de HU-03. CU-07 deriva de HU-08.
   CU-02 se activa tras registrar una respuesta de asistencia.
+  El Representante de músicos solo revisa eventos masivos: no crea ni reagenda eventos.
   Servicio externo propuesto: proveedor y canal por validar.
 endlegend
 @enduml

@@ -1,0 +1,85 @@
+@startuml
+mainframe DSS-07 - Revisar convocatoria de evento masivo (CU-07 / HU-08)
+autonumber
+hide footbox
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 14
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 54
+skinparam BoxPadding 4
+skinparam NotePadding 4
+skinparam sequenceMessageSpacing 6
+skinparam ArrowColor #28536B
+skinparam participantBorderColor #28536B
+skinparam participantBackgroundColor #F0F6FA
+skinparam noteBackgroundColor #FFF8DE
+skinparam noteBorderColor #BBA46B
+
+<style>
+participant {
+  Padding 8
+}
+</style>
+
+actor "Representante\nde músicos" as Representante
+participant "KarismaSync" as Sistema
+participant "Servicio de\nnotificaciones" as Notificaciones <<sistema externo>>
+actor "Líder de\nAlabanza" as Lider
+actor "Integrante de\nla banda" as Integrante
+
+Representante -> Sistema: verEventosPorRevisar()
+Sistema --> Representante: eventosPendientes(eventos[tipo = Masivo, estado = Pendiente de aprobación])
+note over Sistema
+  Solo eventos masivos de su banda.
+  Los ensayos no pasan por revisión.
+end note
+
+Representante -> Sistema: verEvento(evento)
+Sistema --> Representante: detalleEvento(evento, convocados[integrante, instrumentos], repertorio)
+
+Representante -> Sistema: resolverRevision(evento, decision, justificacion)
+
+alt decision = Aprobada
+  note over Sistema
+    Registra la revisión. El evento pasa a
+    Vigente y emite las convocatorias
+    (asistencias Pendiente). RF-16.
+  end note
+  Sistema -> Notificaciones: enviarConvocatoria(convocados, evento, enlace)
+  Notificaciones --> Sistema: solicitudAceptada
+  Sistema -> Notificaciones: enviarResultadoRevision(lider, evento, Aprobada)
+  Notificaciones --> Sistema: solicitudAceptada
+  Sistema --> Representante: revisionRegistrada(evento, Aprobada)
+  Notificaciones ->> Lider: eventoAprobado(evento)
+  loop cada convocado; entrega exitosa
+    Notificaciones ->> Integrante: convocatoria(evento, enlace)
+  end
+
+else decision = Rechazada y justificación indicada
+  note over Sistema
+    Registra la revisión con su justificación.
+    El evento pasa a Rechazado.
+    No se notifica a los convocados.
+  end note
+  Sistema -> Notificaciones: enviarResultadoRevision(lider, evento, Rechazada, justificacion)
+  Notificaciones --> Sistema: solicitudAceptada
+  Sistema --> Representante: revisionRegistrada(evento, Rechazada)
+  Notificaciones ->> Lider: eventoRechazado(evento, justificacion)
+
+else rechazo sin justificación
+  Sistema --> Representante: revisionRechazada(motivo: sinJustificacion)
+
+else evento no masivo o ya revisado
+  Sistema --> Representante: revisionRechazada(motivo: eventoNoRevisable)
+
+else quien revisa no es el representante de la banda
+  Sistema --> Representante: revisionRechazada(motivo: sinPermiso)
+end
+note over Sistema
+  En los rechazos no se registra
+  la revisión. RNF-01.
+end note
+
+@enduml
