@@ -101,14 +101,35 @@ Como Líder de Alabanza, quiero incluir opcionalmente canciones en un evento, pa
 - CA6: El detalle del evento debe mostrar el repertorio registrado o indicar que el evento no incluye canciones.
 - CA7: El catálogo de canciones debe estar disponible para el líder al crear el evento, con al menos 20 canciones de ejemplo.
 
-## HU-08: Comfirmar evento masivo
+---
 
-Como Representante de musicos, quiero poder confirmar si un evento sera llevado a cabo antes de que el sistema publique publicamente, y asi poder aceptarlo o rechazarlo con su debida justificacion 
+## HU-08: Confirmar la convocatoria de un evento masivo
+Como Representante de músicos, quiero revisar las convocatorias de eventos masivos que crea el Líder de Alabanza y aprobarlas o rechazarlas con una justificación, para que ningún evento masivo se publique a los músicos sin mi confirmación.
+
+**Actividad TO-BE asociada:** Revisar y confirmar la convocatoria del evento masivo (actividad nueva, Evaluación 2)
 
 **Criterios de aceptación:**
--CA1: El evento debe ser enviado primero al representante de musicos sin publicarlo
--CA2: El representante de musicos debe poder aceptar el evento o rechazarlo 
+- CA1: El representante solo ve como pendientes las convocatorias de eventos masivos de su banda que están Pendientes de aprobación; los ensayos no pasan por su revisión.
+- CA2: Antes de decidir, el representante ve la fecha, el quórum, los convocados con sus instrumentos y el repertorio del evento.
+- CA3: Si aprueba, el evento queda Vigente, se emiten las convocatorias (asistencia Pendiente), se notifica a los convocados y se informa al líder.
+- CA4: Si rechaza, debe escribir una justificación (obligatoria, máximo 200 caracteres); el evento queda Rechazado, no se notifica a los convocados y el líder recibe la justificación.
+- CA5: Sin justificación el rechazo no se registra.
+- CA6: Un evento masivo ya aprobado o rechazado no puede volver a revisarse.
+- CA7: El representante no tiene permisos de líder: no puede crear ni reagendar eventos ni asignar instrumentos.
+- CA8: Solo el Representante de músicos de la banda puede aprobar o rechazar; el líder no puede aprobar su propio evento masivo.
 
-## HU-09: Hacer evento masivo 
+---
 
-pendiente....
+## HU-09: Crear un evento masivo
+Como Líder de Alabanza, quiero indicar que un evento es masivo al crearlo, para que el Representante de músicos confirme la convocatoria antes de que se publique a los convocados.
+
+**Actividad TO-BE asociada:** Crear evento convocando músicos y asignando sus instrumentos (incluye el tipo de evento)
+
+**Criterios de aceptación:**
+- CA1: Al crear un evento, el líder debe elegir el tipo: Ensayo (por defecto) o Evento masivo.
+- CA2: Un evento masivo se crea con los mismos datos y validaciones de HU-01 (fecha, quórum, convocados e instrumentos) y el repertorio opcional de HU-07.
+- CA3: Un evento masivo queda Pendiente de aprobación: no se publica ni se notifica a los convocados, que todavía no pueden responder.
+- CA4: Al crearlo, el sistema solicita la revisión al Representante de músicos de la banda.
+- CA5: Si la banda no tiene Representante de músicos, el evento masivo no se crea y se informa al líder.
+- CA6: Un evento de tipo Ensayo sigue el flujo de HU-01, sin revisión.
+- CA7: El líder ve el estado de su evento masivo: Pendiente de aprobación, Vigente o Rechazado con la justificación.

@@ -315,4 +315,98 @@ Característica: Incluir un repertorio opcional de canciones en el evento
     Entonces "Cuán grande es Él" queda en el repertorio del evento
     Y "Sublime gracia" no queda asociada al evento
 ```
+
+## HU-08 — Confirmar la convocatoria de un evento masivo
+
+Historia: Como Representante de músicos, quiero revisar las convocatorias de eventos masivos que crea el Líder de Alabanza y aprobarlas o rechazarlas con una justificación, para que ningún evento masivo se publique a los músicos sin mi confirmación.
+
+```gherkin
+Característica: Confirmar la convocatoria de un evento masivo
+
+  Escenario: El representante solo ve los eventos masivos pendientes de su banda
+    Dado que Andrés tiene el rol de Representante de músicos de la banda
+    Y que Marta creó un evento masivo para el sábado 12 de diciembre y un ensayo para el sábado 5 de diciembre
+    Cuando Andrés abre las convocatorias por revisar
+    Entonces ve el evento masivo del sábado 12 de diciembre como pendiente de aprobación
+    Y no ve el ensayo del sábado 5 de diciembre
+
+  Escenario: El representante aprueba un evento masivo
+    Dado que el evento masivo del sábado 12 de diciembre está pendiente de aprobación
+    Cuando Andrés, Representante de músicos, aprueba la convocatoria
+    Entonces el evento queda vigente
+    Y los músicos convocados reciben la convocatoria con su asistencia pendiente
+    Y Marta, Líder de Alabanza, recibe el aviso de que el evento fue aprobado
+
+  Escenario: El representante rechaza un evento masivo con justificación
+    Dado que el evento masivo del sábado 12 de diciembre está pendiente de aprobación
+    Cuando Andrés rechaza la convocatoria con la justificación "Coincide con el concierto regional"
+    Entonces el evento queda rechazado
+    Y los músicos convocados no reciben la convocatoria
+    Y Marta recibe el rechazo con la justificación "Coincide con el concierto regional"
+
+  Escenario: El representante intenta rechazar sin justificación
+    Dado que el evento masivo del sábado 12 de diciembre está pendiente de aprobación
+    Cuando Andrés rechaza la convocatoria sin escribir una justificación
+    Entonces el sistema no registra el rechazo e informa que debe indicar la justificación
+    Y el evento sigue pendiente de aprobación
+
+  Escenario: El representante intenta revisar un evento ya aprobado
+    Dado que el evento masivo del sábado 12 de diciembre ya fue aprobado
+    Cuando Andrés intenta rechazarlo
+    Entonces el sistema informa que el evento ya fue revisado
+    Y el evento sigue vigente
+
+  Escenario: El representante intenta crear un evento
+    Dado que Andrés tiene el rol de Representante de músicos y no es Líder de Alabanza
+    Cuando Andrés intenta crear un evento
+    Entonces el sistema rechaza la solicitud por falta de permisos
+    Y no se crea el evento
+
+  Escenario: El líder intenta aprobar su propio evento masivo
+    Dado que Marta, Líder de Alabanza, creó el evento masivo del sábado 12 de diciembre
+    Cuando Marta intenta aprobar la convocatoria
+    Entonces el sistema rechaza la solicitud por falta de permisos
+    Y el evento sigue pendiente de aprobación
+```
+
+## HU-09 — Crear un evento masivo
+
+Historia: Como Líder de Alabanza, quiero indicar que un evento es masivo al crearlo, para que el Representante de músicos confirme la convocatoria antes de que se publique a los convocados.
+
+```gherkin
+Característica: Crear un evento masivo
+
+  Escenario: El formulario propone el tipo Ensayo por defecto
+    Dado que Marta tiene el rol de Líder de Alabanza
+    Cuando Marta abre el formulario de creación de un evento
+    Entonces el tipo de evento aparece seleccionado como Ensayo
+    Y Marta puede cambiarlo a Evento masivo
+
+  Escenario: El líder crea un evento masivo que queda pendiente de aprobación
+    Dado que Marta tiene el rol de Líder de Alabanza
+    Y que Andrés es el Representante de músicos de la banda
+    Cuando Marta crea un evento masivo para el sábado 12 de diciembre con un quórum de 6 y 6 músicos convocados con sus instrumentos
+    Entonces el evento queda pendiente de aprobación
+    Y los músicos convocados no reciben la convocatoria
+    Y Andrés recibe la solicitud de revisión del evento
+
+  Escenario: El líder crea un ensayo y no pasa por revisión
+    Dado que Marta tiene el rol de Líder de Alabanza
+    Cuando Marta crea un evento de tipo Ensayo para el sábado 5 de diciembre con datos válidos
+    Entonces el evento queda vigente
+    Y los músicos convocados reciben la convocatoria
+
+  Escenario: El líder intenta crear un evento masivo en una banda sin representante
+    Dado que Marta tiene el rol de Líder de Alabanza
+    Y que la banda no tiene un Representante de músicos
+    Cuando Marta intenta crear un evento masivo para el sábado 12 de diciembre
+    Entonces el evento no se crea
+    Y el sistema informa que la banda necesita un Representante de músicos
+
+  Escenario: El evento masivo valida los mismos datos que un ensayo
+    Dado que Marta tiene el rol de Líder de Alabanza
+    Cuando Marta intenta crear un evento masivo sin quórum
+    Entonces el evento no se crea
+    Y el sistema informa que debe indicar el quórum
+```
  

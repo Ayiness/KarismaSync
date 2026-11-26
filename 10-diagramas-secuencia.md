@@ -8,9 +8,9 @@
 ![DSS-01](./diagramas/dss-01-crear-convocatoria.png)
 Archivo fuente: [`./diagramas/dss-01-crear-convocatoria.puml`](./diagramas/dss-01-crear-convocatoria.puml)
  
-Mensajes representados: `crearEvento(fecha, quorum, convocados[integrante, instrumentos])`; `enviarConvocatoria(convocados, evento, enlace)`; `creacionRechazada(motivo)`.
+Mensajes representados: `crearEvento(tipo, fecha, quorum, convocados[integrante, instrumentos])`; `enviarConvocatoria(convocados, evento, enlace)`; `enviarSolicitudRevision(representante, evento, enlace)`; `eventoEnRevision(evento)`; `creacionRechazada(motivo)`.
 
-Variantes representadas: creación autorizada con datos válidos; rechazo por falta de permiso (`sinPermiso`); rechazo por datos inválidos (`datosInvalidos`: sin convocados, convocado sin instrumentos, sin quórum o quórum mayor que los convocados).
+Variantes representadas: creación autorizada de un ensayo (se publica y notifica); creación autorizada de un evento masivo (queda Pendiente de aprobación, no se publica y se solicita la revisión al representante; continúa en DSS-07); rechazo por falta de permiso (`sinPermiso`); rechazo por datos inválidos (`datosInvalidos`: sin convocados, convocado sin instrumentos, sin quórum o quórum mayor que los convocados).
  
 ## DSS-02 — [Verificar viabilidad]
 - Caso de uso: [CU-02](./09-casos-uso.md#cu-02-verificar-viabilidad-del-ensayo)
@@ -71,6 +71,21 @@ Mensajes representados: `verEvento(evento)` y `estadoConvocados(convocados[integ
 
 Variantes representadas: el Líder de Alabanza ve las respuestas con el motivo de cada inasistencia; un músico convocado ve las respuestas sin los motivos de los demás (`estadoConvocados(convocados[integrante, instrumentos, estadoAsistencia])`); un integrante no convocado ve el evento sin las respuestas (`detalleEvento(evento)`).
 
-Hecho en clase 24/11
+## DSS-07 — Revisar convocatoria de evento masivo
+- Caso de uso: [CU-07](./09-casos-uso.md#cu-07-revisar-convocatoria-de-evento-masivo)
+- Historia: [HU-08](./04-historias-usuario.md#hu-08-confirmar-la-convocatoria-de-un-evento-masivo)
+- Sistemas externos que participan: Sistema de notificaciones
+
+![DSS-07](./diagramas/dss-07-revisar-evento-masivo.png)
+Archivo fuente: [`./diagramas/dss-07-revisar-evento-masivo.puml`](./diagramas/dss-07-revisar-evento-masivo.puml)
+
+Mensajes representados: `verEventosPorRevisar()`, `eventosPendientes(eventos)`, `verEvento(evento)`, `detalleEvento(...)`, `resolverRevision(evento, decision, justificacion)`, `enviarConvocatoria(convocados, evento, enlace)`, `enviarResultadoRevision(lider, evento, decision, justificacion)`, `revisionRegistrada(evento, decision)` y `revisionRechazada(motivo)`.
+
+Variantes representadas: aprobación (el evento queda Vigente y se notifica a los convocados y al líder); rechazo con justificación (queda Rechazado y solo se informa al líder); rechazo sin justificación (`sinJustificacion`); evento no masivo o ya revisado (`eventoNoRevisable`); quien revisa no es el representante de la banda (`sinPermiso`).
+
+La aprobación es un evento del sistema **distinto** de la creación: el representante la inicia cuando revisa, no ocurre dentro de `crearEvento`. Por eso DSS-01 termina con `eventoEnRevision` y DSS-07 empieza con una solicitud del representante.
+
+### Propuesta hecha a mano en clase (24/11)
+Se conserva como evidencia; DSS-01 y DSS-07 la reemplazan. Revisión en [`eval2/revision-ia.md`](./eval2/revision-ia.md).
 
 <img width="4080" height="1888" alt="Diagrama de secuencia" src="https://github.com/user-attachments/assets/f8fe473d-ffce-493a-9385-e421c004e782" />

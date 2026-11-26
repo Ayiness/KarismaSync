@@ -1,5 +1,5 @@
 @startuml
-mainframe DSS-01 - Crear convocatoria (CU-01 / HU-01)
+mainframe DSS-01 - Crear convocatoria (CU-01 / HU-01, HU-09)
 autonumber
 hide footbox
 skinparam backgroundColor white
@@ -27,36 +27,57 @@ actor "Líder de\nAlabanza" as Lider
 participant "KarismaSync" as Sistema
 participant "Servicio de\nnotificaciones" as Notificaciones <<sistema externo>>
 actor "Integrante de\nla banda" as Integrante
+actor "Representante\nde músicos" as Representante
 
-Lider -> Sistema: crearEvento(fecha, quorum, convocados[integrante, instrumentos])
+Lider -> Sistema: crearEvento(tipo, fecha, quorum, convocados[integrante, instrumentos])
 
 alt solicitante con permiso de creación y datos válidos
-  note over Sistema
-    Registra y publica el evento.
-    RF-01 y RF-02.
-  end note
 
-  Sistema -> Notificaciones: enviarConvocatoria(convocados, evento, enlace)
-  Notificaciones --> Sistema: solicitudAceptada
-  Sistema --> Lider: eventoCreado(evento, envioSolicitado)
+  alt tipo = Ensayo
+    note over Sistema
+      Registra el evento Vigente y lo publica.
+      RF-01 y RF-02.
+    end note
+    Sistema -> Notificaciones: enviarConvocatoria(convocados, evento, enlace)
+    Notificaciones --> Sistema: solicitudAceptada
+    Sistema --> Lider: eventoCreado(evento, envioSolicitado)
 
-  loop cada convocado; entrega exitosa
-    Notificaciones ->> Integrante: convocatoria(evento, enlace)
+    loop cada convocado; entrega exitosa
+      Notificaciones ->> Integrante: convocatoria(evento, enlace)
+    end
+
+  else tipo = Masivo
+    note over Sistema
+      Registra el evento Pendiente de aprobación.
+      No lo publica ni notifica a los convocados.
+      RF-15; HU-09.
+    end note
+    Sistema -> Notificaciones: enviarSolicitudRevision(representante, evento, enlace)
+    Notificaciones --> Sistema: solicitudAceptada
+    Sistema --> Lider: eventoEnRevision(evento)
+    Notificaciones ->> Representante: solicitudRevision(evento, enlace)
+    note over Sistema, Representante
+      Continúa en DSS-07: el representante
+      aprueba o rechaza la convocatoria.
+    end note
   end
 
 else solicitante sin permiso de creación
   Sistema --> Lider: creacionRechazada(motivo: sinPermiso)
   note over Sistema
-    Sin creación ni envíos.
-    RNF-01.
+    Incluye al Representante de músicos,
+    que no tiene permisos de líder.
+    Sin creación ni envíos. RNF-01.
   end note
 
 else datos inválidos
   Sistema --> Lider: creacionRechazada(motivo: datosInvalidos)
   note over Sistema
     Sin músicos convocados, convocado
-    sin instrumentos, sin quórum o
-    quórum mayor que los convocados.
+    sin instrumentos, sin quórum,
+    quórum mayor que los convocados o
+    evento masivo en una banda sin
+    Representante de músicos.
     Sin creación ni envíos.
   end note
 end

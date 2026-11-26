@@ -20,12 +20,14 @@
 | RF-12 | El sistema debe permitir que cada integrante registre y cambie su instrumento principal, y debe dejarlo disponible para el Líder de Alabanza al crear un evento de ensayo. | Funcional | Registrar el perfil instrumental del integrante |
 | RF-13 | El sistema debe permitir al Líder de Alabanza incluir, de forma opcional, un repertorio de canciones al crear un evento, mostrando el bloque de selección activado por defecto, permitiendo desactivarlo y registrando únicamente las canciones seleccionadas. Un evento sin canciones debe poder crearse. | Funcional | Crear evento convocando músicos y asignando sus instrumentos (incluye el repertorio opcional de canciones) |
 | RF-14 | El sistema debe solicitar un motivo cuando un integrante indique que no asistirá, permitirle cambiar su respuesta mientras el evento esté vigente y mostrar a los convocados el estado de respuesta de cada convocado; el motivo de inasistencia solo debe mostrarse al Líder de Alabanza y al propio integrante. | Funcional | Confirmar asistencia al ensayo |
+| RF-15 | El sistema debe permitir al Líder de Alabanza indicar el tipo de evento (ensayo o evento masivo) al crearlo. Un evento masivo debe quedar pendiente de aprobación, sin publicarse ni notificarse a los convocados, y el sistema debe solicitar su revisión al Representante de músicos de la banda. | Funcional | Crear evento convocando músicos y asignando sus instrumentos (incluye el tipo de evento) |
+| RF-16 | El sistema debe permitir al Representante de músicos revisar solo las convocatorias de eventos masivos pendientes de su banda y aprobarlas o rechazarlas. Al aprobar, el evento queda vigente y se notifica a los convocados; al rechazar, debe indicar una justificación y el sistema la informa al líder. | Funcional | Revisar y confirmar la convocatoria del evento masivo |
 
 ### Requisitos no funcionales
 
 | ID | Requisito | Tipo | Actividad TO-BE asociada |
 |---|---|---|---|
-| RNF-01 | El sistema debe controlar el acceso según el rol del usuario, restringiendo la creación y reagendamiento de eventos al rol autorizado de Líder de Alabanza. | No funcional — Seguridad | Crear evento convocando músicos y asignando sus instrumentos / Recibir alerta de sistema y decidir acción |
+| RNF-01 | El sistema debe controlar el acceso según el rol del usuario, restringiendo la creación y reagendamiento de eventos al rol autorizado de Líder de Alabanza y la aprobación o rechazo de eventos masivos al rol de Representante de músicos, que no tiene permisos de líder. | No funcional — Seguridad | Crear evento convocando músicos y asignando sus instrumentos / Recibir alerta de sistema y decidir acción / Revisar y confirmar la convocatoria del evento masivo |
 | RNF-02 | La interfaz de respuesta debe permitir que un integrante registre su respuesta (confirmar o indicar que no asistirá con su motivo) en un máximo de 15 segundos y con un máximo de 3 interacciones principales. | No funcional — Capacidad de interacción | Confirmar asistencia al ensayo |
 | RNF-03 | El registro de la respuesta de asistencia (con los instrumentos asignados en la convocatoria) debe reflejarse en el sistema en menos de 1 segundo después de que el integrante confirme su respuesta. | No funcional — Eficiencia de desempeño | Registrar músico e instrumentos en el evento |
 | RNF-04 | El servicio utilizado para notificar nuevas convocatorias y ensayos confirmados debe mantener una tasa de entrega exitosa de al menos 99,5 %. | No funcional — Fiabilidad | Registrar evento y notificar a la banda / Bloquear agenda y notificar ensayo oficial |
@@ -46,6 +48,6 @@
 
 **Requisito origen:** RF-04 — El sistema debe verificar si el evento continúa vigente y no ha sido cancelado antes de permitir que un integrante registre su asistencia.
 
-**Requisito derivado:** RD-01 — El sistema debe mantener un estado identificable para cada evento que permita distinguir, al menos, entre un evento vigente, cancelado o terminado.
+**Requisito derivado:** RD-01 — El sistema debe mantener un estado identificable para cada evento que permita distinguir, al menos, entre un evento vigente, cancelado o terminado y, para los eventos masivos, pendiente de aprobación o rechazado.
 
 **Justificación:** Para determinar si un integrante puede continuar al registro de asistencia, el sistema necesita conocer previamente el estado actual del evento. Sin esta información no sería posible ejecutar la decisión representada en el TO-BE por la compuerta “¿El evento sigue vigente y no ha sido cancelado?” ni impedir que se registren nuevas respuestas en convocatorias que ya finalizaron.

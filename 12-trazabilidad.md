@@ -19,7 +19,7 @@ Para revisar las referencias se utilizaron las [historias de usuario](./04-histo
 | RF-09 | HU-04, HU-05 | CU-02 | DSS-02 | EST-01 | `EventoDeEnsayo`, `Alerta`, `Integrante`, `Instrumento` |
 | RF-10 | HU-05 | — | — | EST-01 | `EventoDeEnsayo`, `Alerta`, `Integrante`, `Convocatoria` |
 | RF-11 | HU-02 | — | — | EST-01 | `EventoDeEnsayo`, `Integrante` |
-| RNF-01 | HU-01, HU-05 | CU-01 | DSS-01 | EST-01 | `Integrante`, `EventoDeEnsayo` |
+| RNF-01 | HU-01, HU-05, HU-08, HU-09 | CU-01, CU-07 | DSS-01, DSS-07 | EST-01 | `Integrante`, `Banda`, `EventoDeEnsayo`, `RevisionDeEvento` |
 | RNF-02 | HU-03 | — | — | — | `Integrante`, `Asistencia`, `Instrumento` |
 | RNF-03 | HU-03 | — | DSS-02 | EST-02 | `Asistencia`, `Instrumento` |
 | RNF-04 | HU-01, HU-04 | CU-01, CU-02 | DSS-01, DSS-02 | EST-01 | `Convocatoria`, `EventoDeEnsayo`, `Integrante`, `Alerta` |
@@ -27,7 +27,9 @@ Para revisar las referencias se utilizaron las [historias de usuario](./04-histo
 | RF-12 | HU-06 | CU-03 | DSS-03 | — | `Integrante`, `Instrumento` |
 | RF-13 | HU-07 | CU-04 | DSS-04 | — | `EventoDeEnsayo`, `Cancion` |
 | RF-14 | HU-03 | CU-05, CU-06 | DSS-05, DSS-06 | EST-02 | `Convocatoria`, `Asistencia`, `Integrante`, `Instrumento` |
-| RD-01 | HU-02, HU-04 | CU-02 | DSS-02 | EST-01 | `EventoDeEnsayo` |
+| RF-15 | HU-09 | CU-01 | DSS-01 | EST-01 | `EventoDeEnsayo`, `Banda`, `Integrante` |
+| RF-16 | HU-08 | CU-07 | DSS-07 | EST-01, EST-02 | `RevisionDeEvento`, `EventoDeEnsayo`, `Integrante`, `Convocatoria`, `Asistencia` |
+| RD-01 | HU-02, HU-04, HU-08, HU-09 | CU-02, CU-07 | DSS-02, DSS-07 | EST-01 | `EventoDeEnsayo` |
 | RY-01 | — | — | — | — | — |
 | RY-02 | — | — | — | — | — |
 | RY-03 | — | — | — | — | — |
@@ -55,6 +57,7 @@ Pruebas de apoyo (no son escenarios Gherkin): EST-01 `Inicial → Vigente` y tra
 - En **RF-03**, abrir la notificación no cambia por sí solo el estado del evento, por eso no se relaciona con un diagrama de estado. **RF-04** y **RF-11** sí se apoyan en los estados del evento para distinguir cuándo se puede registrar asistencia y cuándo ya no está disponible; el mensaje de indisponibilidad de RF-11 no está detallado en una secuencia.
 - **RNF-02**, **RNF-03** y **RNF-04** incluyen medidas de calidad (15 segundos y 3 interacciones; menos de 1 segundo; 99,5 % de entrega). Las secuencias y los estados muestran las operaciones relacionadas cuando corresponde, pero no comprueban esos valores. Se necesitarían pruebas para verificarlos.
 - Los **RY-01 a RY-06** son requisitos de proyecto: equipo, respaldos, mantenimiento, costos, responsables y capacitación. No se representan directamente mediante historias, casos de uso o diagramas del comportamiento del sistema, por lo que se dejaron con «—».
-- En el modelo de dominio, **Líder de Alabanza** es un rol de la clase `Integrante`, no una clase independiente. El servicio de notificaciones es externo y tampoco se incluyó como clase. Para los estados se utiliza `EventoDeEnsayo` y, para las respuestas, `Asistencia`.
+- **Evaluación 2:** HU-09 (crear evento masivo) se agrega como alternativa de `CU-01`/`DSS-01` (RF-15) y HU-08 (confirmar la convocatoria) tiene caso y secuencia propios, `CU-07`/`DSS-07` (RF-16). RNF-01 se amplió con el rol de Representante de músicos. Ambas historias aún no están implementadas en el código.
+- En el modelo de dominio, **Líder de Alabanza** y **Representante de músicos** son roles de la clase `Integrante` (asociaciones `lidera` y `representa`), no clases independientes. El servicio de notificaciones es externo y tampoco se incluyó como clase. Para los estados se utiliza `EventoDeEnsayo` y, para las respuestas, `Asistencia`.
 - **RD-01** proviene de **RF-04** y justifica que `EventoDeEnsayo` tenga un estado identificable. El modelo de dominio considera `Vigente`, `Confirmado`, `Cancelado` y `Terminado`; en `EST-01` se detallan las situaciones de la convocatoria mientras sigue vigente.
 - **HU-06** y **HU-07** no modifican los diagramas de estado: el instrumento principal es un dato del integrante y el repertorio es un dato opcional del evento, por lo que no cambian el ciclo de vida (véase la nota en `11-diagramas-estado.md`).

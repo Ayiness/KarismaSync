@@ -12,7 +12,7 @@ En esta parte se muestran los cambios de estado de dos elementos de KarismaSync:
 
 **Archivo fuente (PlantUML):** [est-01.puml](./diagramas/est-01.puml).
 
-El evento comienza cuando el líder crea la convocatoria. Mientras está **Vigente**, puede encontrarse en tres situaciones: **Convocatoria abierta**, **Condiciones pendientes** o **En espera**. Estas situaciones se muestran dentro de Vigente para mantener la relación con el modelo de dominio.
+El evento comienza cuando el líder crea la convocatoria. Según su **tipo** (pseudoestado de decisión), un ensayo entra directo a **Vigente**, mientras que un evento masivo queda **Pendiente de aprobación**, sin publicarse, hasta que el Representante de músicos lo aprueba (pasa a Vigente) o lo rechaza con justificación (pasa a **Rechazado**, estado final). Mientras está **Vigente**, puede encontrarse en tres situaciones: **Convocatoria abierta**, **Condiciones pendientes** o **En espera**. Estas situaciones se muestran dentro de Vigente para mantener la relación con el modelo de dominio.
 
 Si se completa el quórum y están cubiertos los roles necesarios, el evento pasa a **Confirmado**. Si todavía falta algo, se avisa al líder para que decida si espera nuevas respuestas o reagenda el ensayo. Una vez confirmado, el evento puede terminar o quedar cancelado.
 
@@ -20,7 +20,10 @@ Si se completa el quórum y están cubiertos los roles necesarios, el evento pas
 
 | Estado origen | Evento | Guarda | Acción | Estado destino |
 |---|---|---|---|---|
-| Inicial | `crearEvento` | Líder autorizado | Registrar el ensayo y notificar | Vigente / Convocatoria abierta |
+| Inicial | `crearEvento` | Líder autorizado y tipo = Ensayo | Registrar el ensayo y notificar | Vigente / Convocatoria abierta |
+| Inicial | `crearEvento` | Líder autorizado y tipo = Masivo | Registrar el evento y solicitar revisión al representante | Pendiente de aprobación |
+| Pendiente de aprobación | `aprobarEvento` | Representante de la banda | Emitir convocatorias y notificar | Vigente / Convocatoria abierta |
+| Pendiente de aprobación | `rechazarEvento` | Representante de la banda y justificación indicada | Informar al líder | Rechazado |
 | Convocatoria abierta | `registrarAsistencia` | Falta quórum o algún rol | Avisar al líder | Condiciones pendientes |
 | Convocatoria abierta | `registrarAsistencia` | Quórum y roles completos | Bloquear agenda y notificar | Confirmado |
 | Condiciones pendientes | `registrarAsistencia` | Quórum y roles completos | Bloquear agenda y notificar | Confirmado |
@@ -31,6 +34,9 @@ Si se completa el quórum y están cubiertos los roles necesarios, el evento pas
 | Confirmado | `cancelacionRegistrada` | — | Informar cancelación | Cancelado |
 | Terminado | Fin del ciclo | — | — | Final |
 | Cancelado | Fin del ciclo | — | — | Final |
+| Rechazado | Fin del ciclo | — | — | Final |
+
+**Nota sobre HU-08 y HU-09 (Evaluación 2):** «Pendiente de aprobación» queda **fuera** de Vigente porque el evento todavía no está publicado y los integrantes no pueden responder (RF-04 exige un evento vigente). El Representante de músicos no es un estado: aparece como quien dispara `aprobarEvento` o `rechazarEvento` (guarda «representante de la banda»).
 
 **Aclaración:** el modelo de dominio define **Vigente** como estado del evento. En este diagrama, *Convocatoria abierta*, *Condiciones pendientes* y *En espera* se usan como subestados para explicar con más detalle lo que ocurre antes de confirmar el ensayo. La Entrega 1 menciona eventos cancelados, pero no especifica el procedimiento de cancelación; por eso se representa con el evento general `cancelacionRegistrada`.
 
@@ -63,5 +69,10 @@ Este diagrama muestra cómo queda registrada la respuesta de un músico convocad
 | Sin respuesta | Fin de la respuesta | — | — | Final |
 
 La asistencia **Confirmada** de un integrante no significa que todo el ensayo esté confirmado. Para eso, KarismaSync también revisa el quórum y los roles necesarios (HU-04). El integrante no puede modificar los instrumentos de su convocatoria. El evento `eventoCerrado` ocurre cuando el ensayo se cancela o termina; esa funcionalidad todavía no está implementada.
-clase 24/11
+
+**Evento masivo:** EST-02 no cambia. En un evento masivo, `convocatoriaEmitida` ocurre al aprobarse el evento, no al crearlo; si el evento se rechaza, no se emiten convocatorias y no nace ninguna asistencia.
+
+### Propuesta hecha a mano en clase (24/11)
+Se conserva como evidencia; EST-01 la reemplaza. Revisión en [`eval2/revision-ia.md`](./eval2/revision-ia.md).
+
 <img width="4080" height="1888" alt="diagrama de estado" src="https://github.com/user-attachments/assets/ff09ca30-e063-4b18-86eb-e417a0ab8aec" />

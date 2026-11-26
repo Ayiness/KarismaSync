@@ -1,6 +1,6 @@
 @startuml
 ' EST-01: ciclo de vida del evento de ensayo (KarismaSync)
-title EST-01 - Ciclo de vida del evento de ensayo
+title EST-01 - Ciclo de vida del evento (ensayo o evento masivo)
 left to right direction
 skinparam backgroundColor white
 skinparam shadowing false
@@ -14,6 +14,10 @@ skinparam state {
   FontSize 14
   RoundCorner 14
 }
+
+state tipoEvento <<choice>>
+state "Pendiente de\naprobación" as PendienteAprobacion #E2F0D9
+state "Rechazado" as Rechazado #F7DFDA
 
 ' Los tres subestados corresponden al estado Vigente del modelo de dominio.
 state "Vigente" as Vigente {
@@ -31,7 +35,11 @@ state "Confirmado" as Confirmado
 state "Terminado" as Terminado
 state "Cancelado" as Cancelado #F7DFDA
 
-[*] --> Vigente : crearEvento [líder autorizado]\n/ registrar y notificar
+[*] --> tipoEvento : crearEvento [líder autorizado]\n/ registrar evento
+tipoEvento --> Vigente : [tipo = Ensayo]\n/ notificar a los convocados
+tipoEvento --> PendienteAprobacion : [tipo = Masivo]\n/ solicitar revisión al representante
+PendienteAprobacion --> Vigente : aprobarEvento [representante de la banda]\n/ emitir convocatorias y notificar
+PendienteAprobacion --> Rechazado : rechazarEvento\n[representante de la banda y justificación indicada]\n/ informar al líder
 Abierta --> Confirmado : registrarAsistencia\n[quórum y roles completos]\n/ bloquear agenda y notificar
 Pendientes --> Confirmado : registrarAsistencia\n[quórum y roles completos]\n/ bloquear agenda y notificar
 Espera --> Confirmado : registrarAsistencia\n[quórum y roles completos]\n/ bloquear agenda y notificar
@@ -39,4 +47,5 @@ Confirmado --> Terminado : ensayoFinalizado\n/ cerrar evento
 Confirmado --> Cancelado : cancelacionRegistrada\n/ informar cancelación
 Terminado --> [*]
 Cancelado --> [*]
+Rechazado --> [*]
 @enduml
