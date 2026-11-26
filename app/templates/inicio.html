@@ -5,8 +5,11 @@
 
   {% if not usuario %}
   <p class="aviso">Elige un usuario de demostración para actuar como Líder de Alabanza o integrante.</p>
-  {% elif usuario.es_lider %}
+  {% elif es_lider %}
   <p><a class="boton" href="/eventos/nuevo">Crear evento de ensayo</a></p>
+  {% elif es_representante %}
+  <p class="aviso">Estás actuando como {{ usuario.nombre }}, Representante de músicos. Revisas los eventos masivos antes de que se publiquen; no puedes crear eventos.</p>
+  <p><a class="boton" href="/revisiones">Convocatorias por revisar ({{ total_por_revisar }})</a></p>
   {% else %}
   <p class="aviso">Estás actuando como {{ usuario.nombre }}. Solo el Líder de Alabanza puede crear eventos.</p>
   {% endif %}
@@ -20,6 +23,7 @@
     <thead>
       <tr>
         <th>Fecha</th>
+        <th>Tipo</th>
         <th>Banda</th>
         <th>Quórum</th>
         <th>Roles</th>
@@ -32,12 +36,13 @@
       {% for evento in eventos %}
       <tr>
         <td><a href="/eventos/{{ evento.id }}">{{ evento.fecha }}</a></td>
+        <td>{% if evento.tipo == 'Masivo' %}<span class="badge masivo">Evento masivo</span>{% else %}Ensayo{% endif %}</td>
         <td>{{ evento.banda }}</td>
         <td>{{ evento.quorum }} integrantes</td>
         <td>{{ evento.total_roles }}</td>
         <td>{{ evento.total_convocatorias }}</td>
         <td>{{ evento.total_canciones }}</td>
-        <td><span class="badge">{{ evento.estado }}</span></td>
+        <td><span class="badge{% if evento.estado == 'Pendiente de aprobación' %} pendiente{% elif evento.estado == 'Rechazado' %} rechazado{% endif %}">{{ evento.estado }}</span></td>
       </tr>
       {% endfor %}
     </tbody>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block titulo %}Evento del {{ evento.fecha }} — KarismaSync{% endblock %}
 {% block contenido %}
-  <h1>Evento de ensayo del {{ evento.fecha }}</h1>
+  <h1>{% if evento.tipo == 'Masivo' %}Evento masivo{% else %}Evento de ensayo{% endif %} del {{ evento.fecha }}</h1>
 
   <dl>
     <dt>Banda</dt>
@@ -12,9 +12,23 @@
     <dd>{{ evento.quorum }} integrantes</dd>
     <dt>Roles requeridos</dt>
     <dd>{% for rol in roles %}{{ rol.nombre }}{% if not loop.last %}, {% endif %}{% endfor %}</dd>
+    <dt>Tipo</dt>
+    <dd>{% if evento.tipo == 'Masivo' %}Evento masivo{% else %}Ensayo{% endif %}</dd>
     <dt>Estado</dt>
-    <dd><span class="badge">{{ evento.estado }}</span></dd>
+    <dd><span class="badge{% if evento.estado == 'Pendiente de aprobación' %} pendiente{% elif evento.estado == 'Rechazado' %} rechazado{% endif %}">{{ evento.estado }}</span></dd>
+    {% if revision %}
+    <dt>Revisión</dt>
+    <dd>{{ revision.decision }} por {{ revision.representante }} ({{ revision.fecha_revision[:10] }})</dd>
+    {% if revision.justificacion %}
+    <dt>Justificación</dt>
+    <dd>{{ revision.justificacion }}</dd>
+    {% endif %}
+    {% endif %}
   </dl>
+
+  {% if evento.estado == 'Pendiente de aprobación' and not puede_revisar %}
+  <p class="aviso">Este evento masivo está pendiente de aprobación del Representante de músicos. Los convocados todavía no reciben la convocatoria.</p>
+  {% endif %}
 
   <h2>Repertorio de canciones</h2>
   {% if canciones %}
@@ -29,6 +43,22 @@
 
   {% if error %}
   <p class="error" role="alert">{{ error }}</p>
+  {% endif %}
+
+  {% if puede_revisar %}
+  <h2>Revisar convocatoria</h2>
+  <p class="aviso">Revisa la fecha, el quórum, los convocados y el repertorio. Si apruebas, el evento queda vigente y se notifica a los convocados. Si rechazas, debes indicar la justificación.</p>
+  <form class="formulario" method="post" action="/eventos/{{ evento.id }}/revision">
+    <input type="hidden" name="decision" value="Aprobada">
+    <button type="submit">Aprobar convocatoria</button>
+  </form>
+  <form class="formulario" method="post" action="/eventos/{{ evento.id }}/revision">
+    <input type="hidden" name="decision" value="Rechazada">
+    <label class="campo">Justificación del rechazo (obligatoria, máximo 200 caracteres)
+      <input type="text" name="justificacion" maxlength="200" value="{{ justificacion }}">
+    </label>
+    <button type="submit" style="background:var(--error)">Rechazar convocatoria</button>
+  </form>
   {% endif %}
 
   {% if mi_convocatoria %}
@@ -70,12 +100,16 @@
   {% else %}
   <p class="aviso">La convocatoria ya no está disponible para responder.</p>
   {% endif %}
-  {% elif usuario and not usuario.es_lider %}
+  {% elif usuario and not es_lider and publicado %}
   <p class="aviso">No fuiste convocado a este evento.</p>
   {% endif %}
 
   <h2>Músicos convocados</h2>
+  {% if publicado %}
   <p>{{ convocatorias|length }} músicos recibieron la convocatoria del evento.</p>
+  {% else %}
+  <p>{{ convocatorias|length }} músicos serán convocados si el evento se aprueba.</p>
+  {% endif %}
   {% if puede_ver_respuestas %}
   <table>
     <thead>
@@ -86,7 +120,7 @@
       <tr>
         <td>{{ convocatoria.integrante }}</td>
         <td>{{ convocatoria.instrumentos or 'sin instrumentos' }}</td>
-        <td><span class="badge">{{ convocatoria.estado_asistencia }}</span></td>
+        <td><span class="badge">{{ convocatoria.estado_asistencia or 'Sin emitir' }}</span></td>
         {% if puede_ver_motivos %}
         <td>{% if convocatoria.estado_asistencia == 'No asiste' %}{{ convocatoria.motivo }}{% else %}—{% endif %}</td>
         {% endif %}

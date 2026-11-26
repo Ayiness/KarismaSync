@@ -3,7 +3,8 @@ from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
 
 from app.dominio import asistencia as ciclo_asistencia
-from app.dominio.evento_ensayo import EventoDeEnsayo, transicionar
+from app.dominio.evento_ensayo import EventoDeEnsayo, TipoEvento, transicionar
+from app.dominio.integrante import RolIntegrante, es_lider
 from app.integraciones.notificaciones import (
     RespuestaEnvio,
     ServicioNotificaciones,
@@ -27,13 +28,58 @@ class DatosNuevoEvento:
     quorum: str | int | None
     convocados: list[Convocado] = field(default_factory=list)
     canciones_ids: list[int] = field(default_factory=list)
+    tipo: str = TipoEvento.ENSAYO.value
 
 
 @dataclass
 class ResultadoCreacion:
+    """eventoCreado(evento, envioSolicitado) o eventoEnRevision(evento) de DSS-01."""
+
     evento_id: int
     destinatarios: int
     respuesta_envio: RespuestaEnvio
+    estado: str = "Vigente"
+
+
+def emitir_convocatorias(
+    conexion: sqlite3.Connection,
+    evento: dict,
+    servicio: ServicioNotificaciones,
+) -> tuple[int, RespuestaEnvio]:
+    """convocatoriaEmitida (EST-02) + enviarConvocatoria (DSS-01 / DSS-07).
+
+    Crea la asistencia Pendiente de cada convocatoria del evento y notifica a los
+    convocados. No hace commit: lo hace quien la llama.
+    """
+    fecha_envio = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    convocatorias = conexion.execute(
+        "SELECT id FROM convocatorias WHERE evento_id = ? ORDER BY integrante_id",
+        (evento["id"],),
+    ).fetchall()
+    for convocatoria in convocatorias:
+        conexion.execute(
+            "UPDATE convocatorias SET fecha_envio = ? WHERE id = ?",
+            (fecha_envio, convocatoria["id"]),
+        )
+        conexion.execute(
+            "INSERT INTO asistencias (convocatoria_id, estado) VALUES (?, ?)",
+            (
+                convocatoria["id"],
+                ciclo_asistencia.transicionar(
+                    ciclo_asistencia.ESTADO_INICIAL, "convocatoriaEmitida"
+                ),
+            ),
+        )
+    destinatarios = conexion.execute(
+        "SELECT i.id, i.nombre FROM convocatorias c "
+        "JOIN integrantes i ON i.id = c.integrante_id "
+        "WHERE c.evento_id = ? ORDER BY i.id",
+        (evento["id"],),
+    ).fetchall()
+    respuesta = servicio.enviar_convocatoria(
+        destinatarios, evento, f"/eventos/{evento['id']}"
+    )
+    return len(destinatarios), respuesta
 
 
 def crear_evento(
@@ -47,10 +93,26 @@ def crear_evento(
     ).fetchone()
     if usuario is None:
         raise ErrorCreacionEvento("seleccione un usuario de demostración")
-    if not usuario["es_lider"]:
+    if not es_lider(usuario):
         raise ErrorCreacionEvento(
             "solo el Líder de Alabanza puede crear eventos de ensayo"
         )
+
+    tipo = str(datos.tipo or TipoEvento.ENSAYO.value).strip()
+    if tipo not in {t.value for t in TipoEvento}:
+        raise ErrorCreacionEvento("seleccione un tipo de evento válido")
+
+    representante = None
+    if tipo == TipoEvento.MASIVO.value:
+        representante = conexion.execute(
+            "SELECT id, nombre FROM integrantes WHERE banda_id = ? AND rol = ?",
+            (usuario["banda_id"], RolIntegrante.REPRESENTANTE.value),
+        ).fetchone()
+        if representante is None:
+            raise ErrorCreacionEvento(
+                "la banda necesita un Representante de músicos para crear "
+                "un evento masivo"
+            )
 
     integrantes_banda = {
         fila["id"]
@@ -139,13 +201,14 @@ def crear_evento(
             banda_id=usuario["banda_id"],
             fecha=fecha_iso,
             quorum=quorum,
+            tipo=tipo,
         )
         transicionar(evento, "crearEvento")
 
         cursor = conexion.execute(
-            "INSERT INTO eventos_ensayo (banda_id, fecha, quorum, estado) "
-            "VALUES (?, ?, ?, ?)",
-            (evento.banda_id, evento.fecha, evento.quorum, evento.estado),
+            "INSERT INTO eventos_ensayo (banda_id, fecha, quorum, tipo, estado) "
+            "VALUES (?, ?, ?, ?, ?)",
+            (evento.banda_id, evento.fecha, evento.quorum, evento.tipo, evento.estado),
         )
         evento_id = cursor.lastrowid
 
@@ -155,24 +218,17 @@ def crear_evento(
                 (evento_id, cancion_id),
             )
 
-        fecha_envio = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        # Las convocatorias (con sus instrumentos asignados) se registran siempre;
+        # en un evento masivo la asistencia nace recién al aprobarse (EST-02).
+        fecha_registro = datetime.now(timezone.utc).isoformat(timespec="seconds")
         for integrante_id, instrumentos_ids in sorted(convocados.items()):
             cursor = conexion.execute(
                 "INSERT INTO convocatorias "
                 "(evento_id, integrante_id, fecha_ensayo, fecha_envio) "
                 "VALUES (?, ?, ?, ?)",
-                (evento_id, integrante_id, evento.fecha, fecha_envio),
+                (evento_id, integrante_id, evento.fecha, fecha_registro),
             )
             convocatoria_id = cursor.lastrowid
-            conexion.execute(
-                "INSERT INTO asistencias (convocatoria_id, estado) VALUES (?, ?)",
-                (
-                    convocatoria_id,
-                    ciclo_asistencia.transicionar(
-                        ciclo_asistencia.ESTADO_INICIAL, "convocatoriaEmitida"
-                    ),
-                ),
-            )
             for instrumento_id in instrumentos_ids:
                 conexion.execute(
                     "INSERT INTO convocatorias_instrumentos "
@@ -187,23 +243,24 @@ def crear_evento(
                 (evento_id, instrumento_id),
             )
 
-        marcadores_convocados = ", ".join("?" for _ in convocados)
-        destinatarios = conexion.execute(
-            f"SELECT id, nombre FROM integrantes WHERE id IN ({marcadores_convocados}) "
-            "ORDER BY id",
-            tuple(convocados),
-        ).fetchall()
-
-        respuesta = servicio.enviar_convocatoria(
-            destinatarios,
-            {
-                "id": evento_id,
-                "banda_id": evento.banda_id,
-                "fecha": evento.fecha,
-                "estado": evento.estado,
-            },
-            f"/eventos/{evento_id}",
-        )
+        datos_evento = {
+            "id": evento_id,
+            "banda_id": evento.banda_id,
+            "fecha": evento.fecha,
+            "tipo": evento.tipo,
+            "estado": evento.estado,
+        }
+        if representante is None:
+            # alt tipo = Ensayo: se publica y se notifica a los convocados.
+            destinatarios, respuesta = emitir_convocatorias(
+                conexion, datos_evento, servicio
+            )
+        else:
+            # alt tipo = Masivo: queda Pendiente de aprobación, sin publicar.
+            destinatarios = 0
+            respuesta = servicio.enviar_solicitud_revision(
+                representante, datos_evento, f"/eventos/{evento_id}"
+            )
         conexion.commit()
     except Exception:
         conexion.rollback()
@@ -211,6 +268,7 @@ def crear_evento(
 
     return ResultadoCreacion(
         evento_id=evento_id,
-        destinatarios=len(destinatarios),
+        destinatarios=destinatarios,
         respuesta_envio=respuesta,
+        estado=evento.estado,
     )

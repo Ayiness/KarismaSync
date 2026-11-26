@@ -20,6 +20,21 @@ class ServicioNotificaciones(Protocol):
         enlace: str,
     ) -> RespuestaEnvio: ...
 
+    def enviar_solicitud_revision(
+        self,
+        representante: sqlite3.Row,
+        evento: Mapping[str, object],
+        enlace: str,
+    ) -> RespuestaEnvio: ...
+
+    def enviar_resultado_revision(
+        self,
+        lideres: Sequence[sqlite3.Row],
+        evento: Mapping[str, object],
+        decision: str,
+        justificacion: str | None,
+    ) -> RespuestaEnvio: ...
+
 
 class ServicioNotificacionesSimulado:
     def __init__(self, conexion: sqlite3.Connection) -> None:
@@ -58,6 +73,43 @@ class ServicioNotificacionesSimulado:
                     "enlace": enlace,
                 },
             )
+        return RespuestaEnvio(aceptada=True, mensaje="solicitudAceptada")
+
+    def enviar_solicitud_revision(
+        self,
+        representante: sqlite3.Row,
+        evento: Mapping[str, object],
+        enlace: str,
+    ) -> RespuestaEnvio:
+        """enviarSolicitudRevision(representante, evento, enlace) de DSS-01."""
+        self._registrar(
+            "enviarSolicitudRevision",
+            {
+                "representante_id": representante["id"],
+                "representante": representante["nombre"],
+                "evento": dict(evento),
+                "enlace": enlace,
+            },
+        )
+        return RespuestaEnvio(aceptada=True, mensaje="solicitudAceptada")
+
+    def enviar_resultado_revision(
+        self,
+        lideres: Sequence[sqlite3.Row],
+        evento: Mapping[str, object],
+        decision: str,
+        justificacion: str | None,
+    ) -> RespuestaEnvio:
+        """enviarResultadoRevision(lider, evento, decision, justificacion) de DSS-07."""
+        self._registrar(
+            "enviarResultadoRevision",
+            {
+                "lideres": [fila["id"] for fila in lideres],
+                "evento": dict(evento),
+                "decision": decision,
+                "justificacion": justificacion,
+            },
+        )
         return RespuestaEnvio(aceptada=True, mensaje="solicitudAceptada")
 
 

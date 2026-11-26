@@ -4,12 +4,13 @@ from app.db.conexion import conectar
 
 NOMBRE_BANDA = "KarismaSync"
 INTEGRANTES = [
-    ("Marta", 1),
-    ("Pedro", 0),
-    ("Ana", 0),
-    ("Luis", 0),
-    ("Sofía", 0),
-    ("Diego", 0),
+    ("Marta", "Líder de Alabanza"),
+    ("Pedro", "Músico"),
+    ("Ana", "Músico"),
+    ("Luis", "Músico"),
+    ("Sofía", "Músico"),
+    ("Diego", "Músico"),
+    ("Andrés", "Representante de músicos"),
 ]
 INSTRUMENTOS = [
     ("batería", 1),
@@ -26,6 +27,7 @@ PERFILES = {
     "Luis": "batería",
     "Sofía": "bajo",
     "Diego": "guitarra acústica",
+    "Andrés": "voz",
 }
 CANCIONES = [
     ("Cuán grande es Él", "Stuart K. Hine"),
@@ -57,10 +59,10 @@ def sembrar(conexion: sqlite3.Connection) -> None:
         banda = conexion.execute(
             "SELECT id FROM bandas WHERE nombre = ?", (NOMBRE_BANDA,)
         ).fetchone()
-        for nombre, es_lider in INTEGRANTES:
+        for nombre, rol in INTEGRANTES:
             conexion.execute(
-                "INSERT OR IGNORE INTO integrantes (nombre, banda_id, es_lider) VALUES (?, ?, ?)",
-                (nombre, banda["id"], es_lider),
+                "INSERT OR IGNORE INTO integrantes (nombre, banda_id, rol) VALUES (?, ?, ?)",
+                (nombre, banda["id"], rol),
             )
         for nombre, es_musico_base in INSTRUMENTOS:
             conexion.execute(

@@ -39,9 +39,9 @@ python -m app.db.seed
 
 Crea `data/app.db`, aplica las migraciones de `app/db/migrations/` y siembra:
 
-- Banda **KarismaSync** con 6 integrantes: Marta (Líder de Alabanza), Pedro, Ana, Luis, Sofía y Diego.
+- Banda **KarismaSync** con 7 integrantes: Marta (Líder de Alabanza), Andrés (Representante de músicos), Pedro, Ana, Luis, Sofía y Diego (músicos).
 - Catálogo de instrumentos: batería, bajo, guitarra eléctrica, guitarra acústica, teclado y voz.
-- Perfil instrumental de ejemplo: Marta (voz), Pedro (guitarra eléctrica), Ana (teclado), Luis (batería), Sofía (bajo) y Diego (guitarra acústica).
+- Perfil instrumental de ejemplo: Marta (voz), Pedro (guitarra eléctrica), Ana (teclado), Luis (batería), Sofía (bajo), Diego (guitarra acústica) y Andrés (voz).
 - Catálogo de 20 canciones de ejemplo para el repertorio opcional de los eventos.
 
 El comando es idempotente: ejecutarlo otra vez no duplica datos.
@@ -71,13 +71,28 @@ indica que el evento no incluye repertorio. Las canciones no seleccionadas no se
    Los demás convocados ven la tabla con los estados, pero no los motivos (son privados). Un integrante no convocado
    ve el evento, pero no puede responder ni ver las respuestas.
 
+## Evento masivo y Representante de músicos (HU-08, HU-09)
+
+1. Elige a Marta y crea un evento con el tipo **Evento masivo**. Queda `Pendiente de aprobación`:
+   no se publica, los convocados no lo ven y no pueden responder. Se envía la solicitud de revisión a Andrés.
+2. Elige a Andrés: en el inicio aparece **Convocatorias por revisar** (`/revisiones`), solo con los eventos
+   masivos pendientes de su banda. Al abrir el evento ve la fecha, el quórum, los convocados y el repertorio.
+3. **Aprobar convocatoria:** el evento queda `Vigente`, nacen las asistencias `Pendiente`, se notifica a los
+   convocados y a la líder. **Rechazar convocatoria:** exige una justificación (máximo 200 caracteres); el evento
+   queda `Rechazado`, no se notifica a los convocados y Marta ve la justificación en el detalle.
+4. Andrés no puede crear eventos y Marta no puede aprobar su propio evento masivo. Un evento ya revisado o de tipo
+   Ensayo no se puede revisar. Los ensayos siguen el flujo de HU-01, sin revisión.
+
+El rol de cada integrante está en `integrantes.rol` (`Músico`, `Líder de Alabanza` o `Representante de músicos`),
+y la migración `005_evento_masivo.sql` convierte el antiguo `es_lider`. Hay como máximo un representante por banda.
+
 ## Probar
 
 ```powershell
 pytest
 ```
 
-Las pruebas cubren los escenarios Gherkin de HU-01, HU-03, HU-06 y HU-07 (una prueba por escenario, con el
+Las pruebas cubren los escenarios Gherkin de HU-01, HU-03, HU-06, HU-07, HU-08 y HU-09 (una prueba por escenario, con el
 prefijo `test_hu0X_`), la transición de estado del evento, la integración simulada de notificaciones y las pantallas.
 Las pruebas crean su propia base SQLite temporal; no necesitan ejecutar el seed antes.
 

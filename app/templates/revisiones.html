@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titulo %}Convocatorias por revisar — KarismaSync{% endblock %}
+{% block contenido %}
+  <h1>Convocatorias por revisar</h1>
+
+  {% if not es_representante %}
+  <p class="aviso">Solo el Representante de músicos revisa las convocatorias de eventos masivos.</p>
+  {% elif eventos %}
+  <p>Eventos masivos de tu banda pendientes de aprobación. Los ensayos no pasan por revisión.</p>
+  <table>
+    <thead>
+      <tr><th>Fecha</th><th>Quórum</th><th>Convocados</th><th>Estado</th></tr>
+    </thead>
+    <tbody>
+      {% for evento in eventos %}
+      <tr>
+        <td><a href="/eventos/{{ evento.id }}">{{ evento.fecha }}</a></td>
+        <td>{{ evento.quorum }} integrantes</td>
+        <td>{{ evento.total_convocatorias }}</td>
+        <td><span class="badge pendiente">{{ evento.estado }}</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No hay eventos masivos pendientes de aprobación.</p>
+  {% endif %}
+
+  <p><a class="boton" href="/">Volver a los eventos</a></p>
+{% endblock %}

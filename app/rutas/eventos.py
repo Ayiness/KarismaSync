@@ -11,10 +11,17 @@ from app.servicios.crear_evento import (
     ErrorCreacionEvento,
     crear_evento,
 )
+from app.dominio.evento_ensayo import ESTADOS_NO_PUBLICADOS, TipoEvento
+from app.dominio.integrante import es_lider, es_representante
 from app.servicios.registrar_asistencia import (
     ErrorRespuesta,
     EventoNoEncontrado,
     registrar_asistencia,
+)
+from app.servicios.revisar_evento import (
+    ErrorRevision,
+    eventos_por_revisar,
+    resolver_revision,
 )
 from app.vistas import templates
 
@@ -42,7 +49,7 @@ def usuario_actual(
 
 def _integrantes(conexion: sqlite3.Connection) -> list[sqlite3.Row]:
     return conexion.execute(
-        "SELECT i.id, i.nombre, i.es_lider, "
+        "SELECT i.id, i.nombre, i.rol, "
         "  ii.instrumento_id AS instrumento_principal_id, "
         "  ins.nombre AS instrumento_principal "
         "FROM integrantes i "
@@ -65,10 +72,21 @@ def _canciones(conexion: sqlite3.Connection) -> list[sqlite3.Row]:
 
 
 def _contexto_comun(request: Request, conexion: sqlite3.Connection) -> dict:
+    usuario = usuario_actual(request, conexion)
     return {
-        "usuario": usuario_actual(request, conexion),
+        "usuario": usuario,
         "integrantes": _integrantes(conexion),
+        "es_lider": es_lider(usuario),
+        "es_representante": es_representante(usuario),
     }
+
+
+def _puede_ver_no_publicados(usuario: sqlite3.Row | None, banda_id: int) -> bool:
+    """Un evento masivo sin aprobar solo lo ven el líder y el representante (HU-09 CA3)."""
+    return (
+        (es_lider(usuario) or es_representante(usuario))
+        and usuario["banda_id"] == banda_id
+    )
 
 
 def _render_formulario(
@@ -96,7 +114,8 @@ def inicio(
     request: Request, conexion: sqlite3.Connection = Depends(obtener_conexion)
 ) -> HTMLResponse:
     eventos = conexion.execute(
-        "SELECT e.id, e.fecha, e.quorum, e.estado, b.nombre AS banda, "
+        "SELECT e.id, e.banda_id, e.fecha, e.quorum, e.tipo, e.estado, "
+        "  b.nombre AS banda, "
         "  (SELECT COUNT(*) FROM eventos_requieren_instrumentos r "
         "   WHERE r.evento_id = e.id) AS total_roles, "
         "  (SELECT COUNT(*) FROM convocatorias c WHERE c.evento_id = e.id) "
@@ -108,8 +127,27 @@ def inicio(
         "ORDER BY e.id DESC"
     ).fetchall()
     contexto = _contexto_comun(request, conexion)
-    contexto["eventos"] = eventos
+    usuario = contexto["usuario"]
+    contexto["eventos"] = [
+        evento
+        for evento in eventos
+        if evento["estado"] not in ESTADOS_NO_PUBLICADOS
+        or _puede_ver_no_publicados(usuario, evento["banda_id"])
+    ]
+    contexto["total_por_revisar"] = len(eventos_por_revisar(conexion, usuario))
     return templates.TemplateResponse(request=request, name="inicio.html", context=contexto)
+
+
+@router.get("/revisiones", response_class=HTMLResponse)
+def revisiones(
+    request: Request, conexion: sqlite3.Connection = Depends(obtener_conexion)
+) -> HTMLResponse:
+    """verEventosPorRevisar() -> eventosPendientes(eventos) de DSS-07."""
+    contexto = _contexto_comun(request, conexion)
+    contexto["eventos"] = eventos_por_revisar(conexion, contexto["usuario"])
+    return templates.TemplateResponse(
+        request=request, name="revisiones.html", context=contexto
+    )
 
 
 @router.post("/demo/usuario")
@@ -141,6 +179,7 @@ async def crear(
 ) -> HTMLResponse | RedirectResponse:
     formulario = await request.form()
     fecha = str(formulario.get("fecha", "")).strip()
+    tipo = str(formulario.get("tipo", TipoEvento.ENSAYO.value)).strip()
     quorum = str(formulario.get("quorum", "")).strip()
     convocado_ids = sorted(
         {
@@ -178,6 +217,7 @@ async def crear(
     )
     valores = {
         "fecha": fecha,
+        "tipo": tipo,
         "quorum": quorum,
         "convocados_ids": convocado_ids,
         "instrumentos_por_integrante": instrumentos_por_integrante,
@@ -203,6 +243,7 @@ async def crear(
                 quorum=quorum,
                 convocados=convocados,
                 canciones_ids=canciones_ids,
+                tipo=tipo,
             ),
         )
     except ErrorCreacionEvento as error:
@@ -262,12 +303,43 @@ async def responder_convocatoria(
     return RedirectResponse(url=f"/eventos/{evento_id}", status_code=303)
 
 
+@router.post(
+    "/eventos/{evento_id}/revision", response_class=HTMLResponse, response_model=None
+)
+async def revisar_evento(
+    evento_id: int,
+    request: Request,
+    conexion: sqlite3.Connection = Depends(obtener_conexion),
+) -> HTMLResponse | RedirectResponse:
+    """resolverRevision(evento, decision, justificacion) de DSS-07."""
+    formulario = await request.form()
+    decision = str(formulario.get("decision", "")).strip()
+    justificacion = str(formulario.get("justificacion", ""))
+    usuario = usuario_actual(request, conexion)
+    try:
+        resolver_revision(
+            conexion,
+            usuario["id"] if usuario else None,
+            evento_id,
+            decision,
+            justificacion,
+        )
+    except EventoNoEncontrado as error:
+        raise HTTPException(status_code=404, detail="Evento no encontrado") from error
+    except ErrorRevision as error:
+        return _render_detalle(
+            request, conexion, evento_id, error=str(error), justificacion=justificacion
+        )
+    return RedirectResponse(url=f"/eventos/{evento_id}", status_code=303)
+
+
 def _render_detalle(
     request: Request,
     conexion: sqlite3.Connection,
     evento_id: int,
     error: str | None = None,
     motivo: str = "",
+    justificacion: str = "",
 ) -> HTMLResponse:
     evento = conexion.execute(
         "SELECT e.*, b.nombre AS banda "
@@ -276,6 +348,10 @@ def _render_detalle(
         (evento_id,),
     ).fetchone()
     if evento is None:
+        raise HTTPException(status_code=404, detail="Evento no encontrado")
+    usuario = usuario_actual(request, conexion)
+    publicado = evento["estado"] not in ESTADOS_NO_PUBLICADOS
+    if not publicado and not _puede_ver_no_publicados(usuario, evento["banda_id"]):
         raise HTTPException(status_code=404, detail="Evento no encontrado")
 
     roles = conexion.execute(
@@ -306,18 +382,33 @@ def _render_detalle(
         (evento_id,),
     ).fetchall()
 
-    usuario = usuario_actual(request, conexion)
+    revision = conexion.execute(
+        "SELECT r.decision, r.justificacion, r.fecha_revision, i.nombre AS representante "
+        "FROM revisiones_evento r JOIN integrantes i ON i.id = r.representante_id "
+        "WHERE r.evento_id = ?",
+        (evento_id,),
+    ).fetchone()
+
     # detalleEvento(evento, instrumentosAsignados, estadoAsistencia) de DSS-05
     mi_convocatoria = None
-    if usuario is not None:
+    if usuario is not None and publicado:
         mi_convocatoria = next(
             (c for c in convocatorias if c["integrante_id"] == usuario["id"]), None
         )
-    es_lider = usuario is not None and bool(usuario["es_lider"])
-    puede_ver_respuestas = es_lider or mi_convocatoria is not None
+    usuario_es_lider = es_lider(usuario)
+    # HU-08 CA2: el representante ve los convocados y sus instrumentos antes de decidir.
+    puede_revisar = (
+        es_representante(usuario)
+        and usuario["banda_id"] == evento["banda_id"]
+        and evento["tipo"] == TipoEvento.MASIVO.value
+        and evento["estado"] == "Pendiente de aprobación"
+    )
+    puede_ver_respuestas = (
+        usuario_es_lider or puede_revisar or mi_convocatoria is not None
+    )
     # El motivo de inasistencia es privado: solo lo ve el Líder de Alabanza
     # (cada integrante ve el suyo en «Tu convocatoria»). HU-03 CA9, DSS-06.
-    puede_ver_motivos = es_lider
+    puede_ver_motivos = usuario_es_lider
 
     contexto = _contexto_comun(request, conexion)
     contexto.update(
@@ -330,8 +421,12 @@ def _render_detalle(
             "puede_ver_respuestas": puede_ver_respuestas,
             "puede_ver_motivos": puede_ver_motivos,
             "evento_vigente": evento["estado"] == "Vigente",
+            "publicado": publicado,
+            "revision": revision,
+            "puede_revisar": puede_revisar,
             "error": error,
             "motivo": motivo,
+            "justificacion": justificacion,
         }
     )
     return templates.TemplateResponse(

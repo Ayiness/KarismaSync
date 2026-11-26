@@ -1,13 +1,13 @@
 from tests.helpers import id_de, id_instrumento
 
 
-def test_inicio_lista_los_seis_integrantes(conexion, cliente):
+def test_inicio_lista_los_siete_integrantes(conexion, cliente):
     respuesta = cliente.get("/")
 
     assert respuesta.status_code == 200
-    for nombre in ["Marta", "Pedro", "Ana", "Luis", "Sofía", "Diego"]:
+    for nombre in ["Marta", "Pedro", "Ana", "Luis", "Sofía", "Diego", "Andrés"]:
         assert nombre in respuesta.text
-    assert respuesta.text.count("<option value=") == 7
+    assert respuesta.text.count("<option value=") == 8
 
 
 def test_selector_de_usuario_conserva_la_eleccion(conexion, cliente):
@@ -27,7 +27,7 @@ def test_formulario_muestra_los_musicos_con_su_instrumento_principal(conexion, c
     respuesta = cliente.get("/eventos/nuevo")
 
     assert respuesta.status_code == 200
-    for nombre in ["Marta", "Pedro", "Ana", "Luis", "Sofía", "Diego"]:
+    for nombre in ["Marta", "Pedro", "Ana", "Luis", "Sofía", "Diego", "Andrés"]:
         assert nombre in respuesta.text
     for instrumento in [
         "batería",

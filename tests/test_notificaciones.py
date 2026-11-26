@@ -23,4 +23,4 @@ def test_envio_de_convocatoria_registra_solicitud_y_entregas(conexion):
     assert [fila["mensaje"] for fila in filas] == ["enviarConvocatoria"] + [
         "entrega convocatoria"
     ] * len(destinatarios)
-    assert len(destinatarios) == 6
+    assert len(destinatarios) == 7

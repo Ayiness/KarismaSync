@@ -49,14 +49,15 @@ def registrar_asistencia(
 
     fila = conexion.execute(
         "SELECT a.id, a.estado FROM convocatorias c "
-        "JOIN asistencias a ON a.convocatoria_id = c.id "
+        "LEFT JOIN asistencias a ON a.convocatoria_id = c.id "
         "WHERE c.evento_id = ? AND c.integrante_id = ?",
         (evento_id, usuario_id),
     ).fetchone()
     if fila is None:
         raise ErrorRespuesta("no fuiste convocado a este evento", "noConvocado")
 
-    if evento["estado"] != EstadoEvento.VIGENTE.value:
+    # Un evento masivo sin aprobar no tiene asistencias: no se puede responder.
+    if evento["estado"] != EstadoEvento.VIGENTE.value or fila["id"] is None:
         raise ErrorRespuesta(
             "la convocatoria ya no está disponible", "convocatoriaNoDisponible"
         )

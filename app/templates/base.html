@@ -73,6 +73,9 @@
       border-radius: 4px;
       font-weight: 600;
     }
+    .badge.pendiente { background: #fff4d6; color: #8a5a00; }
+    .badge.rechazado { background: var(--error-fondo); color: var(--error); }
+    .badge.masivo { background: #ede7f6; color: #4a2c82; }
     .badge {
       display: inline-block;
       background: var(--ok-fondo);
@@ -109,7 +112,7 @@
       <select id="usuario_id" name="usuario_id" onchange="this.form.submit()">
         <option value="">— Elegir —</option>
         {% for integrante in integrantes %}
-        <option value="{{ integrante.id }}"{% if usuario and usuario.id == integrante.id %} selected{% endif %}>{{ integrante.nombre }}{% if integrante.es_lider %} (Líder de Alabanza){% endif %}</option>
+        <option value="{{ integrante.id }}"{% if usuario and usuario.id == integrante.id %} selected{% endif %}>{{ integrante.nombre }}{% if integrante.rol != 'Músico' %} ({{ integrante.rol }}){% endif %}</option>
         {% endfor %}
       </select>
       <noscript><button type="submit">Cambiar</button></noscript>

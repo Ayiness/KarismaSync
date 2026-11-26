@@ -9,7 +9,7 @@
 
   {% if not usuario %}
   <p class="aviso">Elige un usuario de demostración para identificar quién crea el evento.</p>
-  {% elif not usuario.es_lider %}
+  {% elif not es_lider %}
   <p class="aviso">Solo el Líder de Alabanza puede crear eventos de ensayo. Cambia el usuario de demostración a Marta.</p>
   {% endif %}
 
@@ -17,6 +17,20 @@
     <label class="campo">Fecha del ensayo
       <input type="date" name="fecha" value="{{ valores.get('fecha') or '' }}" required>
     </label>
+
+    {% set tipo = valores.get('tipo') or 'Ensayo' %}
+    <fieldset>
+      <legend>Tipo de evento</legend>
+      <label class="check">
+        <input type="radio" name="tipo" value="Ensayo"{% if tipo == 'Ensayo' %} checked{% endif %}>
+        Ensayo
+      </label>
+      <label class="check">
+        <input type="radio" name="tipo" value="Masivo"{% if tipo == 'Masivo' %} checked{% endif %}>
+        Evento masivo
+      </label>
+      <p class="principal">Un evento masivo no se publica a los convocados hasta que el Representante de músicos lo apruebe.</p>
+    </fieldset>
 
     <label class="campo">Quórum requerido (integrantes)
       <input type="number" name="quorum" min="1" value="{{ valores.get('quorum', '') }}" required>
@@ -73,7 +87,7 @@
     </fieldset>
 
     <div>
-      <button type="submit">Crear evento y convocar a los músicos seleccionados</button>
+      <button type="submit">Crear evento</button>
       <a class="boton" href="/" style="background:#52606d">Cancelar</a>
     </div>
   </form>
